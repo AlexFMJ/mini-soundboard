@@ -1,0 +1,31 @@
+﻿======= TODO =======
+- hotkeys (after audio playback)
+	- ms .net documentation
+	- global hotkeys for use when not in focus
+		- look into keyhooks (if using global hotkeys)
+	- search define hotkeys at runtime
+	- https://github.com/Willy-Kimura/HotkeyListener
+	- list as a contraint
+
+- create video tutorial
+
+Q - what are approaches to researching?
+	- ms learn keyloggers
+	- async
+	- macros 
+
+- allow "fire and forget" playback https://mark-dot-net.blogspot.com/2014/02/fire-and-forget-audio-playback-with.html
+- research async handlers
+- reorder list
+- categories/tags
+	 
+
+=====COMPLETED======
+- audio playback
+	Look into naudio
+- auto-resizing the window
+- auto fill name from file name
+
+
+=== Hotkey approach ===
+Maybe it is a class that carries its own method for monitoring and dealing with events from keypresses
