@@ -6,8 +6,12 @@
 	- search define hotkeys at runtime
 	- https://github.com/Willy-Kimura/HotkeyListener
 	- list global hotkeys as a contraint
+- save/load hotkey lists
+	- save default list on close
+- Error handling on file loading and saving
 - categories/tags
 - MIDI control
+- automatic list sorting functionality
 
 - create video tutorial
 
@@ -17,7 +21,7 @@
 	Look into naudio
 - auto-resizing the window
 - auto fill name from file name
-- reorder list functionality
+- manual reorder list functionality
 	- https://www.inforbiro.com/blog/c-datagridview-drag-and-drop-rows-reorder
 
 === Hotkey approach ===
