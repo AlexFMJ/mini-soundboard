@@ -221,18 +221,18 @@ namespace soundboard_sandbox
             // Get the info of the item the mouse is below.
             DataGridView.HitTestInfo indexInfo = sfxGridView.HitTest(clientPoint.X, clientPoint.Y);
 
-            // check if there is a cell beneath the mouse
+            // Check what part of the DataGridView (if any) is below the mouse
             switch (indexInfo.Type)
             {
-                // if it's a cell set to rowIndex of that cell
+                // If it's a cell, set to rowIndex of that cell
                 case DataGridViewHitTestType.Cell:
                     rowIndexOfItemUnderMouseToDrop = indexInfo.RowIndex;
                     break;
-                // if it's a column header, set to top of list
+                // If it's a column header, set to top of list
                 case DataGridViewHitTestType.ColumnHeader:
                     rowIndexOfItemUnderMouseToDrop = 0;
                     break;
-                // if it's anything else, set index to end of list
+                // If it's anything else, set index to end of list
                 default:
                     rowIndexOfItemUnderMouseToDrop = soundLibBindSource.Count - 1;
                     break;

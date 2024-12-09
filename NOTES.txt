@@ -5,28 +5,27 @@
 		- look into keyhooks (if using global hotkeys)
 	- search define hotkeys at runtime
 	- https://github.com/Willy-Kimura/HotkeyListener
-	- list as a contraint
+	- list global hotkeys as a contraint
+- categories/tags
+- MIDI control
 
 - create video tutorial
 
-Q - what are approaches to researching?
-	- ms learn keyloggers
-	- async
-	- macros 
-
-- reorder list
-	- https://www.inforbiro.com/blog/c-datagridview-drag-and-drop-rows-reorder
-	- https://www.codeproject.com/articles/811035/drag-and-move-rows-in-datagridview-control
-
-- categories/tags
-	 
 
 =====COMPLETED======
 - audio playback
 	Look into naudio
 - auto-resizing the window
 - auto fill name from file name
-
+- reorder list functionality
+	- https://www.inforbiro.com/blog/c-datagridview-drag-and-drop-rows-reorder
 
 === Hotkey approach ===
 Maybe it is a class that carries its own method for monitoring and dealing with events from keypresses
+
+
+====QUESTION=====
+- what are approaches to researching?
+	- ms learn keyloggers
+	- async
+	- macros 
