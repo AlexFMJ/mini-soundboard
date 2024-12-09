@@ -14,7 +14,7 @@ namespace soundboard_sandbox
         // class vars
         string name;
         string hotkey;      // TODO how to store hotkey?
-        int volume;         // 0-100?
+        float volume;         // 0.0-1.0
         string filePath;
         string[] tags;
 
