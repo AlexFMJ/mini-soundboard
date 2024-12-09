@@ -18,6 +18,36 @@ namespace soundboard_sandbox
             InitializeComponent();
         }
 
+        private void addSfxCancelBtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void addSfxConfirmBtn_Click(object sender, EventArgs e)
+        {
+            // Prevent submission if all fields are not filled
+            if (sfxFilePathTxt.Text != "")
+            {
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            // raise message
+            else
+            {
+                string message = $"Not all fields have been filled out.{Environment.NewLine}Would you like to exit without adding a sound effect?";
+                MessageBoxButtons yesnoBtns = MessageBoxButtons.YesNo;
+                DialogResult result;
+
+                result = MessageBox.Show(message, "Missing sfx information!", yesnoBtns);
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    // Closes the parent form.
+                    this.Close();
+                }
+            }
+        }
+
+        // opens system file dialog window and gets selected file path
         private void getSfxPath(object sender, EventArgs e)
         {
             // calls the actual dialog box
@@ -29,6 +59,7 @@ namespace soundboard_sandbox
 
             if (path != null)
             {
+                // fills text box on form
                 sfxFilePathTxt.Text = path;
 
                 // set default file name to SafeFileName
@@ -36,18 +67,6 @@ namespace soundboard_sandbox
             }
 
             // TODO create hotkey method in separate cs file
-        }
-
-        private void addSfxCancelBtn_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void addSfxConfirmBtn_Click(object sender, EventArgs e)
-        {
-            // TODO: PREVENT SUBMISSION IF ALL FIELDS ARE NOT FILLED
-            this.DialogResult = DialogResult.OK;
-            this.Close();
         }
 
         // -- FORM GETTERS to be accessed in MainForm --

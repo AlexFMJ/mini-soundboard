@@ -41,12 +41,12 @@
             this.play_audio_btn = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.filesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadSoundboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveSoundboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addSFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editSFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sfxGridViewCMS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sfxGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -86,7 +86,7 @@
             // 
             this.addSFXBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.addSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addSFXBtn.Location = new System.Drawing.Point(541, 30);
+            this.addSFXBtn.Location = new System.Drawing.Point(541, 35);
             this.addSFXBtn.Name = "addSFXBtn";
             this.addSFXBtn.Size = new System.Drawing.Size(106, 39);
             this.addSFXBtn.TabIndex = 1;
@@ -98,7 +98,7 @@
             // 
             this.deleteSFXBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.deleteSFXBtn.Location = new System.Drawing.Point(541, 132);
+            this.deleteSFXBtn.Location = new System.Drawing.Point(541, 137);
             this.deleteSFXBtn.Name = "deleteSFXBtn";
             this.deleteSFXBtn.Size = new System.Drawing.Size(106, 39);
             this.deleteSFXBtn.TabIndex = 2;
@@ -110,7 +110,7 @@
             // 
             this.editSFXBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.editSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editSFXBtn.Location = new System.Drawing.Point(541, 81);
+            this.editSFXBtn.Location = new System.Drawing.Point(541, 86);
             this.editSFXBtn.Name = "editSFXBtn";
             this.editSFXBtn.Size = new System.Drawing.Size(106, 39);
             this.editSFXBtn.TabIndex = 3;
@@ -120,6 +120,7 @@
             // 
             // sfxGridView
             // 
+            this.sfxGridView.AllowDrop = true;
             this.sfxGridView.AllowUserToAddRows = false;
             this.sfxGridView.AllowUserToOrderColumns = true;
             this.sfxGridView.AllowUserToResizeRows = false;
@@ -130,7 +131,7 @@
             this.sfxGridView.BackgroundColor = System.Drawing.Color.White;
             this.sfxGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.sfxGridView.ContextMenuStrip = this.sfxGridViewCMS;
-            this.sfxGridView.Location = new System.Drawing.Point(27, 30);
+            this.sfxGridView.Location = new System.Drawing.Point(27, 35);
             this.sfxGridView.MultiSelect = false;
             this.sfxGridView.Name = "sfxGridView";
             this.sfxGridView.RowHeadersVisible = false;
@@ -146,12 +147,12 @@
             this.stop_audio_btn.BackgroundImage = global::soundboard_sandbox.Properties.Resources.stop_icon_64px;
             this.stop_audio_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.stop_audio_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stop_audio_btn.Location = new System.Drawing.Point(608, 206);
+            this.stop_audio_btn.Location = new System.Drawing.Point(608, 211);
             this.stop_audio_btn.Name = "stop_audio_btn";
             this.stop_audio_btn.Size = new System.Drawing.Size(39, 39);
             this.stop_audio_btn.TabIndex = 6;
             this.stop_audio_btn.UseVisualStyleBackColor = true;
-            this.stop_audio_btn.Click += new System.EventHandler(this.stop_audio_btn_Click);
+            this.stop_audio_btn.Click += new System.EventHandler(this.stopAudio);
             // 
             // play_audio_btn
             // 
@@ -159,12 +160,12 @@
             this.play_audio_btn.BackgroundImage = global::soundboard_sandbox.Properties.Resources.play_icon_64px;
             this.play_audio_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.play_audio_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.play_audio_btn.Location = new System.Drawing.Point(541, 206);
+            this.play_audio_btn.Location = new System.Drawing.Point(541, 211);
             this.play_audio_btn.Name = "play_audio_btn";
             this.play_audio_btn.Size = new System.Drawing.Size(39, 39);
             this.play_audio_btn.TabIndex = 5;
             this.play_audio_btn.UseVisualStyleBackColor = true;
-            this.play_audio_btn.Click += new System.EventHandler(this.play_audio_btn_Click);
+            this.play_audio_btn.Click += new System.EventHandler(this.playSelectedAudio);
             // 
             // menuStrip1
             // 
@@ -188,6 +189,18 @@
             this.filesToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.filesToolStripMenuItem.Text = "File";
             // 
+            // loadSoundboardToolStripMenuItem
+            // 
+            this.loadSoundboardToolStripMenuItem.Name = "loadSoundboardToolStripMenuItem";
+            this.loadSoundboardToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.loadSoundboardToolStripMenuItem.Text = "Load Soundboard";
+            // 
+            // saveSoundboardToolStripMenuItem
+            // 
+            this.saveSoundboardToolStripMenuItem.Name = "saveSoundboardToolStripMenuItem";
+            this.saveSoundboardToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
+            this.saveSoundboardToolStripMenuItem.Text = "Save Soundboard";
+            // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -197,37 +210,25 @@
             this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
             this.editToolStripMenuItem.Text = "Edit";
             // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
-            this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // loadSoundboardToolStripMenuItem
-            // 
-            this.loadSoundboardToolStripMenuItem.Name = "loadSoundboardToolStripMenuItem";
-            this.loadSoundboardToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.loadSoundboardToolStripMenuItem.Text = "Load Soundboard";
-            // 
-            // saveSoundboardToolStripMenuItem
-            // 
-            this.saveSoundboardToolStripMenuItem.Name = "saveSoundboardToolStripMenuItem";
-            this.saveSoundboardToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.saveSoundboardToolStripMenuItem.Text = "Save Soundboard";
-            // 
             // addSFXToolStripMenuItem
             // 
             this.addSFXToolStripMenuItem.Name = "addSFXToolStripMenuItem";
-            this.addSFXToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.addSFXToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
             this.addSFXToolStripMenuItem.Text = "Add SFX";
             this.addSFXToolStripMenuItem.Click += new System.EventHandler(this.AddSFX_Click);
             // 
             // editSFXToolStripMenuItem
             // 
             this.editSFXToolStripMenuItem.Name = "editSFXToolStripMenuItem";
-            this.editSFXToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.editSFXToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
             this.editSFXToolStripMenuItem.Text = "Edit SFX";
             this.editSFXToolStripMenuItem.Click += new System.EventHandler(this.editSFXBtn_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
+            this.helpToolStripMenuItem.Text = "Help";
             // 
             // MainForm
             // 

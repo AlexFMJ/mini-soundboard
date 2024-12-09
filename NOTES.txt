@@ -14,9 +14,10 @@ Q - what are approaches to researching?
 	- async
 	- macros 
 
-- allow "fire and forget" playback https://mark-dot-net.blogspot.com/2014/02/fire-and-forget-audio-playback-with.html
-- research async handlers
 - reorder list
+	- https://www.inforbiro.com/blog/c-datagridview-drag-and-drop-rows-reorder
+	- https://www.codeproject.com/articles/811035/drag-and-move-rows-in-datagridview-control
+
 - categories/tags
 	 
 

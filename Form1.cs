@@ -17,10 +17,9 @@ namespace soundboard_sandbox
 {
     public partial class MainForm : Form
     {
-        // establish NAudio objects
+        // establish NAudio objects:
         // soundcard
         private WaveOutEvent outputDevice;
-
         // audio file to be read
         private AudioFileReader audioFile;
 
@@ -41,17 +40,35 @@ namespace soundboard_sandbox
             //outputDevice.PlaybackStopped += OnPlaybackStopped;
         }
 
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            // set data source to bind
+            soundLibBindSource.DataSource = soundLibrary;
+
+            // set the binding source to the list box
+            sfxGridView.DataSource = soundLibBindSource;
+            sfxGridView.AutoGenerateColumns = true;
+
+            // auto screen sizing approach courtesy of https://www.youtube.com/watch?v=bKnpxTulUIs
+            // set form size based on primary display resolution
+            System.Drawing.Rectangle workingRectangle = Screen.PrimaryScreen.WorkingArea;
+
+            // set size of form to half that size (50%)
+            this.Size = new System.Drawing.Size(Convert.ToInt32(0.5 * workingRectangle.Width),
+                Convert.ToInt32(0.5 * workingRectangle.Height));
+        }
+
         // opens new form to enter new sfx information
         private void AddSFX_Click(object sender, EventArgs e)
         {
             // the using block will correctly dispose of the form when closed
             using (OpenFileForm addSfxForm = new OpenFileForm())
-            { 
+            {
                 // Checks that the 'Add' button was used to close
                 // the form, not the cancel button
                 if (addSfxForm.ShowDialog() == DialogResult.OK)
                 {
-                    // calls these methods from Form2
+                    // calls these methods from OpenFileForm
                     soundLibBindSource.Add(new Sfx(
                         addSfxForm.GetName(),
                         addSfxForm.GetHotkey(),
@@ -76,28 +93,10 @@ namespace soundboard_sandbox
             if (rowIndex >= 0 && rowIndex < soundLibrary.Count)
             {
                 Console.WriteLine($"Removing item: {soundLibrary[rowIndex].Name} at index {rowIndex}");
-                
+
                 // must use RemoveAt to access by index
                 soundLibBindSource.RemoveAt(rowIndex);
             }
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            // set data source to bind
-            soundLibBindSource.DataSource = soundLibrary;
-
-            // set the binding source to the list box
-            sfxGridView.DataSource = soundLibBindSource;
-            sfxGridView.AutoGenerateColumns = true;
-
-            // auto screen sizing approach courtesy of https://www.youtube.com/watch?v=bKnpxTulUIs
-            // set form size based on primary display resolution
-            System.Drawing.Rectangle workingRectangle = Screen.PrimaryScreen.WorkingArea;
-
-            // set size of form to half that size (50%)
-            this.Size = new System.Drawing.Size(Convert.ToInt32(0.5 * workingRectangle.Width),
-                Convert.ToInt32(0.5 * workingRectangle.Height));
         }
 
         private void editSFXBtn_Click(object sender, EventArgs e)
@@ -105,27 +104,15 @@ namespace soundboard_sandbox
             // TODO EDIT SOUND (work on after getting audio playback)
         }
 
-        private void play_audio_btn_Click(object sender, EventArgs e)
+        private void playSelectedAudio(object sender, EventArgs e)
         {
             // TODO tweak this for hotkey activation!
             Console.WriteLine(outputDevice.PlaybackState);
 
-            // If file is currently playing, stop playback and clean up
+            // If file is currently playing, stop playback and cleanup
             if (outputDevice.PlaybackState == PlaybackState.Playing)
             {
-                Console.WriteLine("Stopping current audio");
-                outputDevice.Stop();
-
-                // wait for PlaybackState stopped
-                while (outputDevice.PlaybackState != PlaybackState.Stopped)
-                {
-                    Console.WriteLine("Waiting for stopped state");
-                    Thread.Sleep(10);
-                }
-
-                // Cleanup
-                audioFile.Dispose();
-                audioFile = null;
+                stopAudio(sender, e);
             }
 
             string currentFilePath;
@@ -151,25 +138,69 @@ namespace soundboard_sandbox
             outputDevice.Play();
         }
 
-        private void stop_audio_btn_Click(object sender, EventArgs e)
+        private int cleanupAudioFile()
         {
-            // checks that an output device exists before calling stop method
-            outputDevice?.Stop();
+            if (audioFile != null)
+            {
+                audioFile.Dispose();
+                audioFile = null;
+                return 0;
+            }
+            else return -1;
         }
 
-        //cleanly dispose of all audio playback resources when finished
-        //private void OnPlaybackStopped(object sender, EventArgs e)
-        //{
-        //    Console.WriteLine("Playback Stopped");
+        private void stopAudio(object sender, EventArgs e)
+        {
+            Console.WriteLine("Stopping current audio");
+            outputDevice?.Stop();
 
-        //    //check if output device is null
-        //    if (outputDevice != null)
+            // wait for PlaybackState stopped
+            while (outputDevice.PlaybackState != PlaybackState.Stopped)
+            {
+                Console.WriteLine("Waiting for stopped state");
+                Thread.Sleep(10);
+            }
+
+            // Cleanup
+            cleanupAudioFile();
+        }
+
+        //// drag and drop list items vars
+        //private int rowIndexFromMouseDown;
+        //private Sfx draggedRow;
+        //// gridview drag/drop credit: https://www.codeproject.com/articles/811035/drag-and-move-rows-in-datagridview-control
+        //private void sfxGridView_MouseClick(object sender, MouseEventArgs e)
+        //{
+        //    if (sfxGridView.SelectedRows.Count == 1)
         //    {
-        //        //outputDevice.Dispose();
-        //        //outputDevice = null;
-        //        audioFile.Dispose();
+        //        if (e.Button == MouseButtons.Left)
+        //        {
+        //            //draggedRow = sfxGridView.SelectedRows[0];
+        //            draggedRow = (soundLibBindSource.Current;
+        //            rowIndexFromMouseDown = sfxGridView.SelectedRows[0].Index;
+        //            sfxGridView.DoDragDrop(draggedRow, DragDropEffects.Move);
+        //        }
         //    }
-        //    audioFile = null;
+        //}
+        //private void sfxGridView_DragEnter(object sender, DragEventArgs e)
+        //{
+        //    if (sfxGridView.SelectedRows.Count > 0)
+        //    {
+        //        e.Effect = DragDropEffects.Move;
+        //    }
+        //}
+        //private void sfxGridView_DragDrop(object sender, DragEventArgs e)
+        //{
+        //    int rowIndexOfItemUnderMouseToDrop;
+        //    Point clientPoint = sfxGridView.PointToClient(new Point(e.X, e.Y));
+        //    rowIndexOfItemUnderMouseToDrop = sfxGridView.HitTest(clientPoint.X, clientPoint.Y).RowIndex;
+        //    Console.WriteLine(rowIndexOfItemUnderMouseToDrop);
+
+        //    if (e.Effect == DragDropEffects.Move)
+        //    {
+        //        soundLibBindSource.RemoveAt(rowIndexFromMouseDown);
+        //        soundLibBindSource.Insert(rowIndexOfItemUnderMouseToDrop,draggedRow);
+        //    }
         //}
     }
 }
