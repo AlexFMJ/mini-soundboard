@@ -24,7 +24,7 @@ namespace soundboard_sandbox
 
         // BindingSource allows for automatic refreshing of data on listBox
         // when adding or removing items from soundLibrary list
-        BindingSource soundLibBindSource = new BindingSource();
+        BindingSource sfxLibBindSource = new BindingSource();
 
         public MainForm()
         {
@@ -39,15 +39,16 @@ namespace soundboard_sandbox
         private void MainForm_Load(object sender, EventArgs e)
         {
             // set data source to bind
-            soundLibBindSource.DataSource = sfxLibrary;
+            sfxLibBindSource.DataSource = sfxLibrary;
 
             // set the binding source to the list box
-            sfxGridView.DataSource = soundLibBindSource;
+            sfxGridView.DataSource = sfxLibBindSource;
             sfxGridView.AutoGenerateColumns = true;
-            sfxGridView.Columns[0].FillWeight = 37;
-            sfxGridView.Columns[1].FillWeight = 47;
-            sfxGridView.Columns[2].FillWeight = 8;
-            sfxGridView.Columns[3].FillWeight = 8;
+            // set default column width
+            sfxGridView.Columns[0].FillWeight = 37; // name
+            sfxGridView.Columns[1].FillWeight = 47; // file path
+            sfxGridView.Columns[2].FillWeight = 8;  // hotkey
+            sfxGridView.Columns[3].FillWeight = 8;  // volume level
 
 
             // auto screen sizing approach courtesy of https://www.youtube.com/watch?v=bKnpxTulUIs
@@ -70,7 +71,7 @@ namespace soundboard_sandbox
                 if (addSfxForm.ShowDialog() == DialogResult.OK)
                 {
                     // calls these methods from OpenFileForm
-                    soundLibBindSource.Add(new Sfx(
+                    sfxLibBindSource.Add(new Sfx(
                         addSfxForm.GetName(),
                         addSfxForm.GetHotkey(),
                         addSfxForm.GetPath()
@@ -96,7 +97,7 @@ namespace soundboard_sandbox
                 Console.WriteLine($"Removing item: {sfxLibrary[rowIndex].Name} at index {rowIndex}");
 
                 // must use RemoveAt to access by index
-                soundLibBindSource.RemoveAt(rowIndex);
+                sfxLibBindSource.RemoveAt(rowIndex);
             }
         }
 
@@ -105,21 +106,9 @@ namespace soundboard_sandbox
             // TODO EDIT SOUND (work on after getting audio playback)
         }
 
-        private void openSFXListBtn()
-        {
-            // TODO
-        }
-
-        // deserialize library file
-        private void loadSFXLibrary(string sfxLibFilePath)
-        {
-            // TODO
-            // open file for reading
-            // add each Name, FilePath, Hotkey group as a new SFX object
-        }
-
-        // serialize library and save to file
-        private void saveSFXLibrary(object sender, EventArgs e)
+        // ==== SAVE AND LOAD SFX LIBRARIES ====
+        // serialize library and save to XML file
+        private void saveSFXLibraryBtn(object sender, EventArgs e)
         {
             // call save file dialog
             saveFileDialog1.ShowDialog();
@@ -127,11 +116,38 @@ namespace soundboard_sandbox
             // once path is selected, its returned as a string
             string path = saveFileDialog1.FileName;
 
+            serializer(path);
+        }
+        // deserialize XML library file
+        private void loadSFXLibraryBtn(object sender, EventArgs e)
+        {
+            // TODO
+            // open file for reading
+            openFileDialog1.ShowDialog();
+
+            string path = openFileDialog1.FileName;
+            deserializer(path);
+        }
+        // XmlSerializer
+        private string serializer(string path)
+        {
             XmlSerializer serializer = new XmlSerializer(typeof(List<Sfx>));
             using (TextWriter writer = new StreamWriter(path))
             {
                 serializer.Serialize(writer, sfxLibrary);
             }
+            return path;
+        }
+        // XmlDeserializer
+        private string deserializer(string path)
+        {
+            XmlSerializer deserializer = new XmlSerializer(typeof(List<Sfx>));
+            using (FileStream reader = new FileStream(path, FileMode.Open))
+            {
+                sfxLibrary = (List<Sfx>)deserializer.Deserialize(reader);
+            }
+            sfxLibBindSource.DataSource = sfxLibrary;
+            return path;
         }
 
         private void playSelectedAudio(object sender, EventArgs e)
@@ -233,7 +249,7 @@ namespace soundboard_sandbox
                 {
                     // Proceed with the drag and drop, passing in the list item.                    
                     DragDropEffects dropEffect = sfxGridView.DoDragDrop(
-                          soundLibBindSource[rowIndexFromMouseDown],
+                          sfxLibBindSource[rowIndexFromMouseDown],
                           DragDropEffects.Move);
                 }
             }
@@ -264,7 +280,7 @@ namespace soundboard_sandbox
                     break;
                 // If it's anything else, set index to end of list
                 default:
-                    rowIndexOfItemUnderMouseToDrop = soundLibBindSource.Count - 1;
+                    rowIndexOfItemUnderMouseToDrop = sfxLibBindSource.Count - 1;
                     break;
             }
 
@@ -272,8 +288,17 @@ namespace soundboard_sandbox
             if (e.Effect == DragDropEffects.Move)
             {
                 Sfx rowToMove = e.Data.GetData(typeof(Sfx)) as Sfx;
-                soundLibBindSource.RemoveAt(rowIndexFromMouseDown);
-                soundLibBindSource.Insert(rowIndexOfItemUnderMouseToDrop, rowToMove);
+                sfxLibBindSource.RemoveAt(rowIndexFromMouseDown);
+                sfxLibBindSource.Insert(rowIndexOfItemUnderMouseToDrop, rowToMove);
+            }
+        }
+
+        private void printListBtn_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine(sfxLibBindSource.Count);
+            foreach (Sfx sound in sfxLibBindSource)
+            {
+                Console.WriteLine(sound);
             }
         }
     }

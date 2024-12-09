@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace soundboard_sandbox
 {
@@ -13,7 +11,8 @@ namespace soundboard_sandbox
     // includes filepath, hotkey, length, volume, etc.
     public class Sfx
     {
-        //// class vars
+        // class vars
+        // note: XmlSerializer requires public fields to function
         public string Name { get; set; }
         public string FilePath { get; set; }         // TODO change filepath type to Path
         public string Hotkey { get; set; }      // TODO use proper hotkey var type
@@ -30,7 +29,7 @@ namespace soundboard_sandbox
             this.Volume = 1.0;
             //this.filePath = getFilePath(filePath);
         }
-        private Sfx() { } // default constructor for serialization
+        private Sfx() { } // default constructor for XmlSerializer
 
         // parse the filepath and assign it to the filePath var
         //private string getFilePath(string newFilePath)

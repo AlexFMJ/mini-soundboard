@@ -1,4 +1,5 @@
 ﻿======= TODO =======
+- restart file on playback
 - hotkeys (after audio playback)
 	- ms .net documentation
 	- global hotkeys for use when not in focus
@@ -12,6 +13,7 @@
 - categories/tags
 - MIDI control
 - automatic list sorting functionality
+- text align the volume and hotkey
 
 - create video tutorial
 

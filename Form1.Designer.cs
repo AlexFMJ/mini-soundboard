@@ -50,6 +50,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.printListBtn = new System.Windows.Forms.Button();
             this.sfxGridViewCMS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sfxGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -202,13 +203,14 @@
             this.loadSoundboardToolStripMenuItem.Name = "loadSoundboardToolStripMenuItem";
             this.loadSoundboardToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.loadSoundboardToolStripMenuItem.Text = "Load SFX Library";
+            this.loadSoundboardToolStripMenuItem.Click += new System.EventHandler(this.loadSFXLibraryBtn);
             // 
             // saveSoundboardToolStripMenuItem
             // 
             this.saveSoundboardToolStripMenuItem.Name = "saveSoundboardToolStripMenuItem";
             this.saveSoundboardToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.saveSoundboardToolStripMenuItem.Text = "Save SFX Library";
-            this.saveSoundboardToolStripMenuItem.Click += new System.EventHandler(this.saveSFXLibrary);
+            this.saveSoundboardToolStripMenuItem.Click += new System.EventHandler(this.saveSFXLibraryBtn);
             // 
             // editToolStripMenuItem
             // 
@@ -255,12 +257,25 @@
             // 
             this.saveFileDialog1.Filter = "\"Supported Files (XML Files|*.xml;*.XML)\"";
             // 
+            // printListBtn
+            // 
+            this.printListBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.printListBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.printListBtn.Location = new System.Drawing.Point(541, 282);
+            this.printListBtn.Name = "printListBtn";
+            this.printListBtn.Size = new System.Drawing.Size(106, 39);
+            this.printListBtn.TabIndex = 8;
+            this.printListBtn.Text = "Print list";
+            this.printListBtn.UseVisualStyleBackColor = true;
+            this.printListBtn.Click += new System.EventHandler(this.printListBtn_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(671, 417);
+            this.Controls.Add(this.printListBtn);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.stop_audio_btn);
             this.Controls.Add(this.play_audio_btn);
@@ -304,6 +319,7 @@
         private System.Windows.Forms.ToolStripMenuItem deleteSFXToolStripMenuItem1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Button printListBtn;
     }
 }
 
