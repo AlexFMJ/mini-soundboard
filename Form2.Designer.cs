@@ -44,7 +44,7 @@
             // 
             this.openFileDialog1.Filter = "\"Supported Files (.mp3, .m4a, .aac .wav)|*.mp3;*.MP3;*.m4a;*.M4A*.aac;*.AAC;*.wav" +
     ";*.WAV|aac Files|*.aac;*.AAC|mp3 Files|*.mp3;*.MP3|m4a Files|*m4a;.M4A|wav Files" +
-    "|*.wav;*.WAV\"";
+    "|*.wav;*.WAV)\"";
             // 
             // sfxFilePathTxt
             // 

@@ -1,17 +1,13 @@
-﻿using System;
+﻿using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
-using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace soundboard_sandbox
 {
@@ -24,7 +20,7 @@ namespace soundboard_sandbox
         private AudioFileReader audioFile;
 
         // List to be bound
-        static List<Sfx> soundLibrary = new List<Sfx>();
+        static List<Sfx> sfxLibrary = new List<Sfx>();
 
         // BindingSource allows for automatic refreshing of data on listBox
         // when adding or removing items from soundLibrary list
@@ -43,11 +39,16 @@ namespace soundboard_sandbox
         private void MainForm_Load(object sender, EventArgs e)
         {
             // set data source to bind
-            soundLibBindSource.DataSource = soundLibrary;
+            soundLibBindSource.DataSource = sfxLibrary;
 
             // set the binding source to the list box
             sfxGridView.DataSource = soundLibBindSource;
             sfxGridView.AutoGenerateColumns = true;
+            sfxGridView.Columns[0].FillWeight = 37;
+            sfxGridView.Columns[1].FillWeight = 47;
+            sfxGridView.Columns[2].FillWeight = 8;
+            sfxGridView.Columns[3].FillWeight = 8;
+
 
             // auto screen sizing approach courtesy of https://www.youtube.com/watch?v=bKnpxTulUIs
             // set form size based on primary display resolution
@@ -90,9 +91,9 @@ namespace soundboard_sandbox
                 rowIndex = sfxGridView.CurrentRow.Index;
 
             // verifies that a valid index is selected
-            if (rowIndex >= 0 && rowIndex < soundLibrary.Count)
+            if (rowIndex >= 0 && rowIndex < sfxLibrary.Count)
             {
-                Console.WriteLine($"Removing item: {soundLibrary[rowIndex].Name} at index {rowIndex}");
+                Console.WriteLine($"Removing item: {sfxLibrary[rowIndex].Name} at index {rowIndex}");
 
                 // must use RemoveAt to access by index
                 soundLibBindSource.RemoveAt(rowIndex);
@@ -102,6 +103,35 @@ namespace soundboard_sandbox
         private void editSFXBtn_Click(object sender, EventArgs e)
         {
             // TODO EDIT SOUND (work on after getting audio playback)
+        }
+
+        private void openSFXListBtn()
+        {
+            // TODO
+        }
+
+        // deserialize library file
+        private void loadSFXLibrary(string sfxLibFilePath)
+        {
+            // TODO
+            // open file for reading
+            // add each Name, FilePath, Hotkey group as a new SFX object
+        }
+
+        // serialize library and save to file
+        private void saveSFXLibrary(object sender, EventArgs e)
+        {
+            // call save file dialog
+            saveFileDialog1.ShowDialog();
+
+            // once path is selected, its returned as a string
+            string path = saveFileDialog1.FileName;
+
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Sfx>));
+            using (TextWriter writer = new StreamWriter(path))
+            {
+                serializer.Serialize(writer, sfxLibrary);
+            }
         }
 
         private void playSelectedAudio(object sender, EventArgs e)
@@ -122,7 +152,7 @@ namespace soundboard_sandbox
             else
             {
                 // get currently selected audio path
-                currentFilePath = soundLibrary[sfxGridView.CurrentRow.Index].FilePath;
+                currentFilePath = sfxLibrary[sfxGridView.CurrentRow.Index].FilePath;
                 Console.WriteLine("Current File Path:");
                 Console.WriteLine(currentFilePath);
             }

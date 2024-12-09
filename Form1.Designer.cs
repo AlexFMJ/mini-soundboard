@@ -46,7 +46,10 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addSFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editSFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteSFXToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.sfxGridViewCMS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sfxGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -134,6 +137,7 @@
             this.sfxGridView.Location = new System.Drawing.Point(27, 35);
             this.sfxGridView.MultiSelect = false;
             this.sfxGridView.Name = "sfxGridView";
+            this.sfxGridView.ReadOnly = true;
             this.sfxGridView.RowHeadersVisible = false;
             this.sfxGridView.RowHeadersWidth = 51;
             this.sfxGridView.RowTemplate.Height = 24;
@@ -196,20 +200,22 @@
             // loadSoundboardToolStripMenuItem
             // 
             this.loadSoundboardToolStripMenuItem.Name = "loadSoundboardToolStripMenuItem";
-            this.loadSoundboardToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
-            this.loadSoundboardToolStripMenuItem.Text = "Load Soundboard";
+            this.loadSoundboardToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.loadSoundboardToolStripMenuItem.Text = "Load SFX Library";
             // 
             // saveSoundboardToolStripMenuItem
             // 
             this.saveSoundboardToolStripMenuItem.Name = "saveSoundboardToolStripMenuItem";
-            this.saveSoundboardToolStripMenuItem.Size = new System.Drawing.Size(211, 26);
-            this.saveSoundboardToolStripMenuItem.Text = "Save Soundboard";
+            this.saveSoundboardToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.saveSoundboardToolStripMenuItem.Text = "Save SFX Library";
+            this.saveSoundboardToolStripMenuItem.Click += new System.EventHandler(this.saveSFXLibrary);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addSFXToolStripMenuItem,
-            this.editSFXToolStripMenuItem});
+            this.editSFXToolStripMenuItem,
+            this.deleteSFXToolStripMenuItem1});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
             this.editToolStripMenuItem.Text = "Edit";
@@ -217,22 +223,37 @@
             // addSFXToolStripMenuItem
             // 
             this.addSFXToolStripMenuItem.Name = "addSFXToolStripMenuItem";
-            this.addSFXToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
+            this.addSFXToolStripMenuItem.Size = new System.Drawing.Size(225, 26);
             this.addSFXToolStripMenuItem.Text = "Add SFX";
             this.addSFXToolStripMenuItem.Click += new System.EventHandler(this.AddSFX_Click);
             // 
             // editSFXToolStripMenuItem
             // 
             this.editSFXToolStripMenuItem.Name = "editSFXToolStripMenuItem";
-            this.editSFXToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
-            this.editSFXToolStripMenuItem.Text = "Edit SFX";
+            this.editSFXToolStripMenuItem.Size = new System.Drawing.Size(225, 26);
+            this.editSFXToolStripMenuItem.Text = "Edit Selected SFX";
             this.editSFXToolStripMenuItem.Click += new System.EventHandler(this.editSFXBtn_Click);
+            // 
+            // deleteSFXToolStripMenuItem1
+            // 
+            this.deleteSFXToolStripMenuItem1.Name = "deleteSFXToolStripMenuItem1";
+            this.deleteSFXToolStripMenuItem1.Size = new System.Drawing.Size(225, 26);
+            this.deleteSFXToolStripMenuItem1.Text = "Delete Selected SFX";
+            this.deleteSFXToolStripMenuItem1.Click += new System.EventHandler(this.DeleteSFX_Click);
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.Filter = "\"Supported Files (XML Files|*.xml;*.XML)\"";
             // 
             // MainForm
             // 
@@ -280,6 +301,9 @@
         private System.Windows.Forms.ToolStripMenuItem saveSoundboardToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addSFXToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editSFXToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteSFXToolStripMenuItem1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 
