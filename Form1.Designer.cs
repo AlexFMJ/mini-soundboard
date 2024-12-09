@@ -39,9 +39,17 @@
             this.sfxGridView = new System.Windows.Forms.DataGridView();
             this.stop_audio_btn = new System.Windows.Forms.Button();
             this.play_audio_btn = new System.Windows.Forms.Button();
-            this.mainMenu1 = new System.Windows.Forms.MainMenu(this.components);
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.filesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadSoundboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveSoundboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addSFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editSFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sfxGridViewCMS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sfxGridView)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // sfxGridViewCMS
@@ -158,26 +166,93 @@
             this.play_audio_btn.UseVisualStyleBackColor = true;
             this.play_audio_btn.Click += new System.EventHandler(this.play_audio_btn_Click);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.filesToolStripMenuItem,
+            this.editToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(671, 28);
+            this.menuStrip1.TabIndex = 7;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // filesToolStripMenuItem
+            // 
+            this.filesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadSoundboardToolStripMenuItem,
+            this.saveSoundboardToolStripMenuItem});
+            this.filesToolStripMenuItem.Name = "filesToolStripMenuItem";
+            this.filesToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.filesToolStripMenuItem.Text = "File";
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addSFXToolStripMenuItem,
+            this.editSFXToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // loadSoundboardToolStripMenuItem
+            // 
+            this.loadSoundboardToolStripMenuItem.Name = "loadSoundboardToolStripMenuItem";
+            this.loadSoundboardToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.loadSoundboardToolStripMenuItem.Text = "Load Soundboard";
+            // 
+            // saveSoundboardToolStripMenuItem
+            // 
+            this.saveSoundboardToolStripMenuItem.Name = "saveSoundboardToolStripMenuItem";
+            this.saveSoundboardToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.saveSoundboardToolStripMenuItem.Text = "Save Soundboard";
+            // 
+            // addSFXToolStripMenuItem
+            // 
+            this.addSFXToolStripMenuItem.Name = "addSFXToolStripMenuItem";
+            this.addSFXToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.addSFXToolStripMenuItem.Text = "Add SFX";
+            this.addSFXToolStripMenuItem.Click += new System.EventHandler(this.AddSFX_Click);
+            // 
+            // editSFXToolStripMenuItem
+            // 
+            this.editSFXToolStripMenuItem.Name = "editSFXToolStripMenuItem";
+            this.editSFXToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.editSFXToolStripMenuItem.Text = "Edit SFX";
+            this.editSFXToolStripMenuItem.Click += new System.EventHandler(this.editSFXBtn_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(671, 417);
+            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.stop_audio_btn);
             this.Controls.Add(this.play_audio_btn);
             this.Controls.Add(this.sfxGridView);
             this.Controls.Add(this.editSFXBtn);
             this.Controls.Add(this.deleteSFXBtn);
             this.Controls.Add(this.addSFXBtn);
-            this.Menu = this.mainMenu1;
+            this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(689, 464);
             this.Name = "MainForm";
             this.Text = "sandbox";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.sfxGridViewCMS.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.sfxGridView)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -192,7 +267,14 @@
         private System.Windows.Forms.DataGridView sfxGridView;
         private System.Windows.Forms.Button play_audio_btn;
         private System.Windows.Forms.Button stop_audio_btn;
-        private System.Windows.Forms.MainMenu mainMenu1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem filesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadSoundboardToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveSoundboardToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addSFXToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editSFXToolStripMenuItem;
     }
 }
 

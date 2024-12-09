@@ -18,7 +18,10 @@ namespace soundboard_sandbox
     public partial class MainForm : Form
     {
         // establish NAudio objects
+        // soundcard
         private WaveOutEvent outputDevice;
+
+        // audio file to be read
         private AudioFileReader audioFile;
 
         // List to be bound
@@ -35,7 +38,7 @@ namespace soundboard_sandbox
             // initialize the output device here 
             // we will frequently use it
             outputDevice = new WaveOutEvent();
-            outputDevice.PlaybackStopped += OnPlaybackStopped;
+            //outputDevice.PlaybackStopped += OnPlaybackStopped;
         }
 
         // opens new form to enter new sfx information
@@ -107,16 +110,23 @@ namespace soundboard_sandbox
             // TODO tweak this for hotkey activation!
             Console.WriteLine(outputDevice.PlaybackState);
 
-            // TODO REMOVE THIS, breaks easily
-            //if (outputDevice.PlaybackState != PlaybackState.Stopped)
-            //{
-            //    // call the stop method
-            //    outputDevice?.Stop();
-                
-            //    // loop until playback state has stopped
-            //    // check every 5ms (max wait should be 100ms)
-            //    while (outputDevice.PlaybackState != PlaybackState.Stopped) Thread.Sleep(5);
-            //}
+            // If file is currently playing, stop playback and clean up
+            if (outputDevice.PlaybackState == PlaybackState.Playing)
+            {
+                Console.WriteLine("Stopping current audio");
+                outputDevice.Stop();
+
+                // wait for PlaybackState stopped
+                while (outputDevice.PlaybackState != PlaybackState.Stopped)
+                {
+                    Console.WriteLine("Waiting for stopped state");
+                    Thread.Sleep(10);
+                }
+
+                // Cleanup
+                audioFile.Dispose();
+                audioFile = null;
+            }
 
             string currentFilePath;
 
@@ -130,18 +140,14 @@ namespace soundboard_sandbox
                 Console.WriteLine(currentFilePath);
             }
 
-            //if (outputDevice == null)
-            //{
-            //    outputDevice = new WaveOutEvent();
-            //    outputDevice.PlaybackStopped += OnPlaybackStopped;
-            //}
-
             // if no audio file has been established, set path to current selection
             if (audioFile == null)
             {
+                Console.WriteLine("audioFile is null. Making new audio file");
                 audioFile = new AudioFileReader(currentFilePath);
                 outputDevice.Init(audioFile);
             }
+            Console.WriteLine("Playing file");
             outputDevice.Play();
         }
 
@@ -151,18 +157,19 @@ namespace soundboard_sandbox
             outputDevice?.Stop();
         }
 
-        // cleanly dispose of all audio playback resources when finished
-        private void OnPlaybackStopped(object sender, EventArgs e)
-        {
-            Console.WriteLine("Playback Stopped");
-            // check if output device is null
-            if (outputDevice != null)
-            {
-                //outputDevice.Dispose();
-                //outputDevice = null;
-                audioFile.Dispose();
-                audioFile = null;
-            }
-        }
+        //cleanly dispose of all audio playback resources when finished
+        //private void OnPlaybackStopped(object sender, EventArgs e)
+        //{
+        //    Console.WriteLine("Playback Stopped");
+
+        //    //check if output device is null
+        //    if (outputDevice != null)
+        //    {
+        //        //outputDevice.Dispose();
+        //        //outputDevice = null;
+        //        audioFile.Dispose();
+        //    }
+        //    audioFile = null;
+        //}
     }
 }
