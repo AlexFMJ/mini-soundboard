@@ -140,6 +140,10 @@
             this.sfxGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.sfxGridView.Size = new System.Drawing.Size(484, 353);
             this.sfxGridView.TabIndex = 4;
+            this.sfxGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.sfxGridView_DragDrop);
+            this.sfxGridView.DragOver += new System.Windows.Forms.DragEventHandler(this.sfxGridView_DragOver);
+            this.sfxGridView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.sfxGridView_MouseDown);
+            this.sfxGridView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.sfxGridView_MouseMove);
             // 
             // stop_audio_btn
             // 

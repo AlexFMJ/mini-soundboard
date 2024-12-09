@@ -165,42 +165,86 @@ namespace soundboard_sandbox
             cleanupAudioFile();
         }
 
-        //// drag and drop list items vars
-        //private int rowIndexFromMouseDown;
-        //private Sfx draggedRow;
-        //// gridview drag/drop credit: https://www.codeproject.com/articles/811035/drag-and-move-rows-in-datagridview-control
-        //private void sfxGridView_MouseClick(object sender, MouseEventArgs e)
-        //{
-        //    if (sfxGridView.SelectedRows.Count == 1)
-        //    {
-        //        if (e.Button == MouseButtons.Left)
-        //        {
-        //            //draggedRow = sfxGridView.SelectedRows[0];
-        //            draggedRow = (soundLibBindSource.Current;
-        //            rowIndexFromMouseDown = sfxGridView.SelectedRows[0].Index;
-        //            sfxGridView.DoDragDrop(draggedRow, DragDropEffects.Move);
-        //        }
-        //    }
-        //}
-        //private void sfxGridView_DragEnter(object sender, DragEventArgs e)
-        //{
-        //    if (sfxGridView.SelectedRows.Count > 0)
-        //    {
-        //        e.Effect = DragDropEffects.Move;
-        //    }
-        //}
-        //private void sfxGridView_DragDrop(object sender, DragEventArgs e)
-        //{
-        //    int rowIndexOfItemUnderMouseToDrop;
-        //    Point clientPoint = sfxGridView.PointToClient(new Point(e.X, e.Y));
-        //    rowIndexOfItemUnderMouseToDrop = sfxGridView.HitTest(clientPoint.X, clientPoint.Y).RowIndex;
-        //    Console.WriteLine(rowIndexOfItemUnderMouseToDrop);
+        // Drag and Drop reference https://www.inforbiro.com/blog/c-datagridview-drag-and-drop-rows-reorder
+        private Rectangle dragBoxFromMouseDown;
+        private int rowIndexFromMouseDown;
+        private int rowIndexOfItemUnderMouseToDrop;
+        private void sfxGridView_MouseDown(object sender, MouseEventArgs e)
+        {
+            // Get the index of the item the mouse is below.
+            rowIndexFromMouseDown = sfxGridView.HitTest(e.X, e.Y).RowIndex;
 
-        //    if (e.Effect == DragDropEffects.Move)
-        //    {
-        //        soundLibBindSource.RemoveAt(rowIndexFromMouseDown);
-        //        soundLibBindSource.Insert(rowIndexOfItemUnderMouseToDrop,draggedRow);
-        //    }
-        //}
+            if (rowIndexFromMouseDown != -1)
+            {
+                // Remember the point where the mouse down occurred. 
+                // The DragSize indicates the size that the mouse can move 
+                // before a drag event should be started.                
+                Size dragSize = SystemInformation.DragSize;
+
+                // Create a rectangle using the DragSize, with the mouse position being
+                // at the center of the rectangle.
+                dragBoxFromMouseDown = new Rectangle(
+                          new Point(
+                            e.X - (dragSize.Width / 2),
+                            e.Y - (dragSize.Height / 2)),
+                      dragSize);
+            }
+            else
+                // Reset the rectangle if the mouse is not over an item in the ListBox.
+                dragBoxFromMouseDown = Rectangle.Empty;
+        }
+        private void sfxGridView_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+            {
+                // If the mouse moves outside the rectangle, start the drag.
+                if (dragBoxFromMouseDown != Rectangle.Empty &&
+                !dragBoxFromMouseDown.Contains(e.X, e.Y))
+                {
+                    // Proceed with the drag and drop, passing in the list item.                    
+                    DragDropEffects dropEffect = sfxGridView.DoDragDrop(
+                          soundLibBindSource[rowIndexFromMouseDown],
+                          DragDropEffects.Move);
+                }
+            }
+        }
+        private void sfxGridView_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+        }
+        private void sfxGridView_DragDrop(object sender, DragEventArgs e)
+        {
+            // The mouse locations are relative to the screen, so they must be 
+            // converted to client coordinates.
+            Point clientPoint = sfxGridView.PointToClient(new Point(e.X, e.Y));
+
+            // Get the info of the item the mouse is below.
+            DataGridView.HitTestInfo indexInfo = sfxGridView.HitTest(clientPoint.X, clientPoint.Y);
+
+            // check if there is a cell beneath the mouse
+            switch (indexInfo.Type)
+            {
+                // if it's a cell set to rowIndex of that cell
+                case DataGridViewHitTestType.Cell:
+                    rowIndexOfItemUnderMouseToDrop = indexInfo.RowIndex;
+                    break;
+                // if it's a column header, set to top of list
+                case DataGridViewHitTestType.ColumnHeader:
+                    rowIndexOfItemUnderMouseToDrop = 0;
+                    break;
+                // if it's anything else, set index to end of list
+                default:
+                    rowIndexOfItemUnderMouseToDrop = soundLibBindSource.Count - 1;
+                    break;
+            }
+
+            // If the drag operation was a move then remove and insert the row.
+            if (e.Effect == DragDropEffects.Move)
+            {
+                Sfx rowToMove = e.Data.GetData(typeof(Sfx)) as Sfx;
+                soundLibBindSource.RemoveAt(rowIndexFromMouseDown);
+                soundLibBindSource.Insert(rowIndexOfItemUnderMouseToDrop, rowToMove);
+            }
+        }
     }
 }
