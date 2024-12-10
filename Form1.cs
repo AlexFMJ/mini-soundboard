@@ -13,14 +13,11 @@ namespace soundboard_sandbox
 {
     public partial class MainForm : Form
     {
-        // establish NAudio objects:
-        // soundcard
-        private WaveOutEvent outputDevice;
-        // audio file to be read
-        private AudioFileReader audioFile;
+        // ==== NAudio Objects:
+        private WaveOutEvent outputDevice;  // soundcard
+        private AudioFileReader audioFile;  // audio file to be read
 
-        // List to be bound
-        static List<Sfx> sfxLibrary = new List<Sfx>();
+        static List<Sfx> sfxLibrary = new List<Sfx>();  // List to be bound
 
         // BindingSource allows for automatic refreshing of data on listBox
         // when adding or removing items from soundLibrary list
@@ -74,7 +71,8 @@ namespace soundboard_sandbox
                     sfxLibBindSource.Add(new Sfx(
                         addSfxForm.GetName(),
                         addSfxForm.GetHotkey(),
-                        addSfxForm.GetPath()
+                        addSfxForm.GetPath(),
+                        addSfxForm.GetVolume()
                     ));
                 }
             }
@@ -106,6 +104,7 @@ namespace soundboard_sandbox
             // TODO EDIT SOUND (work on after getting audio playback)
         }
 
+
         // ==== SAVE AND LOAD SFX LIBRARIES ====
         // serialize library and save to XML file
         private void saveSFXLibraryBtn(object sender, EventArgs e)
@@ -118,6 +117,7 @@ namespace soundboard_sandbox
 
             serializer(path);
         }
+
         // deserialize XML library file
         private void loadSFXLibraryBtn(object sender, EventArgs e)
         {
@@ -128,6 +128,7 @@ namespace soundboard_sandbox
             string path = openFileDialog1.FileName;
             deserializer(path);
         }
+
         // XmlSerializer
         private string serializer(string path)
         {
@@ -138,6 +139,7 @@ namespace soundboard_sandbox
             }
             return path;
         }
+
         // XmlDeserializer
         private string deserializer(string path)
         {
@@ -150,9 +152,12 @@ namespace soundboard_sandbox
             return path;
         }
 
+
+        // ==== AUDIO PLAYBACK ====
         private void playSelectedAudio(object sender, EventArgs e)
         {
-            // TODO tweak this for hotkey activation!
+            Sfx selectedSfx;
+
             Console.WriteLine(outputDevice.PlaybackState);
 
             // If file is currently playing, stop playback and cleanup
@@ -160,15 +165,17 @@ namespace soundboard_sandbox
             {
                 stopAudio(sender, e);
             }
-
+            
             string currentFilePath;
 
+            // TODO tweak this for hotkey activation!
             // check for currently selected audio file, if null return.
             if (sfxGridView.CurrentRow == null) return;
             else
             {
+                selectedSfx = sfxLibrary[sfxGridView.CurrentRow.Index] as Sfx;
                 // get currently selected audio path
-                currentFilePath = sfxLibrary[sfxGridView.CurrentRow.Index].FilePath;
+                currentFilePath = selectedSfx.FilePath;
                 Console.WriteLine("Current File Path:");
                 Console.WriteLine(currentFilePath);
             }
@@ -178,23 +185,17 @@ namespace soundboard_sandbox
             {
                 Console.WriteLine("audioFile is null. Making new audio file");
                 audioFile = new AudioFileReader(currentFilePath);
+                audioFile.Volume = selectedSfx.Volume;
                 outputDevice.Init(audioFile);
+            }
+            else
+            {
+                // otherwise restart the audio file from the beginning
+                audioFile.Position = 0;
             }
             Console.WriteLine("Playing file");
             outputDevice.Play();
         }
-
-        private int cleanupAudioFile()
-        {
-            if (audioFile != null)
-            {
-                audioFile.Dispose();
-                audioFile = null;
-                return 0;
-            }
-            else return -1;
-        }
-
         private void stopAudio(object sender, EventArgs e)
         {
             Console.WriteLine("Stopping current audio");
@@ -206,12 +207,18 @@ namespace soundboard_sandbox
                 Console.WriteLine("Waiting for stopped state");
                 Thread.Sleep(10);
             }
-
             // Cleanup
-            cleanupAudioFile();
+            if (audioFile != null)
+            {
+                audioFile.Dispose();
+                audioFile = null;
+                return;
+            }
         }
 
-        // Drag and Drop reference https://www.inforbiro.com/blog/c-datagridview-drag-and-drop-rows-reorder
+
+        // ==== DATAGRIDVIEW DRAG AND DROP ====
+        // reference https://www.inforbiro.com/blog/c-datagridview-drag-and-drop-rows-reorder
         private Rectangle dragBoxFromMouseDown;
         private int rowIndexFromMouseDown;
         private int rowIndexOfItemUnderMouseToDrop;
@@ -239,6 +246,7 @@ namespace soundboard_sandbox
                 // Reset the rectangle if the mouse is not over an item in the ListBox.
                 dragBoxFromMouseDown = Rectangle.Empty;
         }
+
         private void sfxGridView_MouseMove(object sender, MouseEventArgs e)
         {
             if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
@@ -254,10 +262,12 @@ namespace soundboard_sandbox
                 }
             }
         }
+
         private void sfxGridView_DragOver(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Move;
         }
+
         private void sfxGridView_DragDrop(object sender, DragEventArgs e)
         {
             // The mouse locations are relative to the screen, so they must be 
@@ -290,15 +300,6 @@ namespace soundboard_sandbox
                 Sfx rowToMove = e.Data.GetData(typeof(Sfx)) as Sfx;
                 sfxLibBindSource.RemoveAt(rowIndexFromMouseDown);
                 sfxLibBindSource.Insert(rowIndexOfItemUnderMouseToDrop, rowToMove);
-            }
-        }
-
-        private void printListBtn_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine(sfxLibBindSource.Count);
-            foreach (Sfx sound in sfxLibBindSource)
-            {
-                Console.WriteLine(sound);
             }
         }
     }

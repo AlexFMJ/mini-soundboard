@@ -38,13 +38,20 @@
             this.sfxSetHotkeyBtn = new System.Windows.Forms.Button();
             this.addSfxCancelBtn = new System.Windows.Forms.Button();
             this.addSfxConfirmBtn = new System.Windows.Forms.Button();
+            this.sfxVolumeTrackBar = new System.Windows.Forms.TrackBar();
+            this.label4 = new System.Windows.Forms.Label();
+            this.volumeValLbl = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.sfxVolumeTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.Filter = "\"Supported Files (.mp3, .m4a, .aac .wav)|*.mp3;*.MP3;*.m4a;*.M4A*.aac;*.AAC;*.wav" +
     ";*.WAV|aac Files|*.aac;*.AAC|mp3 Files|*.mp3;*.MP3|m4a Files|*m4a;.M4A|wav Files" +
-    "|*.wav;*.WAV)\"";
+    "|*.wav;*.WAV\"";
             // 
             // sfxFilePathTxt
             // 
@@ -123,7 +130,7 @@
             // 
             this.addSfxCancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.addSfxCancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addSfxCancelBtn.Location = new System.Drawing.Point(98, 254);
+            this.addSfxCancelBtn.Location = new System.Drawing.Point(97, 311);
             this.addSfxCancelBtn.Name = "addSfxCancelBtn";
             this.addSfxCancelBtn.Size = new System.Drawing.Size(123, 32);
             this.addSfxCancelBtn.TabIndex = 8;
@@ -134,7 +141,7 @@
             // addSfxConfirmBtn
             // 
             this.addSfxConfirmBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addSfxConfirmBtn.Location = new System.Drawing.Point(257, 254);
+            this.addSfxConfirmBtn.Location = new System.Drawing.Point(256, 311);
             this.addSfxConfirmBtn.Name = "addSfxConfirmBtn";
             this.addSfxConfirmBtn.Size = new System.Drawing.Size(123, 32);
             this.addSfxConfirmBtn.TabIndex = 9;
@@ -142,13 +149,77 @@
             this.addSfxConfirmBtn.UseVisualStyleBackColor = true;
             this.addSfxConfirmBtn.Click += new System.EventHandler(this.addSfxConfirmBtn_Click);
             // 
+            // sfxVolumeTrackBar
+            // 
+            this.sfxVolumeTrackBar.Location = new System.Drawing.Point(82, 231);
+            this.sfxVolumeTrackBar.Maximum = 100;
+            this.sfxVolumeTrackBar.Name = "sfxVolumeTrackBar";
+            this.sfxVolumeTrackBar.Size = new System.Drawing.Size(358, 56);
+            this.sfxVolumeTrackBar.TabIndex = 10;
+            this.sfxVolumeTrackBar.TickFrequency = 25;
+            this.sfxVolumeTrackBar.Value = 100;
+            this.sfxVolumeTrackBar.ValueChanged += new System.EventHandler(this.sfxVolumeTrackBar_ValueChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(23, 233);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(56, 16);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Volume:";
+            // 
+            // volumeValLbl
+            // 
+            this.volumeValLbl.AutoSize = true;
+            this.volumeValLbl.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.volumeValLbl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.volumeValLbl.Location = new System.Drawing.Point(34, 257);
+            this.volumeValLbl.Name = "volumeValLbl";
+            this.volumeValLbl.Size = new System.Drawing.Size(30, 18);
+            this.volumeValLbl.TabIndex = 12;
+            this.volumeValLbl.Text = "100";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(92, 268);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(14, 16);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "0";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(409, 268);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(28, 16);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "100";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(252, 268);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(21, 16);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "50";
+            // 
             // OpenFileForm
             // 
             this.AcceptButton = this.addSfxConfirmBtn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.addSfxCancelBtn;
-            this.ClientSize = new System.Drawing.Size(469, 319);
+            this.ClientSize = new System.Drawing.Size(469, 365);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.volumeValLbl);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.sfxVolumeTrackBar);
             this.Controls.Add(this.addSfxConfirmBtn);
             this.Controls.Add(this.addSfxCancelBtn);
             this.Controls.Add(this.sfxSetHotkeyBtn);
@@ -163,6 +234,7 @@
             this.Name = "OpenFileForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add SFX";
+            ((System.ComponentModel.ISupportInitialize)(this.sfxVolumeTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -180,5 +252,11 @@
         private System.Windows.Forms.Button sfxSetHotkeyBtn;
         private System.Windows.Forms.Button addSfxCancelBtn;
         private System.Windows.Forms.Button addSfxConfirmBtn;
+        private System.Windows.Forms.TrackBar sfxVolumeTrackBar;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label volumeValLbl;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
     }
 }

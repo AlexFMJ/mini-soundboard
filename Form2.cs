@@ -25,16 +25,11 @@ namespace soundboard_sandbox
 
         private void addSfxConfirmBtn_Click(object sender, EventArgs e)
         {
-            // Prevent submission if all fields are not filled
-            if (sfxFilePathTxt.Text != "")
+            // Prevent submission if path field is not filled
+            if (sfxFilePathTxt.Text == "")
             {
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-            }
-            // raise message
-            else
-            {
-                string message = $"Not all fields have been filled out.{Environment.NewLine}Would you like to exit without adding a sound effect?";
+                // raise message
+                string message = $"No file path was entered.{Environment.NewLine}Would you like to exit without adding a sound effect?";
                 MessageBoxButtons yesnoBtns = MessageBoxButtons.YesNo;
                 DialogResult result;
 
@@ -44,6 +39,11 @@ namespace soundboard_sandbox
                     // Closes the parent form.
                     this.Close();
                 }
+            }
+            else
+            {
+                this.DialogResult = DialogResult.OK;
+                this.Close();
             }
         }
 
@@ -65,8 +65,8 @@ namespace soundboard_sandbox
                 // set default file name to SafeFileName
                 sfxNameTxt.Text = name;
             }
-
-            // TODO create hotkey method in separate cs file
+            // select addSfxConfirmBtn when returning to form
+            addSfxConfirmBtn.Focus();
         }
 
         // -- FORM GETTERS to be accessed in MainForm --
@@ -94,5 +94,19 @@ namespace soundboard_sandbox
                 return null;
         }
 
+        public float GetVolume()
+        {
+            // NAudio expects a float value between 0.0 - 1.0
+            float sfxVolume = (float)sfxVolumeTrackBar.Value / 100;
+            Console.WriteLine(sfxVolume.GetType());
+            Console.WriteLine(sfxVolume);
+            return sfxVolume;
+        }
+
+        // reflect value from slider
+        private void sfxVolumeTrackBar_ValueChanged(object sender, EventArgs e)
+        {
+            volumeValLbl.Text = sfxVolumeTrackBar.Value.ToString();
+        }
     }
 }
