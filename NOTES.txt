@@ -1,5 +1,4 @@
 ﻿======= TODO =======
-- restart file on playback
 - hotkeys (after audio playback)
 	- ms .net documentation
 	- global hotkeys for use when not in focus
@@ -7,13 +6,12 @@
 	- search define hotkeys at runtime
 	- https://github.com/Willy-Kimura/HotkeyListener
 	- list global hotkeys as a contraint
-- save/load hotkey lists
-	- save default list on close
 - Error handling on file loading and saving
 - categories/tags
 - MIDI control
 - automatic list sorting functionality
 - text align the volume and hotkey
+- show volume as a percentage
 
 - create video tutorial
 
@@ -25,6 +23,10 @@
 - auto fill name from file name
 - manual reorder list functionality
 	- https://www.inforbiro.com/blog/c-datagridview-drag-and-drop-rows-reorder
+- save/load hotkey lists
+	- save default list on close
+- volume control
+- restart file on playback
 
 === Hotkey approach ===
 Maybe it is a class that carries its own method for monitoring and dealing with events from keypresses
