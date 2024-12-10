@@ -158,7 +158,7 @@ namespace soundboard_sandbox
         {
             Sfx selectedSfx;
 
-            Console.WriteLine(outputDevice.PlaybackState);
+            // compare audiofile 
 
             // If file is currently playing, stop playback and cleanup
             if (outputDevice.PlaybackState == PlaybackState.Playing)
@@ -180,8 +180,9 @@ namespace soundboard_sandbox
                 Console.WriteLine(currentFilePath);
             }
 
-            // if no audio file has been established, set path to current selection
-            if (audioFile == null)
+            // if no audio file has been established or the filename is different
+            // set path to current selection
+            if (audioFile == null || audioFile.FileName != currentFilePath)
             {
                 Console.WriteLine("audioFile is null. Making new audio file");
                 audioFile = new AudioFileReader(currentFilePath);
