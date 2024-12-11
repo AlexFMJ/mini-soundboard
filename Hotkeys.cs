@@ -16,7 +16,7 @@ namespace soundboard_sandbox
         {
             Unassigned  = 0,
             Assigned    = 1,
-            Overwritten = 2
+            Overwritten = 2,
         }
 
         // assigns hotkeys if not already recorded. Prompts user otherwise
@@ -39,7 +39,7 @@ namespace soundboard_sandbox
             return status;
         }
 
-        // Unset specified hotkey if in list
+        // Unset specified hotkey if in dictionary already
         public assignStatus UnsetHotkey(Keys hotkeyData)
         {
             assignStatus status = assignStatus.Unassigned;
@@ -56,21 +56,27 @@ namespace soundboard_sandbox
                 result = MessageBox.Show(message, "Unset existing hotkey?", yesnoBtns);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
-                    // get index of the current Sfx with the hotkey
-                    int index = Program.sfxLibBindSource.IndexOf(assignedKeys[hotkeyData]);
-                    // remove hotkey from sfxLibBindSource
-                    Program.sfxLibrary[index].unsetHotkey();
-
-                    // refreshes data for that sfx in the gui
-                    Program.sfxLibBindSource.ResetItem(index);
-
-                    // remove hotkey from dictionary
-                    assignedKeys.Remove(hotkeyData);
-
+                    RemoveHotkeyEntry(hotkeyData);
                     status = assignStatus.Overwritten;
                 }
             }
             return status;
+        }
+
+        // Removes hotkey from dictionary if it exists
+        public void RemoveHotkeyEntry(Keys hotkeyData)
+        {
+            // return if not in dictionary
+            if (!assignedKeys.ContainsKey(hotkeyData)) return;
+
+            // get index of the current Sfx with the hotkey
+            int index = Program.sfxLibBindSource.IndexOf(assignedKeys[hotkeyData]);
+
+            // remove hotkey from sfxLibBindSource
+            Program.sfxLibrary[index].ClearHotkeyInfo();
+
+            // remove hotkey from dictionary
+            assignedKeys.Remove(hotkeyData);
         }
 
         // returns sfx object of specified hotkey

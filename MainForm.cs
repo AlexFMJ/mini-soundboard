@@ -37,17 +37,21 @@ namespace soundboard_sandbox
             sfxGridView.DataSource = Program.sfxLibBindSource;
             sfxGridView.AutoGenerateColumns = true;
 
-            // hide the unformatted hotkey column
+            // hide the unformatted hotkey and volume columns 
             sfxGridView.Columns["hotkeyEventArgs"].Visible = false;
+            sfxGridView.Columns["VolumeFloat"].Visible = false;
+
 
             // set default column width
             sfxGridView.Columns["Name"].FillWeight = 37;
             sfxGridView.Columns["FilePath"].FillWeight = 47;
             sfxGridView.Columns["Hotkey"].FillWeight = 8;
             sfxGridView.Columns["Volume"].FillWeight = 8;
+           
+
             // set text alignment for hotkey and volume
-            sfxGridView.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;  // hotkey
-            sfxGridView.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;  // volume level
+            sfxGridView.Columns["Hotkey"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;  // hotkey
+            sfxGridView.Columns["Volume"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;  // volume level
 
 
             // auto screen sizing approach courtesy of https://www.youtube.com/watch?v=bKnpxTulUIs
@@ -86,6 +90,9 @@ namespace soundboard_sandbox
                     Program.sfxLibBindSource.Add(sound);
                 }
             }
+
+            // remove focus from button
+            this.ActiveControl = null;
         }
 
         // delete currently selected sfx from sounds list object
@@ -95,7 +102,11 @@ namespace soundboard_sandbox
 
             // prevent error when clicking delete with no selection
             if (sfxGridView.CurrentRow == null)
+            {
+                // remove focus from button
+                this.ActiveControl = null;
                 return;
+            }
             else
                 rowIndex = sfxGridView.CurrentRow.Index;
 
@@ -107,11 +118,16 @@ namespace soundboard_sandbox
                 // must use RemoveAt to access by index
                 Program.sfxLibBindSource.RemoveAt(rowIndex);
             }
+
+            // remove focus from button
+            this.ActiveControl = null;
         }
 
         private void EditSFXBtn_Click(object sender, EventArgs e)
         {
             // TODO EDIT SOUND (work on after getting audio playback)
+            // remove focus from button
+            //this.ActiveControl = null;
         }
 
 
@@ -212,7 +228,7 @@ namespace soundboard_sandbox
             {
                 Console.WriteLine("audioFile is null. Making new audio file");
                 audioFile = new AudioFileReader(selectedSfx.FilePath);
-                audioFile.Volume = selectedSfx.Volume;
+                audioFile.Volume = selectedSfx.VolumeFloat;
                 outputDevice.Init(audioFile);
             }
             else
@@ -365,6 +381,23 @@ namespace soundboard_sandbox
             if (selectedSound != null) PlaySfx(selectedSound);
                 
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine(Program.sfxLibrary);
+            Console.WriteLine(Program.localHotkeys);
+        }
+
+        // If deleting item from GridView, delete listing from hotkey dict as needed
+        private void sfxGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            Sfx row = e.Row.DataBoundItem as Sfx;
+            if (row.HotkeyEventArgs != null)
+            {
+                Console.WriteLine("Removing hotkey");
+                Program.localHotkeys.RemoveHotkeyEntry(row.HotkeyEventArgs.KeyCode);
+            }
         }
     }
 }

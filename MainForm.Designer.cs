@@ -50,6 +50,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.button1 = new System.Windows.Forms.Button();
             this.sfxGridViewCMS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sfxGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -144,6 +145,7 @@
             this.sfxGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.sfxGridView.Size = new System.Drawing.Size(484, 353);
             this.sfxGridView.TabIndex = 4;
+            this.sfxGridView.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.sfxGridView_UserDeletingRow);
             this.sfxGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.sfxGridView_DragDrop);
             this.sfxGridView.DragOver += new System.Windows.Forms.DragEventHandler(this.sfxGridView_DragOver);
             this.sfxGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
@@ -257,12 +259,25 @@
             // 
             this.saveFileDialog1.Filter = "\"Supported Files (XML Files|*.xml;*.XML)\"";
             // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(541, 288);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(106, 39);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "showLists";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(671, 417);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.stop_audio_btn);
             this.Controls.Add(this.play_audio_btn);
@@ -307,6 +322,7 @@
         private System.Windows.Forms.ToolStripMenuItem deleteSFXToolStripMenuItem1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Button button1;
     }
 }
 

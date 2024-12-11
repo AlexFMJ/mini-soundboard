@@ -1,16 +1,11 @@
 ﻿======= TODO =======
-- hotkeys (after audio playback)
-	- ms .net documentation
-	- global hotkeys for use when not in focus
-		- https://github.com/TolikPylypchuk/SharpHook
-	- list global hotkeys as a contraint in documentation
 - categories/tags
 - MIDI control
 - automatic list sorting functionality
-- show volume as a percentage
 - save default list on close / load on open
 - create video tutorial
 - create themes for light and dark modes
+- global hotkeys for use when not in focus
 
 =====COMPLETED======
 - audio playback
@@ -25,6 +20,11 @@
 - Error handling on file loading and saving
 	? - check files on XML load
 - text align the volume and hotkey
+- hotkeys (after audio playback)
+	- ms .net documentation
+		- https://github.com/TolikPylypchuk/SharpHook
+	- list global hotkeys as a contraint in documentation
+- show volume as a percentage
 
 === Hotkey approach ===
 Maybe it is a class that carries its own method for monitoring and dealing with events from keypresses
