@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.sfxGridViewCMS = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.editSelectedSFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addSFXBtn = new System.Windows.Forms.Button();
             this.deleteSFXBtn = new System.Windows.Forms.Button();
@@ -57,28 +56,21 @@
             this.sfxGridViewCMS.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.sfxGridViewCMS.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
-            this.editSelectedSFXToolStripMenuItem,
             this.deleteSFXToolStripMenuItem});
             this.sfxGridViewCMS.Name = "sfxListItemCMS";
-            this.sfxGridViewCMS.Size = new System.Drawing.Size(194, 76);
+            this.sfxGridViewCMS.Size = new System.Drawing.Size(211, 80);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(193, 24);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(210, 24);
             this.toolStripMenuItem1.Text = "Add SFX";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.AddSFX_Click);
-            // 
-            // editSelectedSFXToolStripMenuItem
-            // 
-            this.editSelectedSFXToolStripMenuItem.Name = "editSelectedSFXToolStripMenuItem";
-            this.editSelectedSFXToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
-            this.editSelectedSFXToolStripMenuItem.Text = "Edit Selected SFX";
             // 
             // deleteSFXToolStripMenuItem
             // 
             this.deleteSFXToolStripMenuItem.Name = "deleteSFXToolStripMenuItem";
-            this.deleteSFXToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
+            this.deleteSFXToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.deleteSFXToolStripMenuItem.Text = "Delete SFX";
             this.deleteSFXToolStripMenuItem.Click += new System.EventHandler(this.DeleteSFX_Click);
             // 
@@ -261,7 +253,6 @@
         private System.Windows.Forms.ContextMenuStrip sfxGridViewCMS;
         private System.Windows.Forms.ToolStripMenuItem deleteSFXToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem editSelectedSFXToolStripMenuItem;
         private System.Windows.Forms.DataGridView sfxGridView;
         private System.Windows.Forms.Button play_audio_btn;
         private System.Windows.Forms.Button stop_audio_btn;

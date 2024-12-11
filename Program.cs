@@ -5,6 +5,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace soundboard_sandbox
+
+// Alex Johnson
+// Final Project
+//This program is designed to simply play sound effects (of any length) using a graphical interface and hotkeys.
+//The user is able to define their own hotkeys when adding a sound to the library.
+//They are then able to save and load their sound library for later use.
 {
     internal static class Program
     {
