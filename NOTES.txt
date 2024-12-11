@@ -2,19 +2,15 @@
 - hotkeys (after audio playback)
 	- ms .net documentation
 	- global hotkeys for use when not in focus
-		- look into keyhooks (if using global hotkeys)
-	- search define hotkeys at runtime
-	- https://github.com/Willy-Kimura/HotkeyListener
-	- list global hotkeys as a contraint
-- Error handling on file loading and saving
+		- https://github.com/TolikPylypchuk/SharpHook
+	- list global hotkeys as a contraint in documentation
 - categories/tags
 - MIDI control
 - automatic list sorting functionality
-- text align the volume and hotkey
 - show volume as a percentage
-
+- save default list on close / load on open
 - create video tutorial
-
+- create themes for light and dark modes
 
 =====COMPLETED======
 - audio playback
@@ -24,9 +20,11 @@
 - manual reorder list functionality
 	- https://www.inforbiro.com/blog/c-datagridview-drag-and-drop-rows-reorder
 - save/load hotkey lists
-	- save default list on close
-- volume control
+- volume control functioning
 - restart file on playback
+- Error handling on file loading and saving
+	? - check files on XML load
+- text align the volume and hotkey
 
 === Hotkey approach ===
 Maybe it is a class that carries its own method for monitoring and dealing with events from keypresses

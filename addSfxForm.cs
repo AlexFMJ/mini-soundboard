@@ -13,6 +13,8 @@ namespace soundboard_sandbox
 {
     public partial class OpenFileForm : Form
     {
+        KeyEventArgs currentHotkey;
+
         public OpenFileForm()
         {
             InitializeComponent();
@@ -75,15 +77,21 @@ namespace soundboard_sandbox
             return sfxNameTxt.Text;
         }
 
-        public string GetHotkey()
+        public string GetHotkeyString()
         {
-            //TODO
-            //if (hotkey != null)
-            //    return hotkey;
-            //else
-            //    return null;
+            string result = "";
 
-            return "ctrl + h";
+            if (currentHotkey != null) 
+            {
+                result = Program.localHotkeys.KeysToString(currentHotkey);
+            }
+
+            return result;
+        }
+
+        public KeyEventArgs GetHotkeyEventArgs()
+        {
+            return currentHotkey;
         }
 
         public string GetPath()
@@ -107,6 +115,44 @@ namespace soundboard_sandbox
         private void sfxVolumeTrackBar_ValueChanged(object sender, EventArgs e)
         {
             volumeValLbl.Text = sfxVolumeTrackBar.Value.ToString();
+        }
+
+        // OnFocus
+        private void sfxSetHotkeyBtn_Enter(object sender, EventArgs e)
+        {
+            sfxSetHotkeyBtn.ForeColor = Color.Red;
+            sfxSetHotkeyBtn.Text = "Press a hotkey combination";
+        }
+        // leave focus
+        private void sfxSetHotkeyBtn_Leave(object sender, EventArgs e)
+        {
+            if (currentHotkey != null)
+            {
+                sfxSetHotkeyBtn.ForeColor = Color.Black;
+                sfxSetHotkeyBtn.Text = Program.localHotkeys.KeysToString(currentHotkey);
+            }
+            else
+            {
+                sfxSetHotkeyBtn.ForeColor = Color.Gray;
+                sfxSetHotkeyBtn.Text = "click to set Hotkey";
+            }
+        }
+
+        private void sfxSetHotkeyBtn_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ControlKey || e.KeyCode == Keys.ShiftKey || e.KeyCode == Keys.Menu || e.KeyCode == Keys.Capital) return;
+
+            // print info on keypress
+            Console.WriteLine("Code - Data - Value");
+            Console.WriteLine($"{e.KeyCode} - {e.KeyData} - {e.KeyValue}");
+
+            // if hotkeys overlap, ask to unset old hotkey
+            Program.localHotkeys.UnsetHotkey(e.KeyData);
+
+            currentHotkey = e;
+
+            // remove focus from button
+            this.ActiveControl = null;
         }
     }
 }

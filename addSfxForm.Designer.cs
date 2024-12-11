@@ -125,6 +125,9 @@
             this.sfxSetHotkeyBtn.Text = "click to set Hotkey";
             this.sfxSetHotkeyBtn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.sfxSetHotkeyBtn.UseVisualStyleBackColor = false;
+            this.sfxSetHotkeyBtn.Enter += new System.EventHandler(this.sfxSetHotkeyBtn_Enter);
+            this.sfxSetHotkeyBtn.KeyDown += new System.Windows.Forms.KeyEventHandler(this.sfxSetHotkeyBtn_KeyDown);
+            this.sfxSetHotkeyBtn.Leave += new System.EventHandler(this.sfxSetHotkeyBtn_Leave);
             // 
             // addSfxCancelBtn
             // 

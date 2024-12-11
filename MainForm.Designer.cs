@@ -119,7 +119,7 @@
             this.editSFXBtn.TabIndex = 3;
             this.editSFXBtn.Text = "Edit SFX";
             this.editSFXBtn.UseVisualStyleBackColor = true;
-            this.editSFXBtn.Click += new System.EventHandler(this.editSFXBtn_Click);
+            this.editSFXBtn.Click += new System.EventHandler(this.EditSFXBtn_Click);
             // 
             // sfxGridView
             // 
@@ -146,6 +146,7 @@
             this.sfxGridView.TabIndex = 4;
             this.sfxGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.sfxGridView_DragDrop);
             this.sfxGridView.DragOver += new System.Windows.Forms.DragEventHandler(this.sfxGridView_DragOver);
+            this.sfxGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.sfxGridView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.sfxGridView_MouseDown);
             this.sfxGridView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.sfxGridView_MouseMove);
             // 
@@ -160,7 +161,7 @@
             this.stop_audio_btn.Size = new System.Drawing.Size(39, 39);
             this.stop_audio_btn.TabIndex = 6;
             this.stop_audio_btn.UseVisualStyleBackColor = true;
-            this.stop_audio_btn.Click += new System.EventHandler(this.stopAudio);
+            this.stop_audio_btn.Click += new System.EventHandler(this.StopAudio_Clicked);
             // 
             // play_audio_btn
             // 
@@ -173,7 +174,7 @@
             this.play_audio_btn.Size = new System.Drawing.Size(39, 39);
             this.play_audio_btn.TabIndex = 5;
             this.play_audio_btn.UseVisualStyleBackColor = true;
-            this.play_audio_btn.Click += new System.EventHandler(this.playSelectedAudio);
+            this.play_audio_btn.Click += new System.EventHandler(this.PlaySelectedAudio_Clicked);
             // 
             // menuStrip1
             // 
@@ -202,14 +203,14 @@
             this.loadSoundboardToolStripMenuItem.Name = "loadSoundboardToolStripMenuItem";
             this.loadSoundboardToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
             this.loadSoundboardToolStripMenuItem.Text = "Load SFX Library";
-            this.loadSoundboardToolStripMenuItem.Click += new System.EventHandler(this.loadSFXLibraryBtn);
+            this.loadSoundboardToolStripMenuItem.Click += new System.EventHandler(this.LoadSFXLibraryBtn);
             // 
             // saveSoundboardToolStripMenuItem
             // 
             this.saveSoundboardToolStripMenuItem.Name = "saveSoundboardToolStripMenuItem";
             this.saveSoundboardToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
             this.saveSoundboardToolStripMenuItem.Text = "Save SFX Library";
-            this.saveSoundboardToolStripMenuItem.Click += new System.EventHandler(this.saveSFXLibraryBtn);
+            this.saveSoundboardToolStripMenuItem.Click += new System.EventHandler(this.SaveSFXLibraryBtn);
             // 
             // editToolStripMenuItem
             // 
@@ -233,7 +234,7 @@
             this.editSFXToolStripMenuItem.Name = "editSFXToolStripMenuItem";
             this.editSFXToolStripMenuItem.Size = new System.Drawing.Size(225, 26);
             this.editSFXToolStripMenuItem.Text = "Edit Selected SFX";
-            this.editSFXToolStripMenuItem.Click += new System.EventHandler(this.editSFXBtn_Click);
+            this.editSFXToolStripMenuItem.Click += new System.EventHandler(this.EditSFXBtn_Click);
             // 
             // deleteSFXToolStripMenuItem1
             // 
@@ -250,7 +251,7 @@
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "\"Supported Files (XML Files|*.xml;*.XML)\"";
             // 
             // saveFileDialog1
             // 
@@ -274,6 +275,7 @@
             this.Name = "MainForm";
             this.Text = "sandbox";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.sfxGridViewCMS.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.sfxGridView)).EndInit();
             this.menuStrip1.ResumeLayout(false);

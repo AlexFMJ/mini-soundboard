@@ -4,45 +4,47 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace soundboard_sandbox
 {
     // create class to store sfx data
-    // includes filepath, hotkey, length, volume, etc.
+    // includes name, filepath, hotkey, volume, etc.
     public class Sfx
     {
-        // class vars
+        // ==== CLASS FIELDS ====
         // note: XmlSerializer requires public fields to function
         public string Name { get; set; }
-        public string FilePath { get; set; }         // TODO change filepath type to Path
-        public string Hotkey { get; set; }      // TODO use proper hotkey var type
+        public string FilePath { get; set; }
+        public string Hotkey { get; set; }
+        public KeyEventArgs HotkeyEventArgs { get; set; }
         public float Volume { get; set; }       // 0.0 - 1.0
         // TODO public List<string> Tags { get; set; }
         // TODO public MIDI KEY
 
-        // TODO create overloaded method with tags
-        public Sfx(string name, string hotkey, string filePath, float volume)
+        public Sfx(string name, string hotkey ,KeyEventArgs hkeventargs, string filePath, float volume)
         {
             this.Name = name;
             this.FilePath = filePath;
-            this.Hotkey = hotkey;   // can be empty
-            this.Volume = volume;
-            //this.filePath = getFilePath(filePath);
+            this.Hotkey = hotkey;           // can be null
+            this.HotkeyEventArgs = hkeventargs;   // can be null
+            this.Volume = volume;;
         }
         private Sfx() { } // default constructor for XmlSerializer
+
+        public void unsetHotkey()
+        {
+            this.Hotkey = null;
+            this.HotkeyEventArgs = null;
+        }
 
         // custom toString
         public override string ToString()
         {
-            return $"{Name} - {FilePath} - {Hotkey}";
+            //return $"{Name} - {FilePath} - {Hotkey}";
+            return Name;
         }
 
-        // parse the filepath and assign it to the filePath var
-        //private string getFilePath(string newFilePath)
-        //{
-        //    // TODO exception handling
-        //    filePath = Path.GetFullPath(filePath);
-        //    return "";
-        //}
+        // TODO file path parsing
     }
 }

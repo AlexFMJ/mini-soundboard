@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Input;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -16,12 +17,6 @@ namespace soundboard_sandbox
         // ==== NAudio Objects:
         private WaveOutEvent outputDevice;  // soundcard
         private AudioFileReader audioFile;  // audio file to be read
-
-        static List<Sfx> sfxLibrary = new List<Sfx>();  // List to be bound
-
-        // BindingSource allows for automatic refreshing of data on listBox
-        // when adding or removing items from soundLibrary list
-        BindingSource sfxLibBindSource = new BindingSource();
 
         public MainForm()
         {
@@ -36,16 +31,23 @@ namespace soundboard_sandbox
         private void MainForm_Load(object sender, EventArgs e)
         {
             // set data source to bind
-            sfxLibBindSource.DataSource = sfxLibrary;
+            Program.sfxLibBindSource.DataSource = Program.sfxLibrary;
 
             // set the binding source to the list box
-            sfxGridView.DataSource = sfxLibBindSource;
+            sfxGridView.DataSource = Program.sfxLibBindSource;
             sfxGridView.AutoGenerateColumns = true;
+
+            // hide the unformatted hotkey column
+            sfxGridView.Columns["hotkeyEventArgs"].Visible = false;
+
             // set default column width
-            sfxGridView.Columns[0].FillWeight = 37; // name
-            sfxGridView.Columns[1].FillWeight = 47; // file path
-            sfxGridView.Columns[2].FillWeight = 8;  // hotkey
-            sfxGridView.Columns[3].FillWeight = 8;  // volume level
+            sfxGridView.Columns["Name"].FillWeight = 37;
+            sfxGridView.Columns["FilePath"].FillWeight = 47;
+            sfxGridView.Columns["Hotkey"].FillWeight = 8;
+            sfxGridView.Columns["Volume"].FillWeight = 8;
+            // set text alignment for hotkey and volume
+            sfxGridView.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;  // hotkey
+            sfxGridView.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;  // volume level
 
 
             // auto screen sizing approach courtesy of https://www.youtube.com/watch?v=bKnpxTulUIs
@@ -63,17 +65,25 @@ namespace soundboard_sandbox
             // the using block will correctly dispose of the form when closed
             using (OpenFileForm addSfxForm = new OpenFileForm())
             {
+                Sfx sound;
+
                 // Checks that the 'Add' button was used to close
                 // the form, not the cancel button
                 if (addSfxForm.ShowDialog() == DialogResult.OK)
                 {
-                    // calls these methods from OpenFileForm
-                    sfxLibBindSource.Add(new Sfx(
+                    // calls these methods from addSfxForm
+                    sound = new Sfx(
                         addSfxForm.GetName(),
-                        addSfxForm.GetHotkey(),
+                        addSfxForm.GetHotkeyString(),
+                        addSfxForm.GetHotkeyEventArgs(),
                         addSfxForm.GetPath(),
                         addSfxForm.GetVolume()
-                    ));
+                    );
+
+                    Program.localHotkeys.AssignHotkey(sound);
+
+                    // add it to the library
+                    Program.sfxLibBindSource.Add(sound);
                 }
             }
         }
@@ -90,16 +100,16 @@ namespace soundboard_sandbox
                 rowIndex = sfxGridView.CurrentRow.Index;
 
             // verifies that a valid index is selected
-            if (rowIndex >= 0 && rowIndex < sfxLibrary.Count)
+            if (rowIndex >= 0 && rowIndex < Program.sfxLibrary.Count)
             {
-                Console.WriteLine($"Removing item: {sfxLibrary[rowIndex].Name} at index {rowIndex}");
+                Console.WriteLine($"Removing item: {Program.sfxLibrary[rowIndex].Name} at index {rowIndex}");
 
                 // must use RemoveAt to access by index
-                sfxLibBindSource.RemoveAt(rowIndex);
+                Program.sfxLibBindSource.RemoveAt(rowIndex);
             }
         }
 
-        private void editSFXBtn_Click(object sender, EventArgs e)
+        private void EditSFXBtn_Click(object sender, EventArgs e)
         {
             // TODO EDIT SOUND (work on after getting audio playback)
         }
@@ -107,7 +117,7 @@ namespace soundboard_sandbox
 
         // ==== SAVE AND LOAD SFX LIBRARIES ====
         // serialize library and save to XML file
-        private void saveSFXLibraryBtn(object sender, EventArgs e)
+        private void SaveSFXLibraryBtn(object sender, EventArgs e)
         {
             // call save file dialog
             saveFileDialog1.ShowDialog();
@@ -115,77 +125,93 @@ namespace soundboard_sandbox
             // once path is selected, its returned as a string
             string path = saveFileDialog1.FileName;
 
-            serializer(path);
+            // stop early if canceled
+            if (path == "" || path == null) return;
+
+            SaveLibToXML(path);
         }
 
         // deserialize XML library file
-        private void loadSFXLibraryBtn(object sender, EventArgs e)
+        private void LoadSFXLibraryBtn(object sender, EventArgs e)
         {
-            // TODO
             // open file for reading
             openFileDialog1.ShowDialog();
 
             string path = openFileDialog1.FileName;
-            deserializer(path);
+
+            // stop early if canceled
+            if (path == "" || path == null) return;
+            Console.WriteLine(path);
+
+            LoadLibFromXML(path);
         }
 
         // XmlSerializer
-        private string serializer(string path)
+        private string SaveLibToXML(string path)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<Sfx>));
-            using (TextWriter writer = new StreamWriter(path))
+            try
             {
-                serializer.Serialize(writer, sfxLibrary);
+                using (TextWriter writer = new StreamWriter(path))
+                {
+                    serializer.Serialize(writer, Program.sfxLibrary);
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                string message = $"Unable to save file at location:{Environment.NewLine}'{path}'{Environment.NewLine}File may be corrupt.";
+                MessageBox.Show(message);
+                return null;
             }
             return path;
         }
 
         // XmlDeserializer
-        private string deserializer(string path)
+        private string LoadLibFromXML(string path)
         {
             XmlSerializer deserializer = new XmlSerializer(typeof(List<Sfx>));
-            using (FileStream reader = new FileStream(path, FileMode.Open))
+            try
             {
-                sfxLibrary = (List<Sfx>)deserializer.Deserialize(reader);
+                using (FileStream reader = new FileStream(path, FileMode.Open))
+                {
+                    Program.sfxLibrary = (List<Sfx>)deserializer.Deserialize(reader);
+                }
             }
-            sfxLibBindSource.DataSource = sfxLibrary;
+            catch (InvalidOperationException)
+            {
+                string message = $"Unable to load selected file at:{Environment.NewLine}'{path}'{Environment.NewLine}File may be corrupt.";
+                MessageBox.Show(message, "Unable to load XML file.");
+                return null;
+            }
+            // reestablish the datasource from the sfx library
+            Program.sfxLibBindSource.DataSource = Program.sfxLibrary;
             return path;
         }
 
 
         // ==== AUDIO PLAYBACK ====
-        private void playSelectedAudio(object sender, EventArgs e)
+        private void PlaySfx(Sfx selectedSfx)
         {
-            Sfx selectedSfx;
-
-            // compare audiofile 
-
             // If file is currently playing, stop playback and cleanup
             if (outputDevice.PlaybackState == PlaybackState.Playing)
             {
-                stopAudio(sender, e);
+                StopAudio();
             }
-            
-            string currentFilePath;
 
-            // TODO tweak this for hotkey activation!
             // check for currently selected audio file, if null return.
-            if (sfxGridView.CurrentRow == null) return;
+            if (selectedSfx.FilePath == null) return;
             else
             {
-                selectedSfx = sfxLibrary[sfxGridView.CurrentRow.Index] as Sfx;
-                // get currently selected audio path
-                currentFilePath = selectedSfx.FilePath;
                 Console.WriteLine("Current File Path:");
-                Console.WriteLine(currentFilePath);
+                Console.WriteLine(selectedSfx.FilePath);
             }
 
             // if no audio file has been established or the filename is different
             // set path to current selection
-            if (audioFile == null || audioFile.FileName != currentFilePath)
+            if (audioFile == null || audioFile.FileName != selectedSfx.FilePath)
             {
                 Console.WriteLine("audioFile is null. Making new audio file");
-                audioFile = new AudioFileReader(currentFilePath);
+                audioFile = new AudioFileReader(selectedSfx.FilePath);
                 audioFile.Volume = selectedSfx.Volume;
                 outputDevice.Init(audioFile);
             }
@@ -197,7 +223,20 @@ namespace soundboard_sandbox
             Console.WriteLine("Playing file");
             outputDevice.Play();
         }
-        private void stopAudio(object sender, EventArgs e)
+        private void PlaySelectedAudio_Clicked(object sender, EventArgs e)
+        {
+            Sfx selectedSfx;
+
+            // check for currently selected audio file, if null return.
+            if (sfxGridView.CurrentRow == null) return;
+            else
+            {
+                selectedSfx = Program.sfxLibrary[sfxGridView.CurrentRow.Index] as Sfx;
+
+                PlaySfx(selectedSfx);
+            }
+        }
+        private void StopAudio()
         {
             Console.WriteLine("Stopping current audio");
             outputDevice?.Stop();
@@ -215,6 +254,11 @@ namespace soundboard_sandbox
                 audioFile = null;
                 return;
             }
+        }
+        
+        private void StopAudio_Clicked(object sender, EventArgs e)
+        {
+            StopAudio();
         }
 
 
@@ -258,7 +302,7 @@ namespace soundboard_sandbox
                 {
                     // Proceed with the drag and drop, passing in the list item.                    
                     DragDropEffects dropEffect = sfxGridView.DoDragDrop(
-                          sfxLibBindSource[rowIndexFromMouseDown],
+                          Program.sfxLibBindSource[rowIndexFromMouseDown],
                           DragDropEffects.Move);
                 }
             }
@@ -291,7 +335,7 @@ namespace soundboard_sandbox
                     break;
                 // If it's anything else, set index to end of list
                 default:
-                    rowIndexOfItemUnderMouseToDrop = sfxLibBindSource.Count - 1;
+                    rowIndexOfItemUnderMouseToDrop = Program.sfxLibBindSource.Count - 1;
                     break;
             }
 
@@ -299,9 +343,28 @@ namespace soundboard_sandbox
             if (e.Effect == DragDropEffects.Move)
             {
                 Sfx rowToMove = e.Data.GetData(typeof(Sfx)) as Sfx;
-                sfxLibBindSource.RemoveAt(rowIndexFromMouseDown);
-                sfxLibBindSource.Insert(rowIndexOfItemUnderMouseToDrop, rowToMove);
+                Program.sfxLibBindSource.RemoveAt(rowIndexFromMouseDown);
+                Program.sfxLibBindSource.Insert(rowIndexOfItemUnderMouseToDrop, rowToMove);
             }
+        }
+
+        // listen for keypresses
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ControlKey || e.KeyCode == Keys.ShiftKey || e.KeyCode == Keys.Menu || e.KeyCode == Keys.Capital) return;
+
+            // print info on keypress
+            Console.WriteLine("Code - Data - Value");
+            Console.WriteLine($"{e.KeyCode} - {e.KeyData} - {e.KeyValue}");
+
+            // look for object as key in dict
+            Sfx selectedSound = Program.localHotkeys.GetHotkeySfx(e.KeyData);
+            Console.WriteLine(selectedSound);
+            
+            // if value is found, run event associated with it (Play audio)
+            if (selectedSound != null) PlaySfx(selectedSound);
+                
+
         }
     }
 }

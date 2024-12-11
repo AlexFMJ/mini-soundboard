@@ -8,6 +8,17 @@ namespace soundboard_sandbox
 {
     internal static class Program
     {
+        // ==== GLOBAL VARS ====
+        public static List<Sfx> sfxLibrary = new List<Sfx>();  // List to be bound
+
+        // BindingSource allows for automatic refreshing of data on listBox
+        // when adding or removing items from soundLibrary list
+        public static BindingSource sfxLibBindSource = new BindingSource();
+
+        // keybind dict
+        public static Hotkeys localHotkeys = new Hotkeys();
+
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
