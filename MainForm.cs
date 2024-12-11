@@ -1,13 +1,10 @@
 ﻿using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using System.Windows.Input;
-using System.Xml;
 using System.Xml.Serialization;
 
 namespace soundboard_sandbox
@@ -63,32 +60,32 @@ namespace soundboard_sandbox
                 Convert.ToInt32(0.5 * workingRectangle.Height));
         }
 
+        // ==== UI BOTTON FUNCTIONS ====
         // opens new form to enter new sfx information
         private void AddSFX_Click(object sender, EventArgs e)
         {
             // the using block will correctly dispose of the form when closed
-            using (OpenFileForm addSfxForm = new OpenFileForm())
+            using (addSfxForm addSfxForm = new addSfxForm())
             {
                 Sfx sound;
 
-                // Checks that the 'Add' button was used to close
-                // the form, not the cancel button
+                // Checks that 'Add' button closed the form
                 if (addSfxForm.ShowDialog() == DialogResult.OK)
                 {
                     // calls these methods from addSfxForm
                     sound = new Sfx(
                         addSfxForm.GetName(),
                         addSfxForm.GetHotkeyString(),
-                        new HotkeyEventInfo(addSfxForm.GetHotkeyEventArgs().KeyCode, addSfxForm.GetHotkeyEventArgs().KeyData),
+                        new HotkeyEventInfo(
+                            addSfxForm.GetHotkeyEventArgs().KeyCode,
+                            addSfxForm.GetHotkeyEventArgs().KeyData),
                         addSfxForm.GetPath(),
                         addSfxForm.GetVolume()
                     );
-
                     // add it to the library
                     Program.sfxLibBindSource.Add(sound);
                 }
             }
-
             // remove focus from button
             this.ActiveControl = null;
         }
@@ -118,6 +115,27 @@ namespace soundboard_sandbox
             }
 
             // remove focus from button
+            this.ActiveControl = null;
+        }
+        private void PlaySelectedAudio_Clicked(object sender, EventArgs e)
+        {
+            Sfx selectedSfx;
+
+            // check for currently selected audio file, if null return.
+            if (sfxGridView.CurrentRow == null) return;
+            else
+            {
+                selectedSfx = Program.sfxLibrary[sfxGridView.CurrentRow.Index] as Sfx;
+
+                PlaySfx(selectedSfx);
+            }
+
+            this.ActiveControl = null;
+        }
+
+        private void StopAudio_Clicked(object sender, EventArgs e)
+        {
+            StopAudio();
             this.ActiveControl = null;
         }
 
@@ -156,6 +174,9 @@ namespace soundboard_sandbox
             // stop early if canceled
             if (path == "" || path == null) return;
             Console.WriteLine(path);
+
+            // clear old hotkeys
+            Program.localHotkeys.ClearAllHotkeys();
 
             LoadLibFromXML(path);
         }
@@ -237,19 +258,7 @@ namespace soundboard_sandbox
             Console.WriteLine("Playing file");
             outputDevice.Play();
         }
-        private void PlaySelectedAudio_Clicked(object sender, EventArgs e)
-        {
-            Sfx selectedSfx;
 
-            // check for currently selected audio file, if null return.
-            if (sfxGridView.CurrentRow == null) return;
-            else
-            {
-                selectedSfx = Program.sfxLibrary[sfxGridView.CurrentRow.Index] as Sfx;
-
-                PlaySfx(selectedSfx);
-            }
-        }
         private void StopAudio()
         {
             Console.WriteLine("Stopping current audio");
@@ -268,11 +277,6 @@ namespace soundboard_sandbox
                 audioFile = null;
                 return;
             }
-        }
-        
-        private void StopAudio_Clicked(object sender, EventArgs e)
-        {
-            StopAudio();
         }
 
 
@@ -379,12 +383,6 @@ namespace soundboard_sandbox
             if (selectedSound != null) PlaySfx(selectedSound);
                 
 
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine(Program.sfxLibrary);
-            Console.WriteLine(Program.localHotkeys);
         }
 
         // If deleting item from GridView, delete listing from hotkey dict as needed

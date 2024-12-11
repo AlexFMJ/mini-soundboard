@@ -11,11 +11,11 @@ using System.Windows.Forms;
 
 namespace soundboard_sandbox
 {
-    public partial class OpenFileForm : Form
+    public partial class addSfxForm : Form
     {
         KeyEventArgs currentHotkey;
 
-        public OpenFileForm()
+        public addSfxForm()
         {
             InitializeComponent();
         }

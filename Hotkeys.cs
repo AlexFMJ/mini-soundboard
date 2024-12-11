@@ -73,7 +73,7 @@ namespace soundboard_sandbox
             int index = Program.sfxLibBindSource.IndexOf(assignedKeys[hotkeyData]);
 
             // remove hotkey from sfxLibBindSource
-            Program.sfxLibrary[index].ClearHotkeyInfo();
+            Program.sfxLibrary[index].ClearHotkeyFields();
 
             // remove hotkey from dictionary
             assignedKeys.Remove(hotkeyData);
@@ -109,6 +109,12 @@ namespace soundboard_sandbox
                 shift = "shift + ";
 
            return $"{ctrl}{alt}{shift}{currentHotkey.KeyCode}";
+        }
+
+        public void ClearAllHotkeys()
+        {
+            // TODO add message box asking for confirmation
+            assignedKeys.Clear();
         }
     }
 }

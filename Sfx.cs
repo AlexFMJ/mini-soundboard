@@ -14,11 +14,12 @@ namespace soundboard_sandbox
     public class Sfx
     {
         // ==== CLASS FIELDS ====
+        private HotkeyEventInfo _hotkeyEventInfo;
+
         // note: XmlSerializer requires public fields to function
         public string Name { get; set; }
         public string FilePath { get; set; }
         public string Hotkey { get; set; }
-        private HotkeyEventInfo _hotkeyEventInfo;
         public HotkeyEventInfo HKeyInfo
         {
             get { return _hotkeyEventInfo; } 
@@ -44,11 +45,11 @@ namespace soundboard_sandbox
             this.Volume = $"{volumefloat * 100}%";
             this.VolumeFloat = volumefloat;
         }
-        // default constructor for XmlSerializer
-        public Sfx() { }
+       
+        public Sfx() { }    // default constructor for XmlSerializer
 
-        // removes all hotkey info from this sfx
-        public void ClearHotkeyInfo()
+        // Clears all information about hotkeys from this Sfx object
+        public void ClearHotkeyFields()
         {
             this.Hotkey = null;
             this.HKeyInfo = null;
@@ -59,7 +60,7 @@ namespace soundboard_sandbox
             Program.sfxLibBindSource.ResetItem(index);
         }
 
-        // custom toString
+        // Overrides ToString, only returning name
         public override string ToString()
         {
             //return $"{Name} - {FilePath} - {Hotkey}";

@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace soundboard_sandbox
 {
-    // replaces KeyEventArgs as this has a default constructor
+    // replaces KeyEventArgs to allow for serialization with a default constructor
     public class HotkeyEventInfo
     {
         public Keys KeyCode { get; set;}
