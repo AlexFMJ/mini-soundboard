@@ -38,7 +38,7 @@ namespace soundboard_sandbox
             sfxGridView.AutoGenerateColumns = true;
 
             // hide the unformatted hotkey and volume columns 
-            sfxGridView.Columns["hotkeyEventArgs"].Visible = false;
+            sfxGridView.Columns["HKeyInfo"].Visible = false;
             sfxGridView.Columns["VolumeFloat"].Visible = false;
 
 
@@ -79,12 +79,10 @@ namespace soundboard_sandbox
                     sound = new Sfx(
                         addSfxForm.GetName(),
                         addSfxForm.GetHotkeyString(),
-                        addSfxForm.GetHotkeyEventArgs(),
+                        new HotkeyEventInfo(addSfxForm.GetHotkeyEventArgs().KeyCode, addSfxForm.GetHotkeyEventArgs().KeyData),
                         addSfxForm.GetPath(),
                         addSfxForm.GetVolume()
                     );
-
-                    Program.localHotkeys.AssignHotkey(sound);
 
                     // add it to the library
                     Program.sfxLibBindSource.Add(sound);
@@ -393,10 +391,10 @@ namespace soundboard_sandbox
         private void sfxGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
             Sfx row = e.Row.DataBoundItem as Sfx;
-            if (row.HotkeyEventArgs != null)
+            if (row.HKeyInfo != null)
             {
                 Console.WriteLine("Removing hotkey");
-                Program.localHotkeys.RemoveHotkeyEntry(row.HotkeyEventArgs.KeyCode);
+                Program.localHotkeys.RemoveHotkeyEntry(row.HKeyInfo.KeyCode);
             }
         }
     }

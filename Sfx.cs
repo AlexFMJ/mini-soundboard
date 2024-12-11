@@ -18,28 +18,40 @@ namespace soundboard_sandbox
         public string Name { get; set; }
         public string FilePath { get; set; }
         public string Hotkey { get; set; }
-        public KeyEventArgs HotkeyEventArgs { get; set; }
+        private HotkeyEventInfo _hotkeyEventInfo;
+        public HotkeyEventInfo HKeyInfo
+        {
+            get { return _hotkeyEventInfo; } 
+            set
+            {
+                _hotkeyEventInfo = value;
+
+                // add hotkey if assigned
+                Program.localHotkeys.AssignHotkey(this);
+            }
+        }
         public float VolumeFloat { get; set; }       // 0.0 - 1.0
         public string Volume { get; set; }
         // TODO public List<string> Tags { get; set; }
         // TODO public MIDI KEY
 
-        public Sfx(string name, string hotkey ,KeyEventArgs hkeventargs, string filePath, float volumefloat)
+        public Sfx(string name, string hotkey ,HotkeyEventInfo hkeventinfo, string filePath, float volumefloat)
         {
             this.Name = name;
             this.FilePath = filePath;
             this.Hotkey = hotkey;           // can be null
-            this.HotkeyEventArgs = hkeventargs;   // can be null
+            this.HKeyInfo = hkeventinfo;
             this.Volume = $"{volumefloat * 100}%";
             this.VolumeFloat = volumefloat;
         }
-        private Sfx() { } // default constructor for XmlSerializer
+        // default constructor for XmlSerializer
+        public Sfx() { }
 
         // removes all hotkey info from this sfx
         public void ClearHotkeyInfo()
         {
             this.Hotkey = null;
-            this.HotkeyEventArgs = null;
+            this.HKeyInfo = null;
 
             int index = Program.sfxLibBindSource.IndexOf(this);
 

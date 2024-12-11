@@ -24,15 +24,15 @@ namespace soundboard_sandbox
         {
             var status = assignStatus.Unassigned;
 
-            if (sound.HotkeyEventArgs == null) return status;
+            if (sound.HKeyInfo == null) return status;
 
-            if (assignedKeys.ContainsKey(sound.HotkeyEventArgs.KeyData))
+            if (assignedKeys.ContainsKey(sound.HKeyInfo.KeyData))
             {
-                status = UnsetHotkey(sound.HotkeyEventArgs.KeyData);
+                status = UnsetHotkey(sound.HKeyInfo.KeyData);
             }
             else
             {
-                assignedKeys[sound.HotkeyEventArgs.KeyData] = sound;
+                assignedKeys[sound.HKeyInfo.KeyData] = sound;
                 status = assignStatus.Assigned;
             }
 
