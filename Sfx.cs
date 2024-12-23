@@ -48,7 +48,7 @@ namespace mini_soundboard
        
         public Sfx() { }    // default constructor for XmlSerializer
 
-        // Clears all information about hotkeys from this Sfx object
+        // Clears all information about hotkeys from this Sfx instance
         public void ClearHotkeyFields()
         {
             this.Hotkey = null;

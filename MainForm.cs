@@ -96,7 +96,7 @@ namespace mini_soundboard
             this.ActiveControl = null;
         }
 
-        // delete currently selected sfx from sounds list object
+        // delete currently selected sfx from sounds list object AND remove hotkey
         private void DeleteSFX_Click(object sender, EventArgs e)
         {
             int rowIndex;
@@ -110,6 +110,14 @@ namespace mini_soundboard
             }
             else
                 rowIndex = sfxGridView.CurrentRow.Index;
+                Sfx sound = sfxGridView.Rows[rowIndex].DataBoundItem as Sfx;
+
+            // if this sound has an associated hotkey, remove hotkey first
+            if (sound.HKeyInfo != null)
+            {
+                Console.WriteLine("Removing hotkey");
+                Program.localHotkeys.RemoveHotkeyEntry(sound.HKeyInfo.KeyCode);
+            }
 
             // verifies that a valid index is selected
             if (rowIndex >= 0 && rowIndex < Program.sfxLibrary.Count)
@@ -120,9 +128,24 @@ namespace mini_soundboard
                 Program.sfxLibBindSource.RemoveAt(rowIndex);
             }
 
+            // set row to null when done
+            sound = null;
+
             // remove focus from button
             this.ActiveControl = null;
         }
+
+        // If deleting item from GridView, delete listing from hotkey dict as needed
+        private void sfxGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            Sfx row = e.Row.DataBoundItem as Sfx;
+            if (row.HKeyInfo != null)
+            {
+                Console.WriteLine("Removing hotkey");
+                Program.localHotkeys.RemoveHotkeyEntry(row.HKeyInfo.KeyCode);
+            }
+        }
+
         private void PlaySelectedAudio_Clicked(object sender, EventArgs e)
         {
             Sfx selectedSfx;
@@ -389,17 +412,6 @@ namespace mini_soundboard
             if (selectedSound != null) PlaySfx(selectedSound);
                 
 
-        }
-
-        // If deleting item from GridView, delete listing from hotkey dict as needed
-        private void sfxGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
-        {
-            Sfx row = e.Row.DataBoundItem as Sfx;
-            if (row.HKeyInfo != null)
-            {
-                Console.WriteLine("Removing hotkey");
-                Program.localHotkeys.RemoveHotkeyEntry(row.HKeyInfo.KeyCode);
-            }
         }
     }
 }
