@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace soundboard_sandbox
+namespace mini_soundboard
 {
     // create class to store sfx data
     // includes name, filepath, hotkey, volume, etc.

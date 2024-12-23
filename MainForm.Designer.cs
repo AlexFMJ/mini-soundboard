@@ -1,4 +1,4 @@
-﻿namespace soundboard_sandbox
+﻿namespace mini_soundboard
 {
     partial class MainForm
     {
@@ -31,11 +31,9 @@
             this.components = new System.ComponentModel.Container();
             this.sfxGridViewCMS = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.editSelectedSFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addSFXBtn = new System.Windows.Forms.Button();
             this.deleteSFXBtn = new System.Windows.Forms.Button();
-            this.editSFXBtn = new System.Windows.Forms.Button();
             this.sfxGridView = new System.Windows.Forms.DataGridView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.filesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,9 +41,7 @@
             this.saveSoundboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addSFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editSFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSFXToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.stop_audio_btn = new System.Windows.Forms.Button();
@@ -60,28 +56,21 @@
             this.sfxGridViewCMS.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.sfxGridViewCMS.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
-            this.editSelectedSFXToolStripMenuItem,
             this.deleteSFXToolStripMenuItem});
             this.sfxGridViewCMS.Name = "sfxListItemCMS";
-            this.sfxGridViewCMS.Size = new System.Drawing.Size(194, 76);
+            this.sfxGridViewCMS.Size = new System.Drawing.Size(151, 52);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(193, 24);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(150, 24);
             this.toolStripMenuItem1.Text = "Add SFX";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.AddSFX_Click);
-            // 
-            // editSelectedSFXToolStripMenuItem
-            // 
-            this.editSelectedSFXToolStripMenuItem.Name = "editSelectedSFXToolStripMenuItem";
-            this.editSelectedSFXToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
-            this.editSelectedSFXToolStripMenuItem.Text = "Edit Selected SFX";
             // 
             // deleteSFXToolStripMenuItem
             // 
             this.deleteSFXToolStripMenuItem.Name = "deleteSFXToolStripMenuItem";
-            this.deleteSFXToolStripMenuItem.Size = new System.Drawing.Size(193, 24);
+            this.deleteSFXToolStripMenuItem.Size = new System.Drawing.Size(150, 24);
             this.deleteSFXToolStripMenuItem.Text = "Delete SFX";
             this.deleteSFXToolStripMenuItem.Click += new System.EventHandler(this.DeleteSFX_Click);
             // 
@@ -89,7 +78,7 @@
             // 
             this.addSFXBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.addSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addSFXBtn.Location = new System.Drawing.Point(541, 35);
+            this.addSFXBtn.Location = new System.Drawing.Point(541, 95);
             this.addSFXBtn.Name = "addSFXBtn";
             this.addSFXBtn.Size = new System.Drawing.Size(106, 39);
             this.addSFXBtn.TabIndex = 1;
@@ -101,25 +90,13 @@
             // 
             this.deleteSFXBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.deleteSFXBtn.Location = new System.Drawing.Point(541, 137);
+            this.deleteSFXBtn.Location = new System.Drawing.Point(541, 192);
             this.deleteSFXBtn.Name = "deleteSFXBtn";
             this.deleteSFXBtn.Size = new System.Drawing.Size(106, 39);
             this.deleteSFXBtn.TabIndex = 2;
             this.deleteSFXBtn.Text = "Delete SFX";
             this.deleteSFXBtn.UseVisualStyleBackColor = true;
             this.deleteSFXBtn.Click += new System.EventHandler(this.DeleteSFX_Click);
-            // 
-            // editSFXBtn
-            // 
-            this.editSFXBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.editSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editSFXBtn.Location = new System.Drawing.Point(541, 86);
-            this.editSFXBtn.Name = "editSFXBtn";
-            this.editSFXBtn.Size = new System.Drawing.Size(106, 39);
-            this.editSFXBtn.TabIndex = 3;
-            this.editSFXBtn.Text = "Edit SFX";
-            this.editSFXBtn.UseVisualStyleBackColor = true;
-            this.editSFXBtn.Click += new System.EventHandler(this.EditSFXBtn_Click);
             // 
             // sfxGridView
             // 
@@ -147,6 +124,7 @@
             this.sfxGridView.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.sfxGridView_UserDeletingRow);
             this.sfxGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.sfxGridView_DragDrop);
             this.sfxGridView.DragOver += new System.Windows.Forms.DragEventHandler(this.sfxGridView_DragOver);
+            this.sfxGridView.DoubleClick += new System.EventHandler(this.PlaySelectedAudio_Clicked);
             this.sfxGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.sfxGridView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.sfxGridView_MouseDown);
             this.sfxGridView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.sfxGridView_MouseMove);
@@ -156,8 +134,7 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.filesToolStripMenuItem,
-            this.editToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.editToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(671, 28);
@@ -191,7 +168,6 @@
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addSFXToolStripMenuItem,
-            this.editSFXToolStripMenuItem,
             this.deleteSFXToolStripMenuItem1});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
@@ -204,25 +180,12 @@
             this.addSFXToolStripMenuItem.Text = "Add SFX";
             this.addSFXToolStripMenuItem.Click += new System.EventHandler(this.AddSFX_Click);
             // 
-            // editSFXToolStripMenuItem
-            // 
-            this.editSFXToolStripMenuItem.Name = "editSFXToolStripMenuItem";
-            this.editSFXToolStripMenuItem.Size = new System.Drawing.Size(225, 26);
-            this.editSFXToolStripMenuItem.Text = "Edit Selected SFX";
-            this.editSFXToolStripMenuItem.Click += new System.EventHandler(this.EditSFXBtn_Click);
-            // 
             // deleteSFXToolStripMenuItem1
             // 
             this.deleteSFXToolStripMenuItem1.Name = "deleteSFXToolStripMenuItem1";
             this.deleteSFXToolStripMenuItem1.Size = new System.Drawing.Size(225, 26);
             this.deleteSFXToolStripMenuItem1.Text = "Delete Selected SFX";
             this.deleteSFXToolStripMenuItem1.Click += new System.EventHandler(this.DeleteSFX_Click);
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
-            this.helpToolStripMenuItem.Text = "Help";
             // 
             // openFileDialog1
             // 
@@ -235,10 +198,10 @@
             // stop_audio_btn
             // 
             this.stop_audio_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.stop_audio_btn.BackgroundImage = global::soundboard_sandbox.Properties.Resources.stop_icon_64px;
+            this.stop_audio_btn.BackgroundImage = global::mini_soundboard.Properties.Resources.stop_icon_64px;
             this.stop_audio_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.stop_audio_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stop_audio_btn.Location = new System.Drawing.Point(608, 211);
+            this.stop_audio_btn.Location = new System.Drawing.Point(608, 286);
             this.stop_audio_btn.Name = "stop_audio_btn";
             this.stop_audio_btn.Size = new System.Drawing.Size(39, 39);
             this.stop_audio_btn.TabIndex = 6;
@@ -248,10 +211,10 @@
             // play_audio_btn
             // 
             this.play_audio_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.play_audio_btn.BackgroundImage = global::soundboard_sandbox.Properties.Resources.play_icon_64px;
+            this.play_audio_btn.BackgroundImage = global::mini_soundboard.Properties.Resources.play_icon_64px;
             this.play_audio_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.play_audio_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.play_audio_btn.Location = new System.Drawing.Point(541, 211);
+            this.play_audio_btn.Location = new System.Drawing.Point(541, 286);
             this.play_audio_btn.Name = "play_audio_btn";
             this.play_audio_btn.Size = new System.Drawing.Size(39, 39);
             this.play_audio_btn.TabIndex = 5;
@@ -268,7 +231,6 @@
             this.Controls.Add(this.stop_audio_btn);
             this.Controls.Add(this.play_audio_btn);
             this.Controls.Add(this.sfxGridView);
-            this.Controls.Add(this.editSFXBtn);
             this.Controls.Add(this.deleteSFXBtn);
             this.Controls.Add(this.addSFXBtn);
             this.MainMenuStrip = this.menuStrip1;
@@ -292,19 +254,15 @@
         private System.Windows.Forms.ContextMenuStrip sfxGridViewCMS;
         private System.Windows.Forms.ToolStripMenuItem deleteSFXToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem editSelectedSFXToolStripMenuItem;
-        private System.Windows.Forms.Button editSFXBtn;
         private System.Windows.Forms.DataGridView sfxGridView;
         private System.Windows.Forms.Button play_audio_btn;
         private System.Windows.Forms.Button stop_audio_btn;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem filesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadSoundboardToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveSoundboardToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addSFXToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editSFXToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteSFXToolStripMenuItem1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;

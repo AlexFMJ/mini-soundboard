@@ -1,4 +1,4 @@
-﻿namespace soundboard_sandbox
+﻿namespace mini_soundboard
 {
     partial class addSfxForm
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace soundboard_sandbox
+namespace mini_soundboard
 {
     // replaces KeyEventArgs to allow for serialization with a default constructor
     public class HotkeyEventInfo

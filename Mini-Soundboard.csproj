@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{536DA520-5F29-493E-83F4-4751AED986D9}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>soundboard_sandbox</RootNamespace>
-    <AssemblyName>soundboard_sandbox</AssemblyName>
+    <RootNamespace>mini_soundboard</RootNamespace>
+    <AssemblyName>mini_soundboard</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

@@ -7,7 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
-namespace soundboard_sandbox
+namespace mini_soundboard
 {
     public partial class MainForm : Form
     {
@@ -68,17 +68,23 @@ namespace soundboard_sandbox
             using (addSfxForm addSfxForm = new addSfxForm())
             {
                 Sfx sound;
+                HotkeyEventInfo hotkeyInfo = new HotkeyEventInfo();
 
                 // Checks that 'Add' button closed the form
                 if (addSfxForm.ShowDialog() == DialogResult.OK)
                 {
+
                     // calls these methods from addSfxForm
+                    if (addSfxForm.GetHotkeyEventArgs() != null)
+                    {
+                        hotkeyInfo.KeyCode = addSfxForm.GetHotkeyEventArgs().KeyCode;
+                        hotkeyInfo.KeyData = addSfxForm.GetHotkeyEventArgs().KeyData;
+                    }
+
                     sound = new Sfx(
                         addSfxForm.GetName(),
                         addSfxForm.GetHotkeyString(),
-                        new HotkeyEventInfo(
-                            addSfxForm.GetHotkeyEventArgs().KeyCode,
-                            addSfxForm.GetHotkeyEventArgs().KeyData),
+                        hotkeyInfo,
                         addSfxForm.GetPath(),
                         addSfxForm.GetVolume()
                     );
