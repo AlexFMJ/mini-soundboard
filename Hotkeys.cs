@@ -16,7 +16,7 @@ namespace mini_soundboard
         {
             Unassigned  = 0,
             Assigned    = 1,
-            Overwritten = 2,
+            Unset       = 2,
         }
 
         // assigns hotkeys if not already recorded. Prompts user otherwise
@@ -24,28 +24,43 @@ namespace mini_soundboard
         {
             var status = assignStatus.Unassigned;
 
-            if (sound.HKeyInfo == null) return status;
+            if (sound.HotkeyInfo == null) return status;
 
-            if (assignedKeys.ContainsKey(sound.HKeyInfo.KeyData))
+            if (assignedKeys.ContainsKey(sound.HotkeyInfo.KeyData))
             {
-                status = UnsetHotkey(sound.HKeyInfo.KeyData);
+                status = UnsetHotkey(sound.HotkeyInfo.KeyData);
+            }
+
+            if (status == assignStatus.Assigned)
+            {
+                // if hotkey is currently assigned by now, do not overwrite
+                string message = "Hotkey is already assigned and will not be overwritten.";
+                
+                // alert user
+                MessageBox.Show(message);
+
+                // remove hotkey from new sound
+                sound.HotkeyInfo = null;
             }
             else
             {
-                assignedKeys[sound.HKeyInfo.KeyData] = sound;
+                // if hotkey is not currently assigned
+                assignedKeys[sound.HotkeyInfo.KeyData] = sound;
                 status = assignStatus.Assigned;
             }
 
             return status;
         }
 
-        // Unset specified hotkey if in dictionary already
+        // Unset specified hotkey if already in dictionary
         public assignStatus UnsetHotkey(Keys hotkeyData)
         {
             assignStatus status = assignStatus.Unassigned;
 
             if (assignedKeys.ContainsKey(hotkeyData))
             {
+                status = assignStatus.Assigned;
+
                 string message = $"That hotkey is currently assigned to {assignedKeys[hotkeyData]}{Environment.NewLine}" +
                     $"Would you like to unset it? This cannot be undone.";
 
@@ -57,7 +72,7 @@ namespace mini_soundboard
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     RemoveHotkeyEntry(hotkeyData);
-                    status = assignStatus.Overwritten;
+                    status = assignStatus.Unset;
                 }
             }
             return status;

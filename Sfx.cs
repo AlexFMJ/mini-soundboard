@@ -14,45 +14,59 @@ namespace mini_soundboard
     public class Sfx
     {
         // ==== CLASS FIELDS ====
-        private HotkeyEventInfo _hotkeyEventInfo;
+        private HotkeyInfo _hotkeyInfo;
 
         // note: XmlSerializer requires public fields to function
         public string Name { get; set; }
         public string FilePath { get; set; }
-        public string Hotkey { get; set; }
-        public HotkeyEventInfo HKeyInfo
+        public HotkeyInfo HotkeyInfo
         {
-            get { return _hotkeyEventInfo; } 
+            get { return _hotkeyInfo; } 
             set
             {
-                _hotkeyEventInfo = value;
+                _hotkeyInfo = value;
 
                 // add hotkey if assigned
                 Program.localHotkeys.AssignHotkey(this);
             }
         }
+        public string Hotkey
+        {
+            get { return _hotkeyInfo.KeyString; }
+        }
         public float VolumeFloat { get; set; }       // 0.0 - 1.0
         public string Volume { get; set; }
+
         // TODO public List<string> Tags { get; set; }
         // TODO public MIDI KEY
 
-        public Sfx(string name, string hotkey ,HotkeyEventInfo hkeventinfo, string filePath, float volumefloat)
+        public Sfx(string name, string filePath, HotkeyInfo hotkeyInfo, float volumefloat)
         {
             this.Name = name;
             this.FilePath = filePath;
-            this.Hotkey = hotkey;           // can be null
-            this.HKeyInfo = hkeventinfo;
-            this.Volume = $"{volumefloat * 100}%";
-            this.VolumeFloat = volumefloat;
+            this.HotkeyInfo = hotkeyInfo;
+            setVolume(volumefloat);
         }
        
         public Sfx() { }    // default constructor for XmlSerializer
 
+        public void setVolume(float volumefloat)
+        {
+            if (volumefloat < 0 || volumefloat > 1)
+            {
+                throw new ArgumentOutOfRangeException("Value must be between 0.00 and 1.00");
+            }
+            else
+            {
+                this.VolumeFloat = volumefloat;
+                this.Volume = $"{volumefloat * 100}%";
+            }
+        }
+
         // Clears all information about hotkeys from this Sfx instance
         public void ClearHotkeyFields()
         {
-            this.Hotkey = null;
-            this.HKeyInfo = null;
+            this.HotkeyInfo = null;
 
             int index = Program.sfxLibBindSource.IndexOf(this);
 
