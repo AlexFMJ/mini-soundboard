@@ -1,4 +1,4 @@
-﻿namespace soundboard_sandbox
+﻿namespace mini_soundboard
 {
     partial class MainForm
     {
@@ -58,19 +58,19 @@
             this.toolStripMenuItem1,
             this.deleteSFXToolStripMenuItem});
             this.sfxGridViewCMS.Name = "sfxListItemCMS";
-            this.sfxGridViewCMS.Size = new System.Drawing.Size(211, 80);
+            this.sfxGridViewCMS.Size = new System.Drawing.Size(151, 52);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(210, 24);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(150, 24);
             this.toolStripMenuItem1.Text = "Add SFX";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.AddSFX_Click);
             // 
             // deleteSFXToolStripMenuItem
             // 
             this.deleteSFXToolStripMenuItem.Name = "deleteSFXToolStripMenuItem";
-            this.deleteSFXToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.deleteSFXToolStripMenuItem.Size = new System.Drawing.Size(150, 24);
             this.deleteSFXToolStripMenuItem.Text = "Delete SFX";
             this.deleteSFXToolStripMenuItem.Click += new System.EventHandler(this.DeleteSFX_Click);
             // 
@@ -124,6 +124,7 @@
             this.sfxGridView.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.sfxGridView_UserDeletingRow);
             this.sfxGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.sfxGridView_DragDrop);
             this.sfxGridView.DragOver += new System.Windows.Forms.DragEventHandler(this.sfxGridView_DragOver);
+            this.sfxGridView.DoubleClick += new System.EventHandler(this.PlaySelectedAudio_Clicked);
             this.sfxGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.sfxGridView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.sfxGridView_MouseDown);
             this.sfxGridView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.sfxGridView_MouseMove);
@@ -197,7 +198,7 @@
             // stop_audio_btn
             // 
             this.stop_audio_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.stop_audio_btn.BackgroundImage = global::soundboard_sandbox.Properties.Resources.stop_icon_64px;
+            this.stop_audio_btn.BackgroundImage = global::mini_soundboard.Properties.Resources.stop_icon_64px;
             this.stop_audio_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.stop_audio_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.stop_audio_btn.Location = new System.Drawing.Point(608, 286);
@@ -210,7 +211,7 @@
             // play_audio_btn
             // 
             this.play_audio_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.play_audio_btn.BackgroundImage = global::soundboard_sandbox.Properties.Resources.play_icon_64px;
+            this.play_audio_btn.BackgroundImage = global::mini_soundboard.Properties.Resources.play_icon_64px;
             this.play_audio_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.play_audio_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.play_audio_btn.Location = new System.Drawing.Point(541, 286);

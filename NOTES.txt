@@ -1,4 +1,5 @@
 ﻿======= TODO =======
+- remove hotkeys when sfx dataview is removed
 - make edit menu
 - categories/tags
 - MIDI control
@@ -7,6 +8,7 @@
 - create video tutorial
 - create themes for light and dark modes
 - global hotkeys for use when not in focus
+- Allow for looping
 
 =====COMPLETED======
 - audio playback

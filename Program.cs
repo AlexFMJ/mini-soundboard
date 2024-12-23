@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace soundboard_sandbox
+namespace mini_soundboard
 
 // Alex Johnson
 // Final Project

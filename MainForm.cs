@@ -7,7 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
-namespace soundboard_sandbox
+namespace mini_soundboard
 {
     public partial class MainForm : Form
     {

@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace soundboard_sandbox
+namespace mini_soundboard
 {
     internal class Hotkeys
     {
