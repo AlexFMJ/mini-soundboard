@@ -27,8 +27,9 @@ namespace mini_soundboard
                 sfxSetHotkeyBtn.ForeColor = Color.Black;
                 sfxSetHotkeyBtn.Text = hotkeyInfo.KeyString;
             }
-            sfxVolumeTrackBar.Value = (int)currentSound.VolumeFloat * 100;
-            volumeValLbl.Text = currentSound.Volume;
+            float volume = (currentSound.VolumeFloat * 100);
+            sfxVolumeTrackBar.Value = (int)volume;
+            volumeValLbl.Text = sfxVolumeTrackBar.Value.ToString();
         }
 
         private void editSfxCancelBtn_Click(object sender, EventArgs e)
