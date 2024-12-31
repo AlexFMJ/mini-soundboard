@@ -188,13 +188,12 @@ namespace mini_soundboard
 
                 PlaySfx(selectedSfx);
             }
-
-            this.ActiveControl = null;
         }
 
         private void PlaySelectedAudio_Clicked(object sender, EventArgs e)
         {
             PlaySelectedAudio();
+            this.ActiveControl = null;
         }
 
         private void StopAudio_Clicked(object sender, EventArgs e)
@@ -451,6 +450,7 @@ namespace mini_soundboard
                         ToggleAudio();
                         return;
                     case Keys.Enter:
+                        e.Handled = true; // prevents cursor from moving to next row
                         PlaySelectedAudio();
                         return;
                     default:
