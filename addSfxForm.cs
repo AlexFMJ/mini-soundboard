@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace mini_soundboard
 {
     public partial class addSfxForm : Form
     {
-        KeyEventArgs currentHotkey;
+        HotkeyInfo hotkeyInfo;
 
         public addSfxForm()
         {
@@ -52,63 +46,36 @@ namespace mini_soundboard
         // opens system file dialog window and gets selected file path
         private void getSfxPath(object sender, EventArgs e)
         {
-            // calls the actual dialog box
-            openFileDialog1.ShowDialog();
-
-            // once path is selected, its returned as a string
-            string path = openFileDialog1.FileName;
-            string name = Path.GetFileNameWithoutExtension(path);
-
-            if (path != null)
+            using (OpenFileDialog openSoundFile = new OpenFileDialog())
             {
-                // fills text box on form
-                sfxFilePathTxt.Text = path;
+                openSoundFile.Title = "Load Sound File";
+                openSoundFile.Filter = "Supported File Types (.mp3, .m4a, .aac .wav)|*.mp3;*.MP3;*.m4a;*.M4A*.aac;*.AAC;*.wav;*.WAV"+
+                                       "|aac Files|*.aac;*.AAC" +
+                                       "|mp3 Files|*.mp3;*.MP3" +
+                                       "|m4a Files|*m4a;.M4A" +
+                                       "|wav Files|*.wav;*.WAV";
 
-                // set default file name to SafeFileName
-                sfxNameTxt.Text = name;
+                // open file for reading
+                if (openSoundFile.ShowDialog() == DialogResult.OK)
+                {
+                    // TODO file path checks
+                    // once path is selected, its returned as a string
+                    string path = openSoundFile.FileName;
+
+                    string name = Path.GetFileNameWithoutExtension(path);
+
+                    if (path != null)
+                    {
+                        // fills text box on form
+                        sfxFilePathTxt.Text = path;
+
+                        // set default file name to SafeFileName
+                        sfxNameTxt.Text = name;
+                    }
+                }
             }
             // select addSfxConfirmBtn when returning to form
             addSfxConfirmBtn.Focus();
-        }
-
-        // -- FORM GETTERS to be accessed in MainForm --
-        public string GetName() 
-        {
-            return sfxNameTxt.Text;
-        }
-
-        public string GetHotkeyString()
-        {
-            string result = "";
-
-            if (currentHotkey != null) 
-            {
-                result = Program.localHotkeys.KeysToString(currentHotkey);
-            }
-
-            return result;
-        }
-
-        public KeyEventArgs GetHotkeyEventArgs()
-        {
-            return currentHotkey;
-        }
-
-        public string GetPath()
-        {
-            if (sfxFilePathTxt.Text != null)
-                return sfxFilePathTxt.Text;
-            else 
-                return null;
-        }
-
-        public float GetVolume()
-        {
-            // NAudio expects a float value between 0.0 - 1.0
-            float sfxVolume = (float)sfxVolumeTrackBar.Value / 100;
-            Console.WriteLine(sfxVolume.GetType());
-            Console.WriteLine(sfxVolume);
-            return sfxVolume;
         }
 
         // reflect value from slider
@@ -126,15 +93,15 @@ namespace mini_soundboard
         // leave focus
         private void sfxSetHotkeyBtn_Leave(object sender, EventArgs e)
         {
-            if (currentHotkey != null)
-            {
-                sfxSetHotkeyBtn.ForeColor = Color.Black;
-                sfxSetHotkeyBtn.Text = Program.localHotkeys.KeysToString(currentHotkey);
-            }
-            else
+            if (hotkeyInfo == null || hotkeyInfo.KeyData == Keys.None)
             {
                 sfxSetHotkeyBtn.ForeColor = Color.Gray;
                 sfxSetHotkeyBtn.Text = "click to set Hotkey";
+            }
+            else
+            {
+                sfxSetHotkeyBtn.ForeColor = Color.Black;
+                sfxSetHotkeyBtn.Text = hotkeyInfo.KeyString;
             }
         }
 
@@ -142,17 +109,72 @@ namespace mini_soundboard
         {
             if (e.KeyCode == Keys.ControlKey || e.KeyCode == Keys.ShiftKey || e.KeyCode == Keys.Menu || e.KeyCode == Keys.Capital) return;
 
-            // print info on keypress
-            Console.WriteLine("Code - Data - Value");
-            Console.WriteLine($"{e.KeyCode} - {e.KeyData} - {e.KeyValue}");
-
             // if hotkeys overlap, ask to unset old hotkey
-            Program.localHotkeys.UnsetHotkey(e.KeyData);
+            if (Program.localHotkeys.CheckForConflict(e.KeyData) == Hotkeys.assignStatus.In_Use)
+            {
+                // if in use, return early
+                this.ActiveControl = null;
+                return;
+            }
 
-            currentHotkey = e;
+            // otherwise assign the hotkey as needed
+            if (hotkeyInfo == null)
+            {
+                hotkeyInfo = new HotkeyInfo(e.KeyData);
+            }
+            else
+            {
+                hotkeyInfo.KeyData = e.KeyData;
+            }
 
             // remove focus from button
             this.ActiveControl = null;
+        }
+
+        private void unsetHKBtn_Click(object sender, EventArgs e)
+        {
+            if (this.hotkeyInfo != null)
+            {
+                if (Program.localHotkeys.CheckForConflict(hotkeyInfo.KeyData) == Hotkeys.assignStatus.Removed)
+                {
+                    hotkeyInfo = null;
+                    sfxSetHotkeyBtn.Text = "click to set Hotkey";
+                    return;
+                }
+            }
+            else
+            {
+                hotkeyInfo = null;
+                sfxSetHotkeyBtn.Text = "click to set Hotkey";
+            }
+        }
+
+        // ==== FORM GETTERS to be accessed in MainForm ====
+        public string GetName()
+        {
+            return sfxNameTxt.Text;
+        }
+
+        public HotkeyInfo GetHotkeyInfo()
+        {
+            return hotkeyInfo;
+        }
+
+        public string GetPath()
+        {
+            if (sfxFilePathTxt.Text != null)
+                return sfxFilePathTxt.Text;
+            else
+                return null;
+        }
+
+        public float GetVolume()
+        {
+            // NAudio expects a float value between 0.0 - 1.0
+            float sfxVolume = (float)sfxVolumeTrackBar.Value / 100;
+            Console.WriteLine(sfxVolume.GetType());
+            Console.WriteLine(sfxVolume);
+            return sfxVolume;
         }
     }
 }

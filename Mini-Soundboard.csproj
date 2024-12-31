@@ -83,7 +83,7 @@
     <Compile Include="editSfxForm.Designer.cs">
       <DependentUpon>editSfxForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="HotkeyEventInfo.cs" />
+    <Compile Include="HotkeyInfo.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

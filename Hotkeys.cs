@@ -15,51 +15,33 @@ namespace mini_soundboard
         public enum assignStatus
         {
             Unassigned  = 0,
-            Assigned    = 1,
-            Unset       = 2,
+            In_Use    = 1,
+            Removed     = 2,
         }
 
-        // assigns hotkeys if not already recorded. Prompts user otherwise
+        // assigns hotkeys. Does not check for conflicts
         public assignStatus AssignHotkey(Sfx sound)
         {
             var status = assignStatus.Unassigned;
 
-            if (sound.HotkeyInfo == null) return status;
-
-            if (assignedKeys.ContainsKey(sound.HotkeyInfo.KeyData))
-            {
-                status = UnsetHotkey(sound.HotkeyInfo.KeyData);
-            }
-
-            if (status == assignStatus.Assigned)
-            {
-                // if hotkey is currently assigned by now, do not overwrite
-                string message = "Hotkey is already assigned and will not be overwritten.";
-                
-                // alert user
-                MessageBox.Show(message);
-
-                // remove hotkey from new sound
-                sound.HotkeyInfo = null;
-            }
+            if (sound.HotkeyInfo == null || sound.HotkeyInfo.KeyData == Keys.None) return status;
             else
             {
-                // if hotkey is not currently assigned
+                // if hotkey is not null
                 assignedKeys[sound.HotkeyInfo.KeyData] = sound;
-                status = assignStatus.Assigned;
+                status = assignStatus.In_Use;
             }
-
             return status;
         }
 
         // Unset specified hotkey if already in dictionary
-        public assignStatus UnsetHotkey(Keys hotkeyData)
+        public assignStatus CheckForConflict(Keys hotkeyData)
         {
             assignStatus status = assignStatus.Unassigned;
 
             if (assignedKeys.ContainsKey(hotkeyData))
             {
-                status = assignStatus.Assigned;
+                status = assignStatus.In_Use;
 
                 string message = $"That hotkey is currently assigned to {assignedKeys[hotkeyData]}{Environment.NewLine}" +
                     $"Would you like to unset it? This cannot be undone.";
@@ -72,7 +54,7 @@ namespace mini_soundboard
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     RemoveHotkeyEntry(hotkeyData);
-                    status = assignStatus.Unset;
+                    status = assignStatus.Removed;
                 }
             }
             return status;
@@ -108,6 +90,7 @@ namespace mini_soundboard
             }
         }
 
+        // TODO REMOVE THIS FUNCTION
         // formats Keys into familiar "modifier + key" string format
         public string KeysToString(KeyEventArgs currentHotkey)
         {

@@ -15,6 +15,7 @@ namespace mini_soundboard
     {
         // ==== CLASS FIELDS ====
         private HotkeyInfo _hotkeyInfo;
+        private float _volumeFloat;
 
         // note: XmlSerializer requires public fields to function
         public string Name { get; set; }
@@ -26,15 +27,37 @@ namespace mini_soundboard
             {
                 _hotkeyInfo = value;
 
-                // add hotkey if assigned
-                Program.localHotkeys.AssignHotkey(this);
+                // add hotkey when assigned (if not null)
+                if (value != null)
+                {
+                    Program.localHotkeys.AssignHotkey(this);
+                }
             }
         }
         public string Hotkey
         {
-            get { return _hotkeyInfo.KeyString; }
+            get
+            {
+                if (_hotkeyInfo == null) return "";
+                else return _hotkeyInfo.KeyString;
+            }
         }
-        public float VolumeFloat { get; set; }       // 0.0 - 1.0
+        public float VolumeFloat 
+        {
+            get { return _volumeFloat; }
+            set
+            {
+                if (value < 0 || value > 1)
+                {
+                    throw new ArgumentOutOfRangeException("Value must be between 0.00 and 1.00");
+                }
+                else
+                {
+                    this._volumeFloat = value;
+                    this.Volume = $"{this._volumeFloat * 100}%";
+                }
+            }
+        }       // 0.0 - 1.0
         public string Volume { get; set; }
 
         // TODO public List<string> Tags { get; set; }
@@ -45,23 +68,10 @@ namespace mini_soundboard
             this.Name = name;
             this.FilePath = filePath;
             this.HotkeyInfo = hotkeyInfo;
-            setVolume(volumefloat);
+            this.VolumeFloat = volumefloat;
         }
        
         public Sfx() { }    // default constructor for XmlSerializer
-
-        public void setVolume(float volumefloat)
-        {
-            if (volumefloat < 0 || volumefloat > 1)
-            {
-                throw new ArgumentOutOfRangeException("Value must be between 0.00 and 1.00");
-            }
-            else
-            {
-                this.VolumeFloat = volumefloat;
-                this.Volume = $"{volumefloat * 100}%";
-            }
-        }
 
         // Clears all information about hotkeys from this Sfx instance
         public void ClearHotkeyFields()

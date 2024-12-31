@@ -45,6 +45,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.unsetHKBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.sfxVolumeTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -147,12 +148,20 @@
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
             // 
+            // unsetHKBtn
+            // 
+            resources.ApplyResources(this.unsetHKBtn, "unsetHKBtn");
+            this.unsetHKBtn.Name = "unsetHKBtn";
+            this.unsetHKBtn.UseVisualStyleBackColor = true;
+            this.unsetHKBtn.Click += new System.EventHandler(this.unsetHKBtn_Click);
+            // 
             // addSfxForm
             // 
             this.AcceptButton = this.addSfxConfirmBtn;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.addSfxCancelBtn;
+            this.Controls.Add(this.unsetHKBtn);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -195,5 +204,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button unsetHKBtn;
     }
 }

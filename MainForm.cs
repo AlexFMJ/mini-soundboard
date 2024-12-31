@@ -11,7 +11,7 @@ namespace mini_soundboard
 {
     public partial class MainForm : Form
     {
-        // ==== NAudio Objects:
+        // ==== NAudio Objects ====
         private WaveOutEvent outputDevice;  // soundcard
         private AudioFileReader audioFile;  // audio file to be read
 
@@ -22,7 +22,6 @@ namespace mini_soundboard
             // initialize the output device here 
             // we will frequently use it
             outputDevice = new WaveOutEvent();
-            //outputDevice.PlaybackStopped += OnPlaybackStopped;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -32,12 +31,12 @@ namespace mini_soundboard
 
             // set the binding source to the list box
             sfxGridView.DataSource = Program.sfxLibBindSource;
-            sfxGridView.AutoGenerateColumns = true;
+            //sfxGridView.AutoGenerateColumns = true;
+            sfxGridView.AutoGenerateColumns = false;
 
             // hide the unformatted hotkey and volume columns 
-            sfxGridView.Columns["HKeyInfo"].Visible = false;
+            sfxGridView.Columns["HotkeyInfo"].Visible = false;
             sfxGridView.Columns["VolumeFloat"].Visible = false;
-
 
             // set default column width
             sfxGridView.Columns["Name"].FillWeight = 37;
@@ -45,11 +44,9 @@ namespace mini_soundboard
             sfxGridView.Columns["Hotkey"].FillWeight = 8;
             sfxGridView.Columns["Volume"].FillWeight = 8;
            
-
             // set text alignment for hotkey and volume
             sfxGridView.Columns["Hotkey"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;  // hotkey
             sfxGridView.Columns["Volume"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;  // volume level
-
 
             // auto screen sizing approach courtesy of https://www.youtube.com/watch?v=bKnpxTulUIs
             // set form size based on primary display resolution
@@ -68,28 +65,61 @@ namespace mini_soundboard
             using (addSfxForm addSfxForm = new addSfxForm())
             {
                 Sfx sound;
-                HotkeyEventInfo hotkeyInfo = new HotkeyEventInfo();
+                HotkeyInfo hotkeyInfo = new HotkeyInfo();
 
-                // Checks that 'Add' button closed the form
+                // if 'Add' button closed the form, add sound
                 if (addSfxForm.ShowDialog() == DialogResult.OK)
                 {
-
-                    // calls these methods from addSfxForm
-                    if (addSfxForm.GetHotkeyEventArgs() != null)
+                    // Allows for empty hotkey
+                    if (addSfxForm.GetHotkeyInfo() != null)
                     {
-                        hotkeyInfo.KeyCode = addSfxForm.GetHotkeyEventArgs().KeyCode;
-                        hotkeyInfo.KeyData = addSfxForm.GetHotkeyEventArgs().KeyData;
+                        hotkeyInfo.KeyData = addSfxForm.GetHotkeyInfo().KeyData;
                     }
 
                     sound = new Sfx(
                         addSfxForm.GetName(),
-                        addSfxForm.GetHotkeyString(),
-                        hotkeyInfo,
                         addSfxForm.GetPath(),
+                        hotkeyInfo,
                         addSfxForm.GetVolume()
                     );
                     // add it to the library
                     Program.sfxLibBindSource.Add(sound);
+                }
+            }
+            // remove focus from button
+            this.ActiveControl = null;
+        }
+
+        // TODO HOTKEYS NOT BEING REMOVED, REFACTOR THIS AND Hotkeys.cs
+        private void EditSFX_Click(object sender, EventArgs e)
+        {
+            int rowIndex;
+
+            // prevent error when clicking edit with no selection
+            if (sfxGridView.CurrentRow == null)
+            {
+                // remove focus from button
+                this.ActiveControl = null;
+                return;
+            }
+            
+            rowIndex = sfxGridView.CurrentRow.Index;
+            Sfx sound = sfxGridView.Rows[rowIndex].DataBoundItem as Sfx;
+
+            using (editSfxForm editSfxForm = new editSfxForm(sound))
+            {
+                HotkeyInfo hotkeyInfo = new HotkeyInfo();
+
+                // if the 'Save' button closed the form, save changes
+                if (editSfxForm.ShowDialog() == DialogResult.OK)
+                {
+                    sound.Name = editSfxForm.GetName();
+                    sound.FilePath = editSfxForm.GetPath();
+                    sound.HotkeyInfo = editSfxForm.GetHotkeyInfo();
+                    sound.VolumeFloat = editSfxForm.GetVolume();
+
+                    // refresh datagridview
+                    sfxGridView.Refresh();
                 }
             }
             // remove focus from button
@@ -113,10 +143,10 @@ namespace mini_soundboard
                 Sfx sound = sfxGridView.Rows[rowIndex].DataBoundItem as Sfx;
 
             // if this sound has an associated hotkey, remove hotkey first
-            if (sound.HKeyInfo != null)
+            if (sound.HotkeyInfo != null)
             {
                 Console.WriteLine("Removing hotkey");
-                Program.localHotkeys.RemoveHotkeyEntry(sound.HKeyInfo.KeyCode);
+                Program.localHotkeys.RemoveHotkeyEntry(sound.HotkeyInfo.KeyData);
             }
 
             // verifies that a valid index is selected
@@ -139,10 +169,10 @@ namespace mini_soundboard
         private void sfxGridView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
             Sfx row = e.Row.DataBoundItem as Sfx;
-            if (row.HKeyInfo != null)
+            if (row.HotkeyInfo != null)
             {
                 Console.WriteLine("Removing hotkey");
-                Program.localHotkeys.RemoveHotkeyEntry(row.HKeyInfo.KeyCode);
+                Program.localHotkeys.RemoveHotkeyEntry(row.HotkeyInfo.KeyData);
             }
         }
 
@@ -168,46 +198,50 @@ namespace mini_soundboard
             this.ActiveControl = null;
         }
 
-        private void EditSFXBtn_Click(object sender, EventArgs e)
-        {
-            // TODO EDIT SOUND (work on after getting audio playback)
-            // remove focus from button
-            //this.ActiveControl = null;
-        }
-
 
         // ==== SAVE AND LOAD SFX LIBRARIES ====
         // serialize library and save to XML file
         private void SaveSFXLibraryBtn(object sender, EventArgs e)
         {
-            // call save file dialog
-            saveFileDialog1.ShowDialog();
+            using (SaveFileDialog saveXml = new SaveFileDialog())
+            {
+                saveXml.Title = "Save sound library to file";
+                saveXml.Filter = "Supported Files (XML Files|*.xml;*.XML)";
 
-            // once path is selected, its returned as a string
-            string path = saveFileDialog1.FileName;
+                // call save file dialog, and call SaveLibToXml if ok
+                if (saveXml.ShowDialog() == DialogResult.OK)
+                {
+                    //TODO filepath checks
 
-            // stop early if canceled
-            if (path == "" || path == null) return;
+                    string path = saveXml.FileName;
 
-            SaveLibToXML(path);
+                    SaveLibToXML(path);
+                }
+            }
         }
 
         // deserialize XML library file
         private void LoadSFXLibraryBtn(object sender, EventArgs e)
         {
-            // open file for reading
-            openFileDialog1.ShowDialog();
+            using (OpenFileDialog openXml = new OpenFileDialog())
+            {
+                openXml.Title = "Load sound library from file";
+                openXml.Filter = "Supported Files (XML Files|*.xml;*.XML)";
 
-            string path = openFileDialog1.FileName;
+                // open file for reading
+                if (openXml.ShowDialog() == DialogResult.OK)
+                {
+                    // TODO file path checks
+                    string path = openXml.FileName;
 
-            // stop early if canceled
-            if (path == "" || path == null) return;
-            Console.WriteLine(path);
+                    Console.WriteLine(path);
 
-            // clear old hotkeys
-            Program.localHotkeys.ClearAllHotkeys();
+                    // clear old hotkeys
+                    Program.localHotkeys.ClearAllHotkeys();
 
-            LoadLibFromXML(path);
+                    LoadLibFromXML(path);
+                }
+            }
         }
 
         // XmlSerializer
@@ -223,8 +257,8 @@ namespace mini_soundboard
             }
             catch (InvalidOperationException)
             {
-                string message = $"Unable to save file at location:{Environment.NewLine}'{path}'{Environment.NewLine}File may be corrupt.";
-                MessageBox.Show(message);
+                string message = $"Unable to save file at location:{Environment.NewLine}'{path}'{Environment.NewLine}Location may not be accessible.";
+                MessageBox.Show(message, "Unable to save XML file.");
                 return null;
             }
             return path;

@@ -19,30 +19,34 @@ namespace mini_soundboard
             set
             { 
                 _keyData = value; 
-                _keyString = CreateHotkeyString();
+                SetHotkeyString();
             }
         }
         public string KeyString 
         { 
             get {  return _keyString; } 
-            set
-            {
-                _keyString = CreateHotkeyString();
-            }
         }
 
         public HotkeyInfo() { }
-        public HotkeyInfo(Keys keyCode, Keys keyData)
+        public HotkeyInfo(Keys keyData)
         {
             this.KeyData = keyData;
-            KeyString = CreateHotkeyString();
         }
         
-        public string CreateHotkeyString()
+        // Sets _hotkeyString to match the keyData of this object
+        public void SetHotkeyString()
         {
             string tempString = "";
 
-            // using the Modifiers bitmask to return only modifier keys if used
+            // assign empty string and return if keydata is None
+            if (KeyData == Keys.None)
+            {
+                _keyString = tempString;
+                return;
+            }
+
+            // using the Keys.Modifiers bitmask to return only modifier keys if used
+            // the ( & ) symbol is the bitwise AND operator used as an "intersect" bitmask operator
             Keys modifiersUsed = KeyData & Keys.Modifiers;
 
             // use Keys.[modifierName] as a bitmask, if it matches, that key was pressed
@@ -64,9 +68,10 @@ namespace mini_soundboard
             // combined with the AND operator, it only returns the non-modifier Keys data (aka. the char)
             tempString += (KeyData & ~Keys.Modifiers);
 
-            Console.WriteLine(tempString);
+            // assign keystring
+            _keyString = tempString;
 
-            return tempString;
+            return;
         }
     }
 }
