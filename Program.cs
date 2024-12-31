@@ -25,15 +25,15 @@ namespace mini_soundboard
         // Reserved keyboard keys
         public static HashSet<Keys> ReservedKeys = new HashSet<Keys> 
         { 
-            Keys.ControlKey,
-            Keys.ShiftKey,
-            Keys.Menu,
             Keys.Capital,
-            Keys.Escape,
+            Keys.ControlKey,
+            Keys.Delete,
             Keys.Enter,
+            Keys.Escape,
+            Keys.Menu,
+            Keys.ShiftKey,
             Keys.Space,
             Keys.Tab,
-            Keys.Delete
         };
 
         /// <summary>
