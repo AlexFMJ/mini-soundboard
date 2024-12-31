@@ -124,7 +124,7 @@ namespace mini_soundboard
 
         private void sfxSetHotkeyBtn_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.ControlKey || e.KeyCode == Keys.ShiftKey || e.KeyCode == Keys.Menu || e.KeyCode == Keys.Capital) return;
+            if (Program.ReservedKeys.Contains(e.KeyCode)) return;
 
             // if hotkeys overlap, ask to unset old hotkey
             if (Program.localHotkeys.CheckForConflict(e.KeyData) == Hotkeys.assignStatus.In_Use)

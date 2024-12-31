@@ -19,9 +19,22 @@ namespace mini_soundboard
         // when adding or removing items from soundLibrary list
         public static BindingSource sfxLibBindSource = new BindingSource();
 
-        // keybind dict
+        // keybind dictionary
         public static Hotkeys localHotkeys = new Hotkeys();
 
+        // Reserved keyboard keys
+        public static HashSet<Keys> ReservedKeys = new HashSet<Keys> 
+        { 
+            Keys.ControlKey,
+            Keys.ShiftKey,
+            Keys.Menu,
+            Keys.Capital,
+            Keys.Escape,
+            Keys.Enter,
+            Keys.Space,
+            Keys.Tab,
+            Keys.Delete
+        };
 
         /// <summary>
         /// The main entry point for the application.
