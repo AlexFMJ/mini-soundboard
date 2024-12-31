@@ -1,6 +1,5 @@
 ﻿======= TODO =======
-- LOOK INTO MAKING EMPTY KEYDATA ELEMENTS 'NONE' INSTEAD OF NULL
-- make edit menu
+- fix weird tab selection when hitting enter to play a song from SfxGridView
 - categories/tags
 	-	allow editing tags from combobox? https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.datagridviewcomboboxcolumn?view=windowsdesktop-8.0
 - MIDI control
@@ -9,7 +8,6 @@
 - save default list on close / load on open
 - create video tutorial
 - create themes for light and dark modes
-- global hotkeys for use when not in focus
 
 =====COMPLETED======
 - audio playback
@@ -30,6 +28,7 @@
 	- list global hotkeys as a contraint in documentation
 - show volume as a percentage
 - remove hotkeys when sfx dataview is removed
+- make edit menu
 
 === Hotkey approach ===
 Maybe it is a class that carries its own method for monitoring and dealing with events from keypresses

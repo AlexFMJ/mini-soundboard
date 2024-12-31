@@ -15,7 +15,7 @@ namespace mini_soundboard
         public enum assignStatus
         {
             Unassigned  = 0,
-            In_Use    = 1,
+            In_Use      = 1,
             Removed     = 2,
         }
 
