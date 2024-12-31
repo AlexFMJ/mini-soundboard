@@ -1,13 +1,12 @@
 ﻿======= TODO =======
-- fix weird tab selection when hitting enter to play a song from SfxGridView
+- create themes for light and dark modes
+- filepath checks and error testing
 - categories/tags
-	-	allow editing tags from combobox? https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.datagridviewcomboboxcolumn?view=windowsdesktop-8.0
+	- collapsable headers
+	- allow editing tags from combobox? https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.datagridviewcomboboxcolumn?view=windowsdesktop-8.0
 - MIDI control
 - Allow for looping
 - automatic list sorting functionality
-- save default list on close / load on open
-- create video tutorial
-- create themes for light and dark modes
 
 =====COMPLETED======
 - audio playback
@@ -29,6 +28,8 @@
 - show volume as a percentage
 - remove hotkeys when sfx dataview is removed
 - make edit menu
+- fix weird tab selection when hitting enter to play a song from SfxGridView
+- save default list on close / load on open
 
 === Hotkey approach ===
 Maybe it is a class that carries its own method for monitoring and dealing with events from keypresses

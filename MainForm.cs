@@ -15,6 +15,12 @@ namespace mini_soundboard
         private WaveOutEvent outputDevice;  // soundcard
         private AudioFileReader audioFile;  // audio file to be read
 
+        // get the current dir path for default library load and save
+        private static string currentDir = Directory.GetCurrentDirectory();
+        private static string configDir = currentDir + @"\config";
+        private static string defaultLibPath = configDir + @"\default_lib.xml";
+
+
         public MainForm()
         {
             InitializeComponent();
@@ -55,6 +61,39 @@ namespace mini_soundboard
             // set size of form to half that size (50%)
             this.Size = new System.Drawing.Size(Convert.ToInt32(0.5 * workingRectangle.Width),
                 Convert.ToInt32(0.5 * workingRectangle.Height));
+
+            // load default_lib.xml if available
+            try
+            {
+                if (File.Exists(defaultLibPath))
+                {
+                    Console.WriteLine("Default_lib.xml exists, attempting to load");
+                    LoadLibFromXML(defaultLibPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Unable to load default_lib.xml", ex.ToString());
+            }
+        }
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                if (!Directory.Exists(configDir))
+                {
+                    // Try creating directory
+                    DirectoryInfo di = Directory.CreateDirectory(configDir);
+                    Console.WriteLine($"File directory created successfully at {configDir}");
+                }
+                
+                // try to save as xml
+                SaveLibToXML(defaultLibPath);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Unable to create file directory", ex.ToString());
+            }
         }
 
         // ==== UI BOTTON FUNCTIONS ====

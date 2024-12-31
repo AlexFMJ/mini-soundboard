@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.sfxGridViewCMS = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.editSFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addSFXBtn = new System.Windows.Forms.Button();
             this.deleteSFXBtn = new System.Windows.Forms.Button();
@@ -46,7 +47,6 @@
             this.stop_audio_btn = new System.Windows.Forms.Button();
             this.play_audio_btn = new System.Windows.Forms.Button();
             this.editSfxBtn = new System.Windows.Forms.Button();
-            this.editSFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sfxGridViewCMS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sfxGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -60,7 +60,7 @@
             this.editSFXToolStripMenuItem,
             this.deleteSFXToolStripMenuItem});
             this.sfxGridViewCMS.Name = "sfxListItemCMS";
-            this.sfxGridViewCMS.Size = new System.Drawing.Size(211, 104);
+            this.sfxGridViewCMS.Size = new System.Drawing.Size(151, 76);
             // 
             // toolStripMenuItem1
             // 
@@ -68,6 +68,13 @@
             this.toolStripMenuItem1.Size = new System.Drawing.Size(150, 24);
             this.toolStripMenuItem1.Text = "Add SFX";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.AddSFX_Click);
+            // 
+            // editSFXToolStripMenuItem
+            // 
+            this.editSFXToolStripMenuItem.Name = "editSFXToolStripMenuItem";
+            this.editSFXToolStripMenuItem.Size = new System.Drawing.Size(150, 24);
+            this.editSFXToolStripMenuItem.Text = "Edit SFX";
+            this.editSFXToolStripMenuItem.Click += new System.EventHandler(this.EditSFX_Click);
             // 
             // deleteSFXToolStripMenuItem
             // 
@@ -235,13 +242,6 @@
             this.editSfxBtn.UseVisualStyleBackColor = true;
             this.editSfxBtn.Click += new System.EventHandler(this.EditSFX_Click);
             // 
-            // editSFXToolStripMenuItem
-            // 
-            this.editSFXToolStripMenuItem.Name = "editSFXToolStripMenuItem";
-            this.editSFXToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
-            this.editSFXToolStripMenuItem.Text = "Edit SFX";
-            this.editSFXToolStripMenuItem.Click += new System.EventHandler(this.EditSFX_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -259,6 +259,7 @@
             this.MinimumSize = new System.Drawing.Size(689, 464);
             this.Name = "MainForm";
             this.Text = "Mini-Soundboard";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.sfxGridViewCMS.ResumeLayout(false);
