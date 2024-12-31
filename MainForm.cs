@@ -176,7 +176,7 @@ namespace mini_soundboard
             }
         }
 
-        private void PlaySelectedAudio_Clicked(object sender, EventArgs e)
+        private void PlaySelectedAudio()
         {
             Sfx selectedSfx;
 
@@ -192,10 +192,21 @@ namespace mini_soundboard
             this.ActiveControl = null;
         }
 
+        private void PlaySelectedAudio_Clicked(object sender, EventArgs e)
+        {
+            PlaySelectedAudio();
+        }
+
         private void StopAudio_Clicked(object sender, EventArgs e)
         {
             StopAudio();
             this.ActiveControl = null;
+        }
+
+        private void ToggleAudio()
+        {
+            if (outputDevice.PlaybackState == PlaybackState.Playing) StopAudio();
+            else PlaySelectedAudio();
         }
 
 
@@ -432,7 +443,20 @@ namespace mini_soundboard
         // listen for keypresses
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.ControlKey || e.KeyCode == Keys.ShiftKey || e.KeyCode == Keys.Menu || e.KeyCode == Keys.Capital) return;
+            if (Program.ReservedKeys.Contains(e.KeyCode))
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.Space:
+                        ToggleAudio();
+                        return;
+                    case Keys.Enter:
+                        PlaySelectedAudio();
+                        return;
+                    default:
+                        return;
+                }
+            }
 
             // print info on keypress
             Console.WriteLine("Code - Data - Value");
@@ -444,8 +468,6 @@ namespace mini_soundboard
             
             // if value is found, run event associated with it (Play audio)
             if (selectedSound != null) PlaySfx(selectedSound);
-                
-
         }
     }
 }
