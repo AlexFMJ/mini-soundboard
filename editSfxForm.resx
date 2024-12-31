@@ -327,58 +327,58 @@
   <data name="&gt;&gt;sfxSetHotkeyBtn.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
-  <data name="addSfxCancelBtn.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="editSfxCancelBtn.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10pt</value>
   </data>
-  <data name="addSfxCancelBtn.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="editSfxCancelBtn.Location" type="System.Drawing.Point, System.Drawing">
     <value>97, 311</value>
   </data>
-  <data name="addSfxCancelBtn.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="editSfxCancelBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 32</value>
   </data>
-  <data name="addSfxCancelBtn.TabIndex" type="System.Int32, mscorlib">
+  <data name="editSfxCancelBtn.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
-  <data name="addSfxCancelBtn.Text" xml:space="preserve">
+  <data name="editSfxCancelBtn.Text" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="&gt;&gt;addSfxCancelBtn.Name" xml:space="preserve">
-    <value>addSfxCancelBtn</value>
+  <data name="&gt;&gt;editSfxCancelBtn.Name" xml:space="preserve">
+    <value>editSfxCancelBtn</value>
   </data>
-  <data name="&gt;&gt;addSfxCancelBtn.Type" xml:space="preserve">
+  <data name="&gt;&gt;editSfxCancelBtn.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;addSfxCancelBtn.Parent" xml:space="preserve">
+  <data name="&gt;&gt;editSfxCancelBtn.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;addSfxCancelBtn.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;editSfxCancelBtn.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="addSfxConfirmBtn.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="editSfxConfirmBtn.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 10pt</value>
   </data>
-  <data name="addSfxConfirmBtn.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="editSfxConfirmBtn.Location" type="System.Drawing.Point, System.Drawing">
     <value>256, 311</value>
   </data>
-  <data name="addSfxConfirmBtn.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="editSfxConfirmBtn.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 32</value>
   </data>
-  <data name="addSfxConfirmBtn.TabIndex" type="System.Int32, mscorlib">
+  <data name="editSfxConfirmBtn.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
-  <data name="addSfxConfirmBtn.Text" xml:space="preserve">
-    <value>Add</value>
+  <data name="editSfxConfirmBtn.Text" xml:space="preserve">
+    <value>Save</value>
   </data>
-  <data name="&gt;&gt;addSfxConfirmBtn.Name" xml:space="preserve">
-    <value>addSfxConfirmBtn</value>
+  <data name="&gt;&gt;editSfxConfirmBtn.Name" xml:space="preserve">
+    <value>editSfxConfirmBtn</value>
   </data>
-  <data name="&gt;&gt;addSfxConfirmBtn.Type" xml:space="preserve">
+  <data name="&gt;&gt;editSfxConfirmBtn.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;addSfxConfirmBtn.Parent" xml:space="preserve">
+  <data name="&gt;&gt;editSfxConfirmBtn.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;addSfxConfirmBtn.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;editSfxConfirmBtn.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
   <data name="sfxVolumeTrackBar.Location" type="System.Drawing.Point, System.Drawing">
@@ -580,7 +580,7 @@
     <value>CenterScreen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Add SFX</value>
+    <value>Edit SFX</value>
   </data>
   <data name="&gt;&gt;openFileDialog1.Name" xml:space="preserve">
     <value>openFileDialog1</value>
@@ -589,7 +589,7 @@
     <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>addSfxForm</value>
+    <value>editSfxForm</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

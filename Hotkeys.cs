@@ -15,37 +15,34 @@ namespace mini_soundboard
         public enum assignStatus
         {
             Unassigned  = 0,
-            Assigned    = 1,
-            Overwritten = 2,
+            In_Use    = 1,
+            Removed     = 2,
         }
 
-        // assigns hotkeys if not already recorded. Prompts user otherwise
+        // assigns hotkeys. Does not check for conflicts
         public assignStatus AssignHotkey(Sfx sound)
         {
             var status = assignStatus.Unassigned;
 
-            if (sound.HKeyInfo == null) return status;
-
-            if (assignedKeys.ContainsKey(sound.HKeyInfo.KeyData))
-            {
-                status = UnsetHotkey(sound.HKeyInfo.KeyData);
-            }
+            if (sound.HotkeyInfo == null || sound.HotkeyInfo.KeyData == Keys.None) return status;
             else
             {
-                assignedKeys[sound.HKeyInfo.KeyData] = sound;
-                status = assignStatus.Assigned;
+                // if hotkey is not null
+                assignedKeys[sound.HotkeyInfo.KeyData] = sound;
+                status = assignStatus.In_Use;
             }
-
             return status;
         }
 
-        // Unset specified hotkey if in dictionary already
-        public assignStatus UnsetHotkey(Keys hotkeyData)
+        // Unset specified hotkey if already in dictionary
+        public assignStatus CheckForConflict(Keys hotkeyData)
         {
             assignStatus status = assignStatus.Unassigned;
 
             if (assignedKeys.ContainsKey(hotkeyData))
             {
+                status = assignStatus.In_Use;
+
                 string message = $"That hotkey is currently assigned to {assignedKeys[hotkeyData]}{Environment.NewLine}" +
                     $"Would you like to unset it? This cannot be undone.";
 
@@ -57,7 +54,7 @@ namespace mini_soundboard
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     RemoveHotkeyEntry(hotkeyData);
-                    status = assignStatus.Overwritten;
+                    status = assignStatus.Removed;
                 }
             }
             return status;
@@ -93,6 +90,7 @@ namespace mini_soundboard
             }
         }
 
+        // TODO REMOVE THIS FUNCTION
         // formats Keys into familiar "modifier + key" string format
         public string KeysToString(KeyEventArgs currentHotkey)
         {

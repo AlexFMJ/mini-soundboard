@@ -1,14 +1,15 @@
 ﻿======= TODO =======
-- remove hotkeys when sfx dataview is removed
+- LOOK INTO MAKING EMPTY KEYDATA ELEMENTS 'NONE' INSTEAD OF NULL
 - make edit menu
 - categories/tags
+	-	allow editing tags from combobox? https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.datagridviewcomboboxcolumn?view=windowsdesktop-8.0
 - MIDI control
+- Allow for looping
 - automatic list sorting functionality
 - save default list on close / load on open
 - create video tutorial
 - create themes for light and dark modes
 - global hotkeys for use when not in focus
-- Allow for looping
 
 =====COMPLETED======
 - audio playback
@@ -28,6 +29,7 @@
 		- https://github.com/TolikPylypchuk/SharpHook
 	- list global hotkeys as a contraint in documentation
 - show volume as a percentage
+- remove hotkeys when sfx dataview is removed
 
 === Hotkey approach ===
 Maybe it is a class that carries its own method for monitoring and dealing with events from keypresses
@@ -38,3 +40,10 @@ Maybe it is a class that carries its own method for monitoring and dealing with 
 	- ms learn keyloggers
 	- async
 	- macros 
+
+====REFERENCE====
+- custom datagridview cells
+	https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/customize-cells-and-columns-in-the-datagrid-by-extending-behavior?view=netframeworkdesktop-4.8
+- understanding Keys enum flags
+	https://stackoverflow.com/questions/8447/what-does-the-flags-enum-attribute-mean-in-c
+	- bitmasks	https://www.delftstack.com/howto/csharp/csharp-bitmask/

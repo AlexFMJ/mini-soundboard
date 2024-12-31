@@ -5,21 +5,38 @@ using System.Windows.Forms;
 
 namespace mini_soundboard
 {
-    public partial class addSfxForm : Form
+    public partial class editSfxForm : Form
     {
         HotkeyInfo hotkeyInfo;
+        Sfx currentSound;
 
-        public addSfxForm()
+        public editSfxForm(Sfx inputSound)
         {
+            currentSound = inputSound;
             InitializeComponent();
         }
 
-        private void addSfxCancelBtn_Click(object sender, EventArgs e)
+        // On form load, populate elements
+        private void editSfxForm_Load(object sender, EventArgs e)
+        {
+            sfxFilePathTxt.Text = currentSound.FilePath;
+            sfxNameTxt.Text = currentSound.Name;
+            if (currentSound.HotkeyInfo != null)
+            {
+                hotkeyInfo = currentSound.HotkeyInfo;
+                sfxSetHotkeyBtn.ForeColor = Color.Black;
+                sfxSetHotkeyBtn.Text = hotkeyInfo.KeyString;
+            }
+            sfxVolumeTrackBar.Value = (int)currentSound.VolumeFloat * 100;
+            volumeValLbl.Text = currentSound.Volume;
+        }
+
+        private void editSfxCancelBtn_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void addSfxConfirmBtn_Click(object sender, EventArgs e)
+        private void editSfxConfirmBtn_Click(object sender, EventArgs e)
         {
             // Prevent submission if path field is not filled
             if (sfxFilePathTxt.Text == "")
@@ -49,7 +66,7 @@ namespace mini_soundboard
             using (OpenFileDialog openSoundFile = new OpenFileDialog())
             {
                 openSoundFile.Title = "Load Sound File";
-                openSoundFile.Filter = "Supported File Types (.mp3, .m4a, .aac .wav)|*.mp3;*.MP3;*.m4a;*.M4A*.aac;*.AAC;*.wav;*.WAV"+
+                openSoundFile.Filter = "Supported File Types (.mp3, .m4a, .aac .wav)|*.mp3;*.MP3;*.m4a;*.M4A*.aac;*.AAC;*.wav;*.WAV" +
                                        "|aac Files|*.aac;*.AAC" +
                                        "|mp3 Files|*.mp3;*.MP3" +
                                        "|m4a Files|*m4a;.M4A" +
@@ -75,7 +92,7 @@ namespace mini_soundboard
                 }
             }
             // select addSfxConfirmBtn when returning to form
-            addSfxConfirmBtn.Focus();
+            editSfxConfirmBtn.Focus();
         }
 
         // reflect value from slider

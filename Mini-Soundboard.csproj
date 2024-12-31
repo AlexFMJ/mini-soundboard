@@ -77,7 +77,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HotkeyEventInfo.cs" />
+    <Compile Include="editSfxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="editSfxForm.Designer.cs">
+      <DependentUpon>editSfxForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HotkeyInfo.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +105,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Sfx.cs" />
+    <EmbeddedResource Include="editSfxForm.resx">
+      <DependentUpon>editSfxForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

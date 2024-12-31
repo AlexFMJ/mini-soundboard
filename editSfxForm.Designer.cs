@@ -1,6 +1,6 @@
 ﻿namespace mini_soundboard
 {
-    partial class addSfxForm
+    partial class editSfxForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(addSfxForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(editSfxForm));
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.sfxFilePathTxt = new System.Windows.Forms.TextBox();
             this.openFileBtn = new System.Windows.Forms.Button();
@@ -37,8 +37,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.sfxSetHotkeyBtn = new System.Windows.Forms.Button();
-            this.addSfxCancelBtn = new System.Windows.Forms.Button();
-            this.addSfxConfirmBtn = new System.Windows.Forms.Button();
+            this.editSfxCancelBtn = new System.Windows.Forms.Button();
+            this.editSfxConfirmBtn = new System.Windows.Forms.Button();
             this.sfxVolumeTrackBar = new System.Windows.Forms.TrackBar();
             this.label4 = new System.Windows.Forms.Label();
             this.volumeValLbl = new System.Windows.Forms.Label();
@@ -97,20 +97,20 @@
             this.sfxSetHotkeyBtn.KeyDown += new System.Windows.Forms.KeyEventHandler(this.sfxSetHotkeyBtn_KeyDown);
             this.sfxSetHotkeyBtn.Leave += new System.EventHandler(this.sfxSetHotkeyBtn_Leave);
             // 
-            // addSfxCancelBtn
+            // editSfxCancelBtn
             // 
-            this.addSfxCancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            resources.ApplyResources(this.addSfxCancelBtn, "addSfxCancelBtn");
-            this.addSfxCancelBtn.Name = "addSfxCancelBtn";
-            this.addSfxCancelBtn.UseVisualStyleBackColor = true;
-            this.addSfxCancelBtn.Click += new System.EventHandler(this.addSfxCancelBtn_Click);
+            this.editSfxCancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            resources.ApplyResources(this.editSfxCancelBtn, "editSfxCancelBtn");
+            this.editSfxCancelBtn.Name = "editSfxCancelBtn";
+            this.editSfxCancelBtn.UseVisualStyleBackColor = true;
+            this.editSfxCancelBtn.Click += new System.EventHandler(this.editSfxCancelBtn_Click);
             // 
-            // addSfxConfirmBtn
+            // editSfxConfirmBtn
             // 
-            resources.ApplyResources(this.addSfxConfirmBtn, "addSfxConfirmBtn");
-            this.addSfxConfirmBtn.Name = "addSfxConfirmBtn";
-            this.addSfxConfirmBtn.UseVisualStyleBackColor = true;
-            this.addSfxConfirmBtn.Click += new System.EventHandler(this.addSfxConfirmBtn_Click);
+            resources.ApplyResources(this.editSfxConfirmBtn, "editSfxConfirmBtn");
+            this.editSfxConfirmBtn.Name = "editSfxConfirmBtn";
+            this.editSfxConfirmBtn.UseVisualStyleBackColor = true;
+            this.editSfxConfirmBtn.Click += new System.EventHandler(this.editSfxConfirmBtn_Click);
             // 
             // sfxVolumeTrackBar
             // 
@@ -155,12 +155,12 @@
             this.unsetHKBtn.UseVisualStyleBackColor = true;
             this.unsetHKBtn.Click += new System.EventHandler(this.unsetHKBtn_Click);
             // 
-            // addSfxForm
+            // editSfxForm
             // 
-            this.AcceptButton = this.addSfxConfirmBtn;
+            this.AcceptButton = this.editSfxConfirmBtn;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.CancelButton = this.addSfxCancelBtn;
+            this.CancelButton = this.editSfxCancelBtn;
             this.Controls.Add(this.unsetHKBtn);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -168,8 +168,8 @@
             this.Controls.Add(this.volumeValLbl);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.sfxVolumeTrackBar);
-            this.Controls.Add(this.addSfxConfirmBtn);
-            this.Controls.Add(this.addSfxCancelBtn);
+            this.Controls.Add(this.editSfxConfirmBtn);
+            this.Controls.Add(this.editSfxCancelBtn);
             this.Controls.Add(this.sfxSetHotkeyBtn);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -179,7 +179,8 @@
             this.Controls.Add(this.sfxFilePathTxt);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.Name = "addSfxForm";
+            this.Name = "editSfxForm";
+            this.Load += new System.EventHandler(this.editSfxForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.sfxVolumeTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -196,8 +197,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button sfxSetHotkeyBtn;
-        private System.Windows.Forms.Button addSfxCancelBtn;
-        private System.Windows.Forms.Button addSfxConfirmBtn;
+        private System.Windows.Forms.Button editSfxCancelBtn;
+        private System.Windows.Forms.Button editSfxConfirmBtn;
         private System.Windows.Forms.TrackBar sfxVolumeTrackBar;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label volumeValLbl;
