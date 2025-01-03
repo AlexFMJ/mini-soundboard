@@ -1,12 +1,16 @@
 ﻿======= TODO =======
+- MIDI control
+	- visual keyboard hotkey representation
+	- MidiNoteOnMessage Class https://learn.microsoft.com/en-us/uwp/api/windows.devices.midi.midinoteonmessage?view=winrt-26100
+- address drag and drop from file to sfxGridView (crashes currently)
 - create themes for light and dark modes
 - filepath checks and error testing
 - categories/tags
 	- collapsable headers
 	- allow editing tags from combobox? https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.datagridviewcomboboxcolumn?view=windowsdesktop-8.0
-- MIDI control
 - Allow for looping
 - automatic list sorting functionality
+- tooltips on hover for more information
 
 =====COMPLETED======
 - audio playback
