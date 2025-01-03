@@ -44,9 +44,11 @@
             this.addSFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editSelectedSFXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSFXToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.editSfxBtn = new System.Windows.Forms.Button();
             this.stop_audio_btn = new System.Windows.Forms.Button();
             this.play_audio_btn = new System.Windows.Forms.Button();
-            this.editSfxBtn = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.sfxGridViewCMS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sfxGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -87,7 +89,7 @@
             // 
             this.addSFXBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.addSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addSFXBtn.Location = new System.Drawing.Point(541, 61);
+            this.addSFXBtn.Location = new System.Drawing.Point(541, 35);
             this.addSFXBtn.Name = "addSFXBtn";
             this.addSFXBtn.Size = new System.Drawing.Size(106, 39);
             this.addSFXBtn.TabIndex = 1;
@@ -99,7 +101,7 @@
             // 
             this.deleteSFXBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.deleteSFXBtn.Location = new System.Drawing.Point(541, 211);
+            this.deleteSFXBtn.Location = new System.Drawing.Point(541, 149);
             this.deleteSFXBtn.Name = "deleteSFXBtn";
             this.deleteSFXBtn.Size = new System.Drawing.Size(106, 39);
             this.deleteSFXBtn.TabIndex = 3;
@@ -140,6 +142,7 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.filesToolStripMenuItem,
@@ -162,14 +165,14 @@
             // loadSoundboardToolStripMenuItem
             // 
             this.loadSoundboardToolStripMenuItem.Name = "loadSoundboardToolStripMenuItem";
-            this.loadSoundboardToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
+            this.loadSoundboardToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.loadSoundboardToolStripMenuItem.Text = "Load SFX Library";
             this.loadSoundboardToolStripMenuItem.Click += new System.EventHandler(this.LoadSFXLibraryBtn);
             // 
             // saveSoundboardToolStripMenuItem
             // 
             this.saveSoundboardToolStripMenuItem.Name = "saveSoundboardToolStripMenuItem";
-            this.saveSoundboardToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
+            this.saveSoundboardToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.saveSoundboardToolStripMenuItem.Text = "Save SFX Library";
             this.saveSoundboardToolStripMenuItem.Click += new System.EventHandler(this.SaveSFXLibraryBtn);
             // 
@@ -204,13 +207,25 @@
             this.deleteSFXToolStripMenuItem1.Text = "Delete Selected SFX";
             this.deleteSFXToolStripMenuItem1.Click += new System.EventHandler(this.DeleteSFX_Click);
             // 
+            // editSfxBtn
+            // 
+            this.editSfxBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.editSfxBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.editSfxBtn.Location = new System.Drawing.Point(541, 92);
+            this.editSfxBtn.Name = "editSfxBtn";
+            this.editSfxBtn.Size = new System.Drawing.Size(106, 39);
+            this.editSfxBtn.TabIndex = 2;
+            this.editSfxBtn.Text = "Edit SFX";
+            this.editSfxBtn.UseVisualStyleBackColor = true;
+            this.editSfxBtn.Click += new System.EventHandler(this.EditSFX_Click);
+            // 
             // stop_audio_btn
             // 
             this.stop_audio_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.stop_audio_btn.BackgroundImage = global::mini_soundboard.Properties.Resources.stop_icon_64px;
             this.stop_audio_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.stop_audio_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stop_audio_btn.Location = new System.Drawing.Point(608, 286);
+            this.stop_audio_btn.Location = new System.Drawing.Point(608, 349);
             this.stop_audio_btn.Name = "stop_audio_btn";
             this.stop_audio_btn.Size = new System.Drawing.Size(39, 39);
             this.stop_audio_btn.TabIndex = 6;
@@ -223,24 +238,32 @@
             this.play_audio_btn.BackgroundImage = global::mini_soundboard.Properties.Resources.play_icon_64px;
             this.play_audio_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.play_audio_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.play_audio_btn.Location = new System.Drawing.Point(541, 286);
+            this.play_audio_btn.Location = new System.Drawing.Point(541, 349);
             this.play_audio_btn.Name = "play_audio_btn";
             this.play_audio_btn.Size = new System.Drawing.Size(39, 39);
             this.play_audio_btn.TabIndex = 5;
             this.play_audio_btn.UseVisualStyleBackColor = true;
             this.play_audio_btn.Click += new System.EventHandler(this.PlaySelectedAudio_Clicked);
             // 
-            // editSfxBtn
+            // label1
             // 
-            this.editSfxBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.editSfxBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editSfxBtn.Location = new System.Drawing.Point(541, 136);
-            this.editSfxBtn.Name = "editSfxBtn";
-            this.editSfxBtn.Size = new System.Drawing.Size(106, 39);
-            this.editSfxBtn.TabIndex = 2;
-            this.editSfxBtn.Text = "Edit SFX";
-            this.editSfxBtn.UseVisualStyleBackColor = true;
-            this.editSfxBtn.Click += new System.EventHandler(this.EditSFX_Click);
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(541, 229);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(106, 23);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "MIDI Device";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(541, 255);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(106, 24);
+            this.comboBox1.TabIndex = 9;
             // 
             // MainForm
             // 
@@ -248,6 +271,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(671, 417);
+            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.editSfxBtn);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.stop_audio_btn);
@@ -290,6 +315,8 @@
         private System.Windows.Forms.ToolStripMenuItem editSelectedSFXToolStripMenuItem;
         private System.Windows.Forms.Button editSfxBtn;
         private System.Windows.Forms.ToolStripMenuItem editSFXToolStripMenuItem;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
 
