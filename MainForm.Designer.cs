@@ -47,8 +47,11 @@
             this.editSfxBtn = new System.Windows.Forms.Button();
             this.stop_audio_btn = new System.Windows.Forms.Button();
             this.play_audio_btn = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBoxLbl = new System.Windows.Forms.Label();
+            this.comboBoxMidiInDevices = new System.Windows.Forms.ComboBox();
+            this.keyLbl = new System.Windows.Forms.Label();
+            this.comboBoxAudioOutDevices = new System.Windows.Forms.ComboBox();
+            this.audioOutLbl = new System.Windows.Forms.Label();
             this.sfxGridViewCMS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.sfxGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -101,7 +104,7 @@
             // 
             this.deleteSFXBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.deleteSFXBtn.Location = new System.Drawing.Point(541, 149);
+            this.deleteSFXBtn.Location = new System.Drawing.Point(541, 133);
             this.deleteSFXBtn.Name = "deleteSFXBtn";
             this.deleteSFXBtn.Size = new System.Drawing.Size(106, 39);
             this.deleteSFXBtn.TabIndex = 3;
@@ -211,7 +214,7 @@
             // 
             this.editSfxBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.editSfxBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editSfxBtn.Location = new System.Drawing.Point(541, 92);
+            this.editSfxBtn.Location = new System.Drawing.Point(541, 84);
             this.editSfxBtn.Name = "editSfxBtn";
             this.editSfxBtn.Size = new System.Drawing.Size(106, 39);
             this.editSfxBtn.TabIndex = 2;
@@ -225,7 +228,7 @@
             this.stop_audio_btn.BackgroundImage = global::mini_soundboard.Properties.Resources.stop_icon_64px;
             this.stop_audio_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.stop_audio_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stop_audio_btn.Location = new System.Drawing.Point(608, 349);
+            this.stop_audio_btn.Location = new System.Drawing.Point(541, 349);
             this.stop_audio_btn.Name = "stop_audio_btn";
             this.stop_audio_btn.Size = new System.Drawing.Size(39, 39);
             this.stop_audio_btn.TabIndex = 6;
@@ -238,32 +241,63 @@
             this.play_audio_btn.BackgroundImage = global::mini_soundboard.Properties.Resources.play_icon_64px;
             this.play_audio_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.play_audio_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.play_audio_btn.Location = new System.Drawing.Point(541, 349);
+            this.play_audio_btn.Location = new System.Drawing.Point(608, 349);
             this.play_audio_btn.Name = "play_audio_btn";
             this.play_audio_btn.Size = new System.Drawing.Size(39, 39);
             this.play_audio_btn.TabIndex = 5;
             this.play_audio_btn.UseVisualStyleBackColor = true;
             this.play_audio_btn.Click += new System.EventHandler(this.PlaySelectedAudio_Clicked);
             // 
-            // label1
+            // comboBoxLbl
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(541, 229);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(106, 23);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "MIDI Device";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.comboBoxLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBoxLbl.Location = new System.Drawing.Point(541, 194);
+            this.comboBoxLbl.Name = "comboBoxLbl";
+            this.comboBoxLbl.Size = new System.Drawing.Size(106, 23);
+            this.comboBoxLbl.TabIndex = 8;
+            this.comboBoxLbl.Text = "MIDI Device";
+            this.comboBoxLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // comboBox1
+            // comboBoxMidiInDevices
             // 
-            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(541, 255);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(106, 24);
-            this.comboBox1.TabIndex = 9;
+            this.comboBoxMidiInDevices.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxMidiInDevices.FormattingEnabled = true;
+            this.comboBoxMidiInDevices.Location = new System.Drawing.Point(541, 220);
+            this.comboBoxMidiInDevices.Name = "comboBoxMidiInDevices";
+            this.comboBoxMidiInDevices.Size = new System.Drawing.Size(106, 24);
+            this.comboBoxMidiInDevices.TabIndex = 9;
+            this.comboBoxMidiInDevices.SelectedIndexChanged += new System.EventHandler(this.comboBoxMidiInDevices_SelectedIndexChanged);
+            // 
+            // keyLbl
+            // 
+            this.keyLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.keyLbl.AutoSize = true;
+            this.keyLbl.Location = new System.Drawing.Point(573, 247);
+            this.keyLbl.Name = "keyLbl";
+            this.keyLbl.Size = new System.Drawing.Size(37, 16);
+            this.keyLbl.TabIndex = 10;
+            this.keyLbl.Text = "temp";
+            // 
+            // comboBoxAudioOutDevices
+            // 
+            this.comboBoxAudioOutDevices.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxAudioOutDevices.FormattingEnabled = true;
+            this.comboBoxAudioOutDevices.Location = new System.Drawing.Point(541, 300);
+            this.comboBoxAudioOutDevices.Name = "comboBoxAudioOutDevices";
+            this.comboBoxAudioOutDevices.Size = new System.Drawing.Size(106, 24);
+            this.comboBoxAudioOutDevices.TabIndex = 12;
+            // 
+            // audioOutLbl
+            // 
+            this.audioOutLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.audioOutLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.audioOutLbl.Location = new System.Drawing.Point(541, 274);
+            this.audioOutLbl.Name = "audioOutLbl";
+            this.audioOutLbl.Size = new System.Drawing.Size(106, 23);
+            this.audioOutLbl.TabIndex = 11;
+            this.audioOutLbl.Text = "Audio Output";
+            this.audioOutLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainForm
             // 
@@ -271,8 +305,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(671, 417);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.comboBoxAudioOutDevices);
+            this.Controls.Add(this.audioOutLbl);
+            this.Controls.Add(this.keyLbl);
+            this.Controls.Add(this.comboBoxMidiInDevices);
+            this.Controls.Add(this.comboBoxLbl);
             this.Controls.Add(this.editSfxBtn);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.stop_audio_btn);
@@ -315,8 +352,11 @@
         private System.Windows.Forms.ToolStripMenuItem editSelectedSFXToolStripMenuItem;
         private System.Windows.Forms.Button editSfxBtn;
         private System.Windows.Forms.ToolStripMenuItem editSFXToolStripMenuItem;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label comboBoxLbl;
+        private System.Windows.Forms.ComboBox comboBoxMidiInDevices;
+        private System.Windows.Forms.Label keyLbl;
+        private System.Windows.Forms.ComboBox comboBoxAudioOutDevices;
+        private System.Windows.Forms.Label audioOutLbl;
     }
 }
 

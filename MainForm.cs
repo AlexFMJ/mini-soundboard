@@ -1,4 +1,5 @@
 ﻿using NAudio.Wave;
+using NAudio.Midi;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,6 +15,7 @@ namespace mini_soundboard
         // ==== NAudio Objects ====
         private WaveOutEvent outputDevice;  // soundcard
         private AudioFileReader audioFile;  // audio file to be read
+        private MidiIn midiIn = null;       // MIDI event listener
 
         // get the current dir path for default library load and save
         private static string currentDir = Directory.GetCurrentDirectory();
@@ -28,6 +30,8 @@ namespace mini_soundboard
             // initialize the output device here 
             // we will frequently use it
             outputDevice = new WaveOutEvent();
+
+            refreshMidiDevicesList();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -507,6 +511,75 @@ namespace mini_soundboard
             
             // if value is found, run event associated with it (Play audio)
             if (selectedSound != null) PlaySfx(selectedSound);
+        }
+
+        // ==== MIDI HANDLING ====
+        private void changeMidiDevice(int deviceIndex)
+        {
+            // if midiIn is currently assigned, dispose of it first
+            disposeMidiDevice();
+
+            midiIn = new MidiIn(deviceIndex);
+            midiIn.MessageReceived += midiIn_MessageRecieved;
+            midiIn.ErrorReceived += midiIn_ErrorRecieved;
+            midiIn.Start();
+        }
+
+        private void comboBoxMidiInDevices_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            changeMidiDevice(comboBoxMidiInDevices.SelectedIndex);
+        }
+
+        private void disposeMidiDevice()
+        {
+            if (midiIn != null)
+            {
+                midiIn.Dispose();
+                midiIn = null;
+            }
+            return;
+        }
+
+        private void midiIn_ErrorRecieved(object sender, MidiInMessageEventArgs e)
+        {
+            Console.WriteLine("Error message! " + e.MidiEvent);
+        }
+
+        private void midiIn_MessageRecieved(object sender, MidiInMessageEventArgs e)
+        {
+            if (e.MidiEvent.CommandCode == MidiCommandCode.NoteOn)
+            {
+                try
+                {
+                    NoteEvent messageEvent = MidiEvent.FromRawMessage(e.RawMessage) as NoteEvent;
+
+                    // must use beginInvoke since keyLbl is on a separate thread from this midiIn listener
+                    keyLbl.BeginInvoke(new Action(() => { keyLbl.Text = messageEvent.NoteName; }));
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+            Console.WriteLine("Received message! " + e.MidiEvent);
+        }
+
+        private void refreshMidiDevicesList()
+        {
+            comboBoxMidiInDevices.Items.Clear();
+
+            // lists product name of connected midi devices in comboBox
+            for (int device = 0; device < MidiIn.NumberOfDevices; device++)
+            {
+                comboBoxMidiInDevices.Items.Add(MidiIn.DeviceInfo(device).ProductName);
+            }
+            // selects first item in box if populated
+            if (comboBoxMidiInDevices.Items.Count > 0) { comboBoxMidiInDevices.SelectedIndex = 0; }
+        }
+
+        private void refreshBtn_Click(object sender, EventArgs e)
+        {
+            refreshMidiDevicesList();
         }
     }
 }
