@@ -2,6 +2,7 @@
 - MIDI control
 	- visual keyboard hotkey representation
 	- MidiNoteOnMessage Class https://learn.microsoft.com/en-us/uwp/api/windows.devices.midi.midinoteonmessage?view=winrt-26100
+	- midi message format reference https://michd.me/jottings/midi-message-format-reference/
 - address drag and drop from file to sfxGridView (crashes currently)
 - create themes for light and dark modes
 - filepath checks and error testing
@@ -11,6 +12,7 @@
 - Allow for looping
 - automatic list sorting functionality
 - tooltips on hover for more information
+- support play on hold option (only play when hk is held)?
 
 =====COMPLETED======
 - audio playback
