@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace mini_soundboard
 {
@@ -61,7 +54,8 @@ namespace mini_soundboard
         public string Volume { get; set; }
 
         // TODO public List<string> Tags { get; set; }
-        // TODO public MIDI KEY
+
+        public Sfx() { }    // default constructor for XmlSerializer
 
         public Sfx(string name, string filePath, HotkeyInfo hotkeyInfo, float volumefloat)
         {
@@ -71,7 +65,6 @@ namespace mini_soundboard
             this.VolumeFloat = volumefloat;
         }
        
-        public Sfx() { }    // default constructor for XmlSerializer
 
         // Clears all information about hotkeys from this Sfx instance
         public void ClearHotkeyFields()
@@ -82,13 +75,6 @@ namespace mini_soundboard
 
             // refreshes data for that sfx in the gui
             Program.sfxLibBindSource.ResetItem(index);
-        }
-
-        // Overrides ToString, only returning name
-        public override string ToString()
-        {
-            //return $"{Name} - {FilePath} - {Hotkey}";
-            return Name;
         }
 
         // TODO file path parsing

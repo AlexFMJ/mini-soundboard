@@ -1,5 +1,4 @@
 ﻿using NAudio.Midi;
-using System;
 using System.Windows.Forms;
 
 namespace mini_soundboard
@@ -16,8 +15,8 @@ namespace mini_soundboard
 
         private string _keyString;
         private Keys _keyData;
-
-        public HKType Type { get; set; }
+        private HKType _type = HKType.none;
+        private MidiNote _note = new MidiNote();
 
         public Keys KeyData
         {
@@ -26,6 +25,7 @@ namespace mini_soundboard
             { 
                 _keyData = value; 
                 SetHotkeyString();
+                _type = HKType.keyboard;
             }
         }
         public string KeyString 
@@ -33,25 +33,42 @@ namespace mini_soundboard
             get {  return _keyString; } 
         }
 
-        public int MidiNoteNumber { get; set; }     // number for hotkey use
+        public MidiNote MidiNote
+        {
+            get { return _note; }
+            set
+            {
+                _note = value;
+                _type = HKType.midi;
+                _keyString = MidiNote.Name;
+            }
+        }
+        public int MidiChannel { get; set; }    // channel in case of multiple devices
+        public HKType Type { get { return _type; } }
 
+        // Constructors
         public HotkeyInfo() { }
         public HotkeyInfo(Keys keyData)
         {
-            this.KeyData = keyData;
-            this.Type = HKType.keyboard;
+            KeyData = keyData;
+            _type = HKType.keyboard;
         }
         public HotkeyInfo(NoteEvent note)
         {
-            this.MidiNoteNumber = note.NoteNumber;
-            this._keyString = note.NoteName;
-            this.Type = HKType.midi;
+            // assign MidiNote properties
+            MidiNote = new MidiNote(note);
+
+            // change HotkeyInfo properties to match
+            _keyString = MidiNote.Name;
+            _type = HKType.midi;
         }
         
-        // Sets _hotkeyString to match the keyData of this object
+        // Sets _hotkeyString to match the assigned data
         public void SetHotkeyString()
         {
             string tempString = "";
+
+            if (Type == HKType.midi) { _keyString = MidiNote.Name; return; }
 
             // assign empty string and return if keydata is None
             if (KeyData == Keys.None)

@@ -553,15 +553,18 @@ namespace mini_soundboard
                 {
                     NoteEvent messageEvent = MidiEvent.FromRawMessage(e.RawMessage) as NoteEvent;
 
-                    // must use beginInvoke since keyLbl is on a separate thread from this midiIn listener
-                    keyLbl.BeginInvoke(new Action(() => { keyLbl.Text = messageEvent.NoteName; }));
+                    MidiNote note = new MidiNote(messageEvent);
+
+                    //// must use beginInvoke since keyLbl is on a separate thread from this midiIn listener
+                    //keyLbl.BeginInvoke(new Action(() => { keyLbl.Text = note.Name; }));
+
+                    Console.WriteLine("Received message! " + note);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.ToString());
                 }
             }
-            Console.WriteLine("Received message! " + e.MidiEvent);
         }
 
         private void refreshMidiDevicesList()
