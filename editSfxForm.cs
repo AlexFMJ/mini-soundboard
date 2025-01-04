@@ -128,7 +128,7 @@ namespace mini_soundboard
             if (Program.ReservedKeys.Contains(e.KeyCode)) return;
 
             // if hotkeys overlap, ask to unset old hotkey
-            if (Program.localHotkeys.CheckForConflict(e.KeyData) == Hotkeys.assignStatus.In_Use)
+            if (Program.kbHotkeys.CheckForConflict(e.KeyData) == Hotkeys.assignStatus.In_Use)
             {
                 // if in use, return early
                 this.ActiveControl = null;
@@ -153,7 +153,7 @@ namespace mini_soundboard
         {
             if (this.hotkeyInfo != null)
             {
-                if (Program.localHotkeys.CheckForConflict(hotkeyInfo.KeyData) == Hotkeys.assignStatus.Removed)
+                if (Program.kbHotkeys.CheckForConflict(hotkeyInfo.KeyData) == Hotkeys.assignStatus.Removed)
                 {
                     hotkeyInfo = null;
                     sfxSetHotkeyBtn.Text = "click to set Hotkey";

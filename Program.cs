@@ -18,7 +18,7 @@ namespace mini_soundboard
         public static BindingSource sfxLibBindSource = new BindingSource();
 
         // keybind dictionary
-        public static Hotkeys localHotkeys = new Hotkeys();
+        public static Hotkeys kbHotkeys = new Hotkeys();
 
         // Reserved keyboard keys
         public static HashSet<Keys> ReservedKeys = new HashSet<Keys> 

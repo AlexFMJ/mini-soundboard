@@ -189,7 +189,7 @@ namespace mini_soundboard
             if (sound.HotkeyInfo != null)
             {
                 Console.WriteLine("Removing hotkey");
-                Program.localHotkeys.RemoveHotkeyEntry(sound.HotkeyInfo.KeyData);
+                Program.kbHotkeys.RemoveHotkeyEntry(sound.HotkeyInfo.KeyData);
             }
 
             // verifies that a valid index is selected
@@ -215,7 +215,7 @@ namespace mini_soundboard
             if (row.HotkeyInfo != null)
             {
                 Console.WriteLine("Removing hotkey");
-                Program.localHotkeys.RemoveHotkeyEntry(row.HotkeyInfo.KeyData);
+                Program.kbHotkeys.RemoveHotkeyEntry(row.HotkeyInfo.KeyData);
             }
         }
 
@@ -290,7 +290,7 @@ namespace mini_soundboard
                     Console.WriteLine(path);
 
                     // clear old hotkeys
-                    Program.localHotkeys.ClearAllHotkeys();
+                    Program.kbHotkeys.ClearAllHotkeys();
 
                     LoadLibFromXML(path);
                 }
@@ -506,7 +506,7 @@ namespace mini_soundboard
             Console.WriteLine($"{e.KeyCode} - {e.KeyData} - {e.KeyValue}");
 
             // look for object as key in dict
-            Sfx selectedSound = Program.localHotkeys.GetHotkeySfx(e.KeyData);
+            Sfx selectedSound = Program.kbHotkeys.GetHotkeySfx(e.KeyData);
             Console.WriteLine(selectedSound);
             
             // if value is found, run event associated with it (Play audio)
