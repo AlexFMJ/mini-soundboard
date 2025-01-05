@@ -180,6 +180,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "addSfxForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.addSfxForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.sfxVolumeTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

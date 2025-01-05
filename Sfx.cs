@@ -23,7 +23,7 @@ namespace mini_soundboard
                 // add hotkey when assigned (if not null)
                 if (value != null)
                 {
-                    Program.kbHotkeys.AssignHotkey(this);
+                    Program.HotkeyDict.AssignHotkey(this);
                 }
             }
         }

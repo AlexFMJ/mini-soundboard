@@ -29,5 +29,17 @@ namespace mini_soundboard
         {
             return $"Channel: {Channel} - Number: {Number} - Name: {Name}";
         }
+
+        public override int GetHashCode()
+        {
+            return this.Name.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !(obj is MidiNote)) { return false; }
+            else
+            { return this.Name == ((MidiNote)obj).Name; }
+        }
     }
 }

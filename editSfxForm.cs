@@ -102,13 +102,13 @@ namespace mini_soundboard
             volumeValLbl.Text = sfxVolumeTrackBar.Value.ToString();
         }
 
-        // OnFocus
+        // SetHotkeyBtn OnFocus
         private void sfxSetHotkeyBtn_Enter(object sender, EventArgs e)
         {
             sfxSetHotkeyBtn.ForeColor = Color.Red;
             sfxSetHotkeyBtn.Text = "Press a hotkey combination";
         }
-        // leave focus
+        // SetHotkeyBtn leave focus
         private void sfxSetHotkeyBtn_Leave(object sender, EventArgs e)
         {
             if (hotkeyInfo == null || hotkeyInfo.KeyData == Keys.None)
@@ -123,12 +123,13 @@ namespace mini_soundboard
             }
         }
 
+        // record hotkey input to localHotkey
         private void sfxSetHotkeyBtn_KeyDown(object sender, KeyEventArgs e)
         {
             if (Program.ReservedKeys.Contains(e.KeyCode)) return;
 
             // if hotkeys overlap, ask to unset old hotkey
-            if (Program.kbHotkeys.CheckForConflict(e.KeyData) == Hotkeys.assignStatus.In_Use)
+            if (Program.HotkeyDict.CheckForConflict(e.KeyData) == Hotkeys.assignStatus.In_Use)
             {
                 // if in use, return early
                 this.ActiveControl = null;
@@ -151,9 +152,27 @@ namespace mini_soundboard
 
         private void unsetHKBtn_Click(object sender, EventArgs e)
         {
+            Hotkeys.assignStatus status;
+
             if (this.hotkeyInfo != null)
             {
-                if (Program.kbHotkeys.CheckForConflict(hotkeyInfo.KeyData) == Hotkeys.assignStatus.Removed)
+                status = Hotkeys.assignStatus.In_Use;
+
+                switch (this.hotkeyInfo.Type)
+                {
+                    case HotkeyInfo.HKType.none:
+                        break;
+                    case HotkeyInfo.HKType.keyboard:
+                        status = Program.HotkeyDict.CheckForConflict(hotkeyInfo.KeyData);
+                        break;
+                    case HotkeyInfo.HKType.midi:
+                        status = Program.HotkeyDict.CheckForConflict(hotkeyInfo.MidiNote);
+                        break;
+                    default:
+                        break;
+                }
+
+                if (status == Hotkeys.assignStatus.Removed)
                 {
                     hotkeyInfo = null;
                     sfxSetHotkeyBtn.Text = "click to set Hotkey";

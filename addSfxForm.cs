@@ -1,17 +1,26 @@
-﻿using System;
+﻿using NAudio.Midi;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace mini_soundboard
 {
     public partial class addSfxForm : Form
     {
         HotkeyInfo hotkeyInfo;
+        MidiIn midiIn = null;
 
         public addSfxForm()
         {
             InitializeComponent();
+
+            midiIn = new MidiIn(Program.midiDeviceIndex);
+
+            // subscribe to midiIn events
+            midiIn.ErrorReceived += midiIn_ErrorRecieved;
+            midiIn.MessageReceived += midiIn_MessageRecieved;
         }
 
         private void addSfxCancelBtn_Click(object sender, EventArgs e)
@@ -84,16 +93,18 @@ namespace mini_soundboard
             volumeValLbl.Text = sfxVolumeTrackBar.Value.ToString();
         }
 
-        // OnFocus
+        // SetHotkeyBtn OnFocus
         private void sfxSetHotkeyBtn_Enter(object sender, EventArgs e)
         {
             sfxSetHotkeyBtn.ForeColor = Color.Red;
             sfxSetHotkeyBtn.Text = "Press a hotkey combination";
+            midiIn.Start();
         }
-        // leave focus
+        // SetHotkeyBtn leave focus
         private void sfxSetHotkeyBtn_Leave(object sender, EventArgs e)
         {
-            if (hotkeyInfo == null || hotkeyInfo.KeyData == Keys.None)
+            //if (hotkeyInfo == null || hotkeyInfo.KeyData == Keys.None)
+            if (hotkeyInfo == null || hotkeyInfo.KeyString == "")
             {
                 sfxSetHotkeyBtn.ForeColor = Color.Gray;
                 sfxSetHotkeyBtn.Text = "click to set Hotkey";
@@ -103,14 +114,16 @@ namespace mini_soundboard
                 sfxSetHotkeyBtn.ForeColor = Color.Black;
                 sfxSetHotkeyBtn.Text = hotkeyInfo.KeyString;
             }
+            midiIn.Stop();
         }
 
+        // record hotkey input to hotkeyDict
         private void sfxSetHotkeyBtn_KeyDown(object sender, KeyEventArgs e)
         {
             if (Program.ReservedKeys.Contains(e.KeyCode)) return;
 
             // if hotkeys overlap, ask to unset old hotkey
-            if (Program.kbHotkeys.CheckForConflict(e.KeyData) == Hotkeys.assignStatus.In_Use)
+            if (Program.HotkeyDict.CheckForConflict(e.KeyData) == Hotkeys.assignStatus.In_Use)
             {
                 // if in use, return early
                 this.ActiveControl = null;
@@ -118,24 +131,82 @@ namespace mini_soundboard
             }
 
             // otherwise assign the hotkey as needed
-            if (hotkeyInfo == null)
-            {
-                hotkeyInfo = new HotkeyInfo(e.KeyData);
-            }
-            else
-            {
-                hotkeyInfo.KeyData = e.KeyData;
-            }
+            hotkeyInfo = new HotkeyInfo(e.KeyData);
 
             // remove focus from button
             this.ActiveControl = null;
         }
 
+        // ==== MIDI EVENT LISTENER ====
+        private void midiIn_ErrorRecieved(object sender, MidiInMessageEventArgs e)
+        {
+            Console.WriteLine("Error message! " + e.MidiEvent);
+        }
+
+        private void midiIn_MessageRecieved(object sender, MidiInMessageEventArgs e)
+        {
+
+            if (e.MidiEvent.CommandCode == MidiCommandCode.NoteOn)
+            {
+                try
+                {
+                    MidiNote note = new MidiNote(e.MidiEvent as NoteEvent);
+
+                    // if hotkeys overlap, ask to unset old hotkey
+                    if (Program.HotkeyDict.CheckForConflict(note) == Hotkeys.assignStatus.In_Use)
+                    {
+                        // if in use, return early
+                        this.BeginInvoke(new Action(() => { ActiveControl = null; }));
+                        return;
+                    }
+
+                    // otherwise assign the hotkey as needed
+                    hotkeyInfo = new HotkeyInfo(e.MidiEvent as NoteEvent);
+
+                    // remove focus from button
+                    this.BeginInvoke(new Action(() => { ActiveControl = null; }));
+
+                    Console.WriteLine("Received message! " + note);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+        }
+        private void disposeMidiDevice()
+        {
+            if (midiIn != null)
+            {
+                midiIn.Dispose();
+                midiIn = null;
+            }
+            return;
+        }
+
         private void unsetHKBtn_Click(object sender, EventArgs e)
         {
+            Hotkeys.assignStatus status;
+
             if (this.hotkeyInfo != null)
             {
-                if (Program.kbHotkeys.CheckForConflict(hotkeyInfo.KeyData) == Hotkeys.assignStatus.Removed)
+                status = Hotkeys.assignStatus.In_Use;
+
+                switch (this.hotkeyInfo.Type)
+                {
+                    case HotkeyInfo.HKType.none:
+                        break;
+                    case HotkeyInfo.HKType.keyboard:
+                        status = Program.HotkeyDict.CheckForConflict(hotkeyInfo.KeyData);
+                        break;
+                    case HotkeyInfo.HKType.midi:
+                        status = Program.HotkeyDict.CheckForConflict(hotkeyInfo.MidiNote);
+                        break;
+                    default:
+                        break;
+                }
+
+                if (status == Hotkeys.assignStatus.Removed)
                 {
                     hotkeyInfo = null;
                     sfxSetHotkeyBtn.Text = "click to set Hotkey";
@@ -175,6 +246,11 @@ namespace mini_soundboard
             Console.WriteLine(sfxVolume.GetType());
             Console.WriteLine(sfxVolume);
             return sfxVolume;
+        }
+
+        private void addSfxForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            disposeMidiDevice();
         }
     }
 }

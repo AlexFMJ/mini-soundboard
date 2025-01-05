@@ -104,6 +104,8 @@ namespace mini_soundboard
         // opens new form to enter new sfx information
         private void AddSFX_Click(object sender, EventArgs e)
         {
+            disposeMidiDevice();    // dispose of midi device while window is open
+
             // the using block will correctly dispose of the form when closed
             using (addSfxForm addSfxForm = new addSfxForm())
             {
@@ -116,7 +118,7 @@ namespace mini_soundboard
                     // Allows for empty hotkey
                     if (addSfxForm.GetHotkeyInfo() != null)
                     {
-                        hotkeyInfo.KeyData = addSfxForm.GetHotkeyInfo().KeyData;
+                        hotkeyInfo = addSfxForm.GetHotkeyInfo();
                     }
 
                     sound = new Sfx(
@@ -129,11 +131,12 @@ namespace mini_soundboard
                     Program.sfxLibBindSource.Add(sound);
                 }
             }
+
+            createMidiDevice(Program.midiDeviceIndex);  // recreate midi device when finished
             // remove focus from button
             this.ActiveControl = null;
         }
 
-        // TODO HOTKEYS NOT BEING REMOVED, REFACTOR THIS AND Hotkeys.cs
         private void EditSFX_Click(object sender, EventArgs e)
         {
             int rowIndex;
@@ -148,6 +151,8 @@ namespace mini_soundboard
             
             rowIndex = sfxGridView.CurrentRow.Index;
             Sfx sound = sfxGridView.Rows[rowIndex].DataBoundItem as Sfx;
+
+            disposeMidiDevice();    // dispose of midi device while window is open
 
             using (editSfxForm editSfxForm = new editSfxForm(sound))
             {
@@ -165,8 +170,9 @@ namespace mini_soundboard
                     sfxGridView.Refresh();
                 }
             }
-            // remove focus from button
-            this.ActiveControl = null;
+
+            createMidiDevice(Program.midiDeviceIndex);  // recreate midi device when finished
+            this.ActiveControl = null;                  // remove focus from button
         }
 
         // delete currently selected sfx from sounds list object AND remove hotkey
@@ -189,7 +195,7 @@ namespace mini_soundboard
             if (sound.HotkeyInfo != null)
             {
                 Console.WriteLine("Removing hotkey");
-                Program.kbHotkeys.RemoveHotkeyEntry(sound.HotkeyInfo.KeyData);
+                Program.HotkeyDict.RemoveHotkeyEntry(sound.HotkeyInfo.KeyData);
             }
 
             // verifies that a valid index is selected
@@ -215,7 +221,7 @@ namespace mini_soundboard
             if (row.HotkeyInfo != null)
             {
                 Console.WriteLine("Removing hotkey");
-                Program.kbHotkeys.RemoveHotkeyEntry(row.HotkeyInfo.KeyData);
+                Program.HotkeyDict.RemoveHotkeyEntry(row.HotkeyInfo.KeyData);
             }
         }
 
@@ -290,7 +296,7 @@ namespace mini_soundboard
                     Console.WriteLine(path);
 
                     // clear old hotkeys
-                    Program.kbHotkeys.ClearAllHotkeys();
+                    Program.HotkeyDict.ClearAllHotkeys();
 
                     LoadLibFromXML(path);
                 }
@@ -506,20 +512,25 @@ namespace mini_soundboard
             Console.WriteLine($"{e.KeyCode} - {e.KeyData} - {e.KeyValue}");
 
             // look for object as key in dict
-            Sfx selectedSound = Program.kbHotkeys.GetHotkeySfx(e.KeyData);
-            Console.WriteLine(selectedSound);
-            
+            Sfx selectedSound = Program.HotkeyDict.GetHotkeySfx(e.KeyData);
+
             // if value is found, run event associated with it (Play audio)
-            if (selectedSound != null) PlaySfx(selectedSound);
+            if (selectedSound != null)
+            {
+                PlaySfx(selectedSound);
+                Console.WriteLine(selectedSound);
+            }
         }
 
         // ==== MIDI HANDLING ====
-        private void changeMidiDevice(int deviceIndex)
+        private void createMidiDevice(int deviceIndex)
         {
             // if midiIn is currently assigned, dispose of it first
             disposeMidiDevice();
 
-            midiIn = new MidiIn(deviceIndex);
+            Program.midiDeviceIndex = deviceIndex;
+
+            midiIn = new MidiIn(Program.midiDeviceIndex);
             midiIn.MessageReceived += midiIn_MessageRecieved;
             midiIn.ErrorReceived += midiIn_ErrorRecieved;
             midiIn.Start();
@@ -527,7 +538,7 @@ namespace mini_soundboard
 
         private void comboBoxMidiInDevices_SelectedIndexChanged(object sender, EventArgs e)
         {
-            changeMidiDevice(comboBoxMidiInDevices.SelectedIndex);
+            createMidiDevice(comboBoxMidiInDevices.SelectedIndex);
         }
 
         private void disposeMidiDevice()
@@ -551,14 +562,22 @@ namespace mini_soundboard
             {
                 try
                 {
-                    NoteEvent messageEvent = MidiEvent.FromRawMessage(e.RawMessage) as NoteEvent;
-
-                    MidiNote note = new MidiNote(messageEvent);
+                    MidiNote note = new MidiNote(e.MidiEvent as NoteEvent);
 
                     //// must use beginInvoke since keyLbl is on a separate thread from this midiIn listener
-                    //keyLbl.BeginInvoke(new Action(() => { keyLbl.Text = note.Name; }));
+                    keyLbl.BeginInvoke(new Action(() => { keyLbl.Text = note.Name; }));
 
                     Console.WriteLine("Received message! " + note);
+
+                    // look for object as key in dict
+                    Sfx selectedSound = Program.HotkeyDict.GetHotkeySfx(note);
+
+                    // if value is found, run event associated with it (Play audio)
+                    if (selectedSound != null)
+                    {
+                        Console.WriteLine(selectedSound);
+                        PlaySfx(selectedSound);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -576,8 +595,13 @@ namespace mini_soundboard
             {
                 comboBoxMidiInDevices.Items.Add(MidiIn.DeviceInfo(device).ProductName);
             }
+
             // selects first item in box if populated
-            if (comboBoxMidiInDevices.Items.Count > 0) { comboBoxMidiInDevices.SelectedIndex = 0; }
+            if (comboBoxMidiInDevices.Items.Count > 0) 
+            {
+                Program.midiDeviceIndex = 0;
+                comboBoxMidiInDevices.SelectedIndex = Program.midiDeviceIndex;
+            }
         }
 
         private void refreshBtn_Click(object sender, EventArgs e)

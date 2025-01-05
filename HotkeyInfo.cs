@@ -16,7 +16,7 @@ namespace mini_soundboard
         private string _keyString;
         private Keys _keyData;
         private HKType _type = HKType.none;
-        private MidiNote _note = new MidiNote();
+        private MidiNote _note;
 
         public Keys KeyData
         {
@@ -43,7 +43,6 @@ namespace mini_soundboard
                 _keyString = MidiNote.Name;
             }
         }
-        public int MidiChannel { get; set; }    // channel in case of multiple devices
         public HKType Type { get { return _type; } }
 
         // Constructors

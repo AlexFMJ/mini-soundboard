@@ -13,12 +13,14 @@ namespace mini_soundboard
         // ==== GLOBAL VARS ====
         public static List<Sfx> sfxLibrary = new List<Sfx>();  // List to be bound
 
+        public static int midiDeviceIndex = -1;
+
         // BindingSource allows for automatic refreshing of data on listBox
         // when adding or removing items from soundLibrary list
         public static BindingSource sfxLibBindSource = new BindingSource();
 
         // keybind dictionary
-        public static Hotkeys kbHotkeys = new Hotkeys();
+        public static Hotkeys HotkeyDict = new Hotkeys();
 
         // Reserved keyboard keys
         public static HashSet<Keys> ReservedKeys = new HashSet<Keys> 

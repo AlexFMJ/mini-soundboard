@@ -1,9 +1,11 @@
 ﻿======= TODO =======
+- remove hotkeys when sfx dataview is removed
+- PROPERLY fix dictionary not recognizing same key https://stackoverflow.com/questions/6999191/use-custom-object-as-dictionary-key
 - MIDI control
 	- visual keyboard hotkey representation
 	- MidiNoteOnMessage Class https://learn.microsoft.com/en-us/uwp/api/windows.devices.midi.midinoteonmessage?view=winrt-26100
 	- midi message format reference https://michd.me/jottings/midi-message-format-reference/
-- address drag and drop from file to sfxGridView (crashes currently)
+- address drag and drop from external file to sfxGridView (crashes currently)
 - create themes for light and dark modes
 - filepath checks and error testing
 - categories/tags
@@ -32,7 +34,6 @@
 		- https://github.com/TolikPylypchuk/SharpHook
 	- list global hotkeys as a contraint in documentation
 - show volume as a percentage
-- remove hotkeys when sfx dataview is removed
 - make edit menu
 - fix weird tab selection when hitting enter to play a song from SfxGridView
 - save default list on close / load on open
