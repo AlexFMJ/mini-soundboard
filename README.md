@@ -1,3 +1,3 @@
 A GUI-based user-customizable soundboard with hotkey activation. This program is designed to simply play sound effects (of any length) using a graphical interface and hotkeys. The user is able to define their own hotkeys (including MIDI devices) when adding a sound to the library. They are then able to save and load their sound library for later use. Each sound effect is an instance of a Sfx class containing information on the location of the sound file, name, hotkey combinations and volume. There is also a hotkey class designed with methods to handle adding and removing hotkeys from the dictionary where they are stored. The main window has a means of detecting keypress events and playing the associated Sfx sound file.
 
-This program was orignally written for a course in C#, and was written for .NET Framework 4.8.2 and WinForms
+This program was orignally written for a course in C#, and was written for .NET Framework 4.7.2 and WinForms
